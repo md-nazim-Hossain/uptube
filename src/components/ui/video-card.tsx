@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
-import ReactPlayer, { ReactPlayerProps } from "react-player";
+import ReactPlayer from "react-player";
+import { IoPlay } from "react-icons/io5";
 import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import {
@@ -10,15 +11,18 @@ import {
   TooltipTrigger,
 } from "./tooltip";
 import { VscVerifiedFilled } from "react-icons/vsc";
-import { PlaneIcon } from "lucide-react";
 import Link from "next/link";
+import { convertMillisecondsToTime, viewsFormat } from "@/utils/video";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
 
 const VideoCard = ({ className, children, ...props }: VideoCardProps) => {
   return (
-    <div {...props} className={cn("w-full h-full rounded-2xl", className)}>
+    <div
+      {...props}
+      className={cn("w-full max-w-md h-full rounded-2xl", className)}
+    >
       {children}
     </div>
   );
@@ -27,29 +31,44 @@ VideoCard.displayName = "VideoCard";
 
 interface VideoCardVideoProps {
   url: string;
-  playIcon?: JSX.Element;
+
   className?: string;
-  loop?: boolean;
-  muted?: boolean;
+
   autoPlay?: boolean;
   thumbnail?: string;
+  videoDuration?: number;
 }
 const VideoCardPlayer = ({
   className,
   url,
-  playIcon,
-  loop,
-  muted,
+
   autoPlay,
+  videoDuration,
   thumbnail,
 }: VideoCardVideoProps) => {
+  const [duration, setDuration] = React.useState(videoDuration ?? 0);
+  const [autoPlayState, setAutoPlayState] = React.useState(autoPlay);
+  const ref: React.MutableRefObject<ReactPlayer | null> = React.useRef(null);
+  React.useEffect(() => {
+    if (ref.current) {
+      setDuration(ref.current?.getDuration() ?? 0);
+    }
+  }, [ref]);
   return (
     <div
       className={cn(
-        "w-full h-full max-h-[290px] aspect-video rounded-2xl relative overflow-hidden",
+        "w-full aspect-video rounded-2xl relative overflow-hidden",
         className,
       )}
     >
+      <div
+        className={cn(
+          "absolute text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
+          autoPlayState ? "hidden" : "block",
+        )}
+      >
+        {convertMillisecondsToTime(duration ?? 0)}
+      </div>
       <ReactPlayer
         light={
           // eslint-disable-next-line @next/next/no-img-element
@@ -59,11 +78,12 @@ const VideoCardPlayer = ({
         height="100%"
         url={url}
         controls
-        loop={loop}
-        muted={muted}
-        playing={autoPlay}
+        playing={autoPlayState}
         playsinline
-        playIcon={playIcon}
+        ref={ref}
+        onDuration={(d) => setDuration(d)}
+        onPlay={() => setAutoPlayState(true)}
+        onPause={() => setAutoPlayState(false)}
       />
     </div>
   );
@@ -91,19 +111,28 @@ interface VideoCardAvatarProps {
   src: string;
   alt: string;
   fallbackText?: string;
+  ref?: React.Ref<HTMLDivElement>;
+  link: string;
 }
 
 const VideoCardAvatar = ({
   className,
   alt,
   src,
+  link,
+  ref,
   fallbackText = "CN",
 }: VideoCardAvatarProps) => {
   return (
-    <Avatar className={cn("w-9 h-9 rounded-full", className)}>
-      <AvatarImage src={src ?? "https://github.com/shadcn.png"} alt={alt} />
-      <AvatarFallback>{fallbackText}</AvatarFallback>
-    </Avatar>
+    <Link
+      href={link}
+      className={cn("w-9 h-9 inline-block rounded-full", className)}
+    >
+      <Avatar className={"w-full h-full"}>
+        <AvatarImage src={src ?? "https://github.com/shadcn.png"} alt={alt} />
+        <AvatarFallback>{fallbackText}</AvatarFallback>
+      </Avatar>
+    </Link>
   );
 };
 VideoCardAvatar.displayName = "VideoCardAvatar";
@@ -155,7 +184,10 @@ const VideoCardLink = ({
   return (
     <Link
       href={href}
-      className={cn("inline-block w-11/12 text-base", className)}
+      className={cn(
+        "inline-block hover:opacity-80 w-11/12 text-base",
+        className,
+      )}
       {...props}
     >
       {children}
@@ -166,6 +198,43 @@ const VideoCardLink = ({
 VideoCardLink.displayName = "VideoCardLink";
 VideoCard.Link = VideoCardLink;
 
+interface VideoDetailsProps extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>;
+  views?: number;
+  createdAt?: Date | string | number;
+}
+
+const VideoDetails = ({
+  className,
+  ref,
+  views = 0,
+  createdAt = new Date(),
+  ...props
+}: VideoDetailsProps) => {
+  return (
+    <div
+      className={cn(
+        "w-full mt-0.5 text-xs text-slate-400 flex items-center gap-x-2",
+        className,
+      )}
+      ref={ref}
+      {...props}
+    >
+      <div className="flex items-center gap-1">
+        <IoPlay size={10} className="text-slate-300" />
+        <span>
+          {viewsFormat(views)} {views > 1 ? "views" : "view"}
+        </span>
+      </div>
+      <span> - </span>
+      <p className="font-light ">{"14 years ago"}</p>
+    </div>
+  );
+};
+
+VideoCard.Details = VideoDetails;
+VideoDetails.displayName = "VideoDetails";
+
 export {
   VideoCard,
   VideoCardPlayer,
@@ -173,4 +242,5 @@ export {
   VideoCardAvatar,
   VideoCardVerifiedBadge,
   VideoCardLink,
+  VideoDetails,
 };

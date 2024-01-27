@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { FiSearch } from "react-icons/fi";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import {
   Sheet,
   SheetContent,
@@ -33,6 +33,7 @@ function Navbar() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 focusable="false"
+                fill="currentColor"
                 style={{
                   pointerEvents: "none",
                   display: "block",
@@ -59,6 +60,7 @@ function Navbar() {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     focusable="false"
+                    fill="currentColor"
                     style={{
                       pointerEvents: "none",
                       display: "block",
@@ -74,9 +76,15 @@ function Navbar() {
                 </Link>
               </div>
             </SheetHeader>
-            <Button variant={"destructive"} className="w-full">
+            <Link
+              href={"/signin"}
+              className={buttonVariants({
+                variant: "destructive",
+                className: "w-full",
+              })}
+            >
               Sign In
-            </Button>
+            </Link>
 
             {/* ============= Discover Sidebar Link =============*/}
             <div className="pt-2 space-y-0.5">
@@ -197,15 +205,25 @@ function Navbar() {
         />
       </div>
       <div className="gap-x-3 flex items-center">
-        <Button
-          variant={"outline"}
-          className="border-none hover:bg-transparent"
+        <Link
+          href={"/signin"}
+          className={buttonVariants({
+            className:
+              "border-none w-[100px] hover:!bg-transparent hover:text-primary",
+            variant: "outline",
+          })}
         >
           Login
-        </Button>
-        <Button variant={"destructive"} className="rounded-[20px] w-[100px]">
+        </Link>
+        <Link
+          href={"/signup"}
+          className={buttonVariants({
+            variant: "destructive",
+            className: "w-[100px]",
+          })}
+        >
           Sign Up
-        </Button>
+        </Link>
       </div>
     </div>
   );

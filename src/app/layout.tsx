@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import "@/styles/globals.css";
 import { ProvidersTree } from "@/components/providers-tree";
-import Navbar from "@/components/layout/navbar";
 import { inter, roboto } from "@/utils/font";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,10 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${roboto.className}`}>
-        <ProvidersTree>
-          <Navbar />
-          {children}
-        </ProvidersTree>
+        <ProvidersTree>{children}</ProvidersTree>
       </body>
     </html>
   );

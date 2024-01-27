@@ -3,3 +3,7 @@ export type ISideProps = {
   label: string;
   href: string;
 };
+export type IYoutubeVideo = {
+  url: string;
+  songName: string;
+};
