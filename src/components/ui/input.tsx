@@ -52,15 +52,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               ref={ref}
               {...props}
             />
-            {passwordType === "password" ? (
+            {passwordType !== "password" ? (
               <AiOutlineEye
-                onClick={() => setPasswordType("text")}
+                onClick={() => setPasswordType("password")}
                 size={20}
                 className="text-secondary cursor-pointer"
               />
             ) : (
               <AiOutlineEyeInvisible
-                onClick={() => setPasswordType("password")}
+                onClick={() => setPasswordType("text")}
                 size={20}
                 className="text-secondary cursor-pointer"
               />

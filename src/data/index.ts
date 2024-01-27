@@ -1,4 +1,7 @@
 import { ISideProps, IYoutubeVideo } from "@/types";
+import { TfiWorld } from "react-icons/tfi";
+import { FaXTwitter, FaInstagram } from "react-icons/fa6";
+import { FiFacebook } from "react-icons/fi";
 
 export const sidebarTopData: ISideProps[] = [
   {
@@ -76,25 +79,10 @@ export const youtubeVideos: IYoutubeVideo[] = [
     url: "https://www.youtube.com/watch?v=7PCkvCPvDXk",
     songName: "Charlie bit my finger - again !",
   },
-  {
-    url: "https://www.youtube.com/watch?v=geOhOibdxGk",
-    songName: "Evolution of Dance",
-  },
+
   {
     url: "https://www.youtube.com/watch?v=kffacxfA7G4",
     songName: "Justin Bieber - Baby ft. Ludacris",
-  },
-  {
-    url: "https://www.youtube.com/watch?v=RUav0UXz4Kk",
-    songName: "Maroon 5 - Sugar",
-  },
-  {
-    url: "https://www.youtube.com/watch?v=2Qg_ZRW4uR4",
-    songName: "Ed Sheeran - Shape of You",
-  },
-  {
-    url: "https://www.youtube.com/watch?v=GDpmVUEjagg",
-    songName: "Crazy Frog - Axel F",
   },
   {
     url: "https://www.youtube.com/watch?v=OPf0YbXqDm0",
@@ -109,16 +97,8 @@ export const youtubeVideos: IYoutubeVideo[] = [
     songName: "Eminem - Love The Way You Lie ft. Rihanna",
   },
   {
-    url: "https://www.youtube.com/watch?v=9HDeEbJyNKk",
-    songName: "Katy Perry - Roar",
-  },
-  {
     url: "https://www.youtube.com/watch?v=lXMskKTw3Bc",
     songName: "Adele - Rolling in the Deep",
-  },
-  {
-    url: "https://www.youtube.com/watch?v=dg-4mPshf8E",
-    songName: "Taylor Swift - Shake It Off",
   },
   {
     url: "https://www.youtube.com/watch?v=pB-5XG-DbAA",
@@ -136,8 +116,23 @@ export const youtubeVideos: IYoutubeVideo[] = [
     url: "https://www.youtube.com/watch?v=nfWlot6h_JM",
     songName: "Justin Bieber - Sorry",
   },
+];
+
+export const SocialIcons = [
   {
-    url: "https://www.youtube.com/watch?v=MeJVUrsMk7s",
-    songName: "Ariana Grande - 7 rings",
+    Icon: TfiWorld,
+    url: "https://nazim-rose.vercel.app/",
+  },
+  {
+    Icon: FiFacebook,
+    url: "https://www.facebook.com/profile.php?id=100009564501696",
+  },
+  {
+    Icon: FaXTwitter,
+    url: "https://twitter.com/MdNazim85808251",
+  },
+  {
+    Icon: FaInstagram,
+    url: "https://www.instagram.com/md_nazim_hossain_/",
   },
 ];
