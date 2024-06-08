@@ -65,10 +65,10 @@ function ChannelProfile({ className, src, ...props }: CommentProps) {
             <Popover>
               <PopoverTrigger>
                 <BiDotsVerticalRounded size={18} className="cursor-pointer" />
-                <PopoverContent align="end" className="w-36 px-0 py-2">
-                  <Button variant={"flat"}>Share</Button>
-                </PopoverContent>
               </PopoverTrigger>
+              <PopoverContent align="end" className="w-36 px-0 py-2">
+                <Button variant={"flat"}>Share</Button>
+              </PopoverContent>
             </Popover>
           </div>
         </div>
