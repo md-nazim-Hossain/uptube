@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { useAuthStore } from "../zustand/useAuthStore";
 import SignInForm from "@/app/(auth)/signin/_components/signin-form";
 import SignUpForm from "@/app/(auth)/signup/_components/sign-up-form";
 import ForgotPasswordForm from "@/app/(auth)/forgot-password/_components/forgot-password-form";
+import { useAuthStore } from "@/zustand/useAuthStore";
 
 function AuthModal() {
   const { open, setOpen } = useAuthStore((state) => state);

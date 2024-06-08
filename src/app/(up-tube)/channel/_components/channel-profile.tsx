@@ -25,7 +25,7 @@ interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 function ChannelProfile({ className, src, ...props }: CommentProps) {
   return (
-    <div {...props} className={cn("flex flex-col gap-5 cp-5", className)}>
+    <div {...props} className={cn("flex flex-col gap-5 cp-10", className)}>
       <div className="max-w-2xl flex flex-col sm:flex-row items-center gap-10">
         <UpTubeAvatarImage
           alt={"Shadcn"}

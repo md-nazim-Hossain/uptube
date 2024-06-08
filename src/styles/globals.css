@@ -101,8 +101,8 @@
     @apply text-base md:text-lg lg:text-xl;
   }
 
-  .cp-5 {
-    @apply px-3 md:px-5;
+  .cp-10 {
+    @apply px-5 lg:px-10;
   }
   .sb {
     @apply border border-red-500;

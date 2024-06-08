@@ -1,17 +1,16 @@
 "use client";
 
 import Follower from "@/components/follower";
-import SingleVideoCard from "@/components/single-video-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Videos from "@/components/videos";
 import { youtubeVideos } from "@/data";
-import { IYoutubeVideo } from "@/types";
 import React from "react";
 
 function ChannelDetails() {
   return (
     <Tabs>
       <TabsList className="bg-transparent h-max p-0 rounded-none border-b w-full flex justify-start">
-        <div className="cp-5">
+        <div className="cp-10">
           <TabsTrigger className="font-normal text-foreground" value="stations">
             Stations
           </TabsTrigger>
@@ -41,13 +40,9 @@ function ChannelDetails() {
           </TabsTrigger>
         </div>
       </TabsList>
-      <div className="cp-5">
+      <div className="cp-10">
         <TabsContent value="stations">
-          <div className="py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {youtubeVideos.map((url: IYoutubeVideo) => (
-              <SingleVideoCard key={url.songName} {...url} />
-            ))}
-          </div>
+          <Videos videos={youtubeVideos} className="py-5" />
         </TabsContent>
         <TabsContent value="shorts">
           <div>Shorts</div>
@@ -56,11 +51,7 @@ function ChannelDetails() {
           <div>Playlists</div>
         </TabsContent>
         <TabsContent value="likes">
-          <div className="py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {youtubeVideos.map((url: IYoutubeVideo) => (
-              <SingleVideoCard key={url.songName} {...url} />
-            ))}
-          </div>
+          <Videos videos={youtubeVideos} className="py-5" />
         </TabsContent>
         <TabsContent value="followers">
           <div className="grid grid-cols-4 gap-5 py-10">

@@ -5,7 +5,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="w-full cp-5">
+    <div className="w-full cp-10">
       <div className="py-5 sm:py-10 border-t gap-5 flex flex-col sm:flex-row justify-between">
         <div className="max-w-2xl space-y-5">
           <h3>Video & Short Theme</h3>

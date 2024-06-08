@@ -2,11 +2,14 @@ import { IYoutubeVideo } from "@/types";
 import React from "react";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 
-type Props = IYoutubeVideo;
-function SingleVideoCard({ url, songName }: Props) {
+type Props = IYoutubeVideo & {
+  className?: string;
+  playerClassName?: string;
+};
+function SingleVideoCard({ url, songName, className, playerClassName }: Props) {
   return (
-    <VideoCard>
-      <VideoCard.Player url={url} />
+    <VideoCard className={className}>
+      <VideoCard.Player className={playerClassName} url={url} />
       <VideoCard.Footer>
         <div className="flex flex-1 gap-3">
           <VideoCardAvatar.Avatar
