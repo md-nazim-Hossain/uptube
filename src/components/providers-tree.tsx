@@ -14,7 +14,7 @@ const buildProviders = (componentWithProps: any[]) => {
         </AccumulateComponents>
       );
     },
-    initialComponents
+    initialComponents,
   );
 };
 

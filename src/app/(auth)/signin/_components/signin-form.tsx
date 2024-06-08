@@ -30,7 +30,11 @@ const formSchema = z.object({
         "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
     }),
 });
-function SignInForm() {
+
+type Props = {
+  handleChangePage?: (page: string) => void;
+};
+function SignInForm({ handleChangePage }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,12 +73,21 @@ function SignInForm() {
               <div>
                 <div className="flex justify-between items-center">
                   <FormLabel>Password</FormLabel>
-                  <Link
-                    href="/forgot-password"
-                    className="text-xs hover:underline font-normal text-secondary"
-                  >
-                    Lost your password?
-                  </Link>
+                  {!handleChangePage ? (
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs hover:underline font-normal text-secondary"
+                    >
+                      Lost your password?
+                    </Link>
+                  ) : (
+                    <span
+                      onClick={() => handleChangePage("forgot-password")}
+                      className="text-xs hover:underline font-normal text-secondary cursor-pointer"
+                    >
+                      Lost your password?
+                    </span>
+                  )}
                 </div>
                 <FormControl className="py-1 h-max">
                   <Input type="password" variant={"destructive"} {...field} />

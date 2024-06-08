@@ -1,6 +1,11 @@
 import { ISideProps, IYoutubeVideo } from "@/types";
 import { TfiWorld } from "react-icons/tfi";
-import { FaXTwitter, FaInstagram } from "react-icons/fa6";
+import {
+  FaXTwitter,
+  FaInstagram,
+  FaFacebook,
+  FaTwitter,
+} from "react-icons/fa6";
 import { FiFacebook } from "react-icons/fi";
 
 export const sidebarTopData: ISideProps[] = [
@@ -134,5 +139,16 @@ export const SocialIcons = [
   {
     Icon: FaInstagram,
     url: "https://www.instagram.com/md_nazim_hossain_/",
+  },
+];
+
+export const footerSocialIcons = [
+  {
+    Icon: FaFacebook,
+    url: "https://www.facebook.com",
+  },
+  {
+    Icon: FaTwitter,
+    url: "https://twitter.com",
   },
 ];
