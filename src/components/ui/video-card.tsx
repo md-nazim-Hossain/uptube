@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import ReactPlayer from "react-player";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { IoPlay } from "react-icons/io5";
 import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
@@ -17,6 +17,9 @@ import { convertMillisecondsToTime, viewsFormat } from "@/utils/video";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Button } from "./button";
 import { Separator } from "./separator";
+import dynamic from "next/dynamic";
+import { ReactPlayerProps } from "react-player";
+import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -26,7 +29,7 @@ const VideoCard = ({ className, children, ...props }: VideoCardProps) => {
     <div
       {...props}
       className={cn(
-        "w-full relative group sm:max-w-md h-full rounded-2xl",
+        "w-full relative group/video sm:max-w-md h-full rounded-2xl",
         className,
       )}
     >
@@ -54,7 +57,8 @@ const VideoCardPlayer = ({
 }: VideoCardVideoProps) => {
   const [duration, setDuration] = React.useState(videoDuration ?? 0);
   const [autoPlayState, setAutoPlayState] = React.useState(autoPlay);
-  const ref: React.MutableRefObject<ReactPlayer | null> = React.useRef(null);
+  const ref: React.MutableRefObject<ReactPlayerProps | null> =
+    React.useRef(null);
   React.useEffect(() => {
     if (ref.current) {
       setDuration(ref.current?.getDuration() ?? 0);
@@ -160,10 +164,13 @@ const VideoCardAvatar = ({
         className,
       )}
     >
-      <Avatar className={"w-full h-full"}>
-        <AvatarImage src={src ?? "https://github.com/shadcn.png"} alt={alt} />
-        <AvatarFallback>{fallbackText}</AvatarFallback>
-      </Avatar>
+      <UpTubeAvatarImage
+        firstName={fallbackText.split(" ")[0]}
+        lastName={fallbackText.split(" ")[1]}
+        alt={alt}
+        src={src}
+        className={"w-full h-full"}
+      />
     </Link>
   );
 };
@@ -286,17 +293,17 @@ interface VideoActionsProps extends React.HTMLAttributes<HTMLDivElement> {
 const VideoCardActions = ({ className, show = false }: VideoActionsProps) => {
   return (
     <Popover>
-      <PopoverTrigger className="h-max">
-        <BiDotsVerticalRounded
-          className={cn(
-            "cursor-pointer ",
-            show
-              ? ""
-              : "invisible opacity-0 group-hover:visible group-hover:opacity-100",
-          )}
-        />
+      <PopoverTrigger
+        className={cn(
+          "cursor-pointer h-max",
+          show
+            ? ""
+            : "invisible opacity-0 group-hover/video:visible group-hover/video:opacity-100 data-[state=open]:opacity-100 data-[state=open]:visible",
+        )}
+      >
+        <BiDotsVerticalRounded />
       </PopoverTrigger>
-      <PopoverContent className={cn("w-36 px-0 py-2", className)}>
+      <PopoverContent align="end" className={cn("w-36 px-0 py-2", className)}>
         <Button variant={"flat"}>Add to playlist</Button>
         <Button variant={"flat"}>Next to play</Button>
         <Button variant={"flat"}>Add to queue</Button>
