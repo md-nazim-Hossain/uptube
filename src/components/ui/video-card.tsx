@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { IoPlay } from "react-icons/io5";
 import * as React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
   Tooltip,
@@ -46,6 +45,7 @@ interface VideoCardVideoProps {
   thumbnail?: string;
   videoDuration?: number;
   fullPreview?: boolean;
+  showDuration?: boolean;
 }
 const VideoCardPlayer = ({
   className,
@@ -54,6 +54,7 @@ const VideoCardPlayer = ({
   videoDuration,
   thumbnail,
   fullPreview = false,
+  showDuration = true,
 }: VideoCardVideoProps) => {
   const [duration, setDuration] = React.useState(videoDuration ?? 0);
   const [autoPlayState, setAutoPlayState] = React.useState(autoPlay);
@@ -88,14 +89,16 @@ const VideoCardPlayer = ({
             className,
           )}
         >
-          <div
-            className={cn(
-              "absolute text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
-              autoPlayState ? "hidden" : "block",
-            )}
-          >
-            {convertMillisecondsToTime(duration ?? 0)}
-          </div>
+          {showDuration && (
+            <span
+              className={cn(
+                "absolute text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
+                autoPlayState ? "hidden" : "block",
+              )}
+            >
+              {convertMillisecondsToTime(duration ?? 0)}
+            </span>
+          )}
           <ReactPlayer
             light={
               // eslint-disable-next-line @next/next/no-img-element
@@ -229,7 +232,7 @@ const VideoCardLink = ({
     <Link
       href={href}
       className={cn(
-        "inline-block line-clamp-2 hover:opacity-80 w-11/12 text-base cursor-pointer",
+        "inline-block line-clamp-2 hover:opacity-80 text-base cursor-pointer",
         className,
       )}
       {...props}

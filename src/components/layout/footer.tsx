@@ -1,9 +1,12 @@
 "use client";
 import { footerSocialIcons } from "@/data";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/shorts") return null;
   return (
     <div className="w-full cp-10">
       <div className="py-5 sm:py-10 border-t gap-5 flex flex-col sm:flex-row justify-between">

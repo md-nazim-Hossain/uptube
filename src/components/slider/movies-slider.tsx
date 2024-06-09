@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Carousel,
@@ -6,9 +8,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./ui/carousel";
+} from "../ui/carousel";
 import { IYoutubeVideo } from "@/types";
-import SingleVideoCard from "./single-video-card";
+import SingleVideoCard from "../single-video-card";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -23,6 +25,9 @@ function MoviesSlider({ movies, className }: Props) {
     if (!api) {
       return;
     }
+
+    setCanScrollPrev(api.canScrollPrev());
+    setCanScrollNext(api.canScrollNext());
 
     api.on("select", () => {
       setCanScrollPrev(api.canScrollPrev());
@@ -47,6 +52,7 @@ function MoviesSlider({ movies, className }: Props) {
               playerClassName="h-[450px] w-full aspect-auto"
               className="h-full"
               {...movie}
+              showAvatar={false}
             />
           </CarouselItem>
         ))}

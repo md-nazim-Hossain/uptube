@@ -17,12 +17,12 @@ export const sidebarTopData: ISideProps[] = [
   {
     label: "Shorts",
     Icon: "/assets/images/icons/shorts.svg",
-    href: "/",
+    href: "/shorts",
   },
   {
     label: "Library",
     Icon: "/assets/images/icons/library.svg",
-    href: "/",
+    href: "/library",
   },
 ];
 

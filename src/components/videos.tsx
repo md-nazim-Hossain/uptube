@@ -1,3 +1,4 @@
+"use client";
 import { IYoutubeVideo } from "@/types";
 import React from "react";
 import SingleVideoCard from "./single-video-card";
