@@ -67,6 +67,9 @@
 }
 
 @layer base {
+  html {
+    scroll-snap-type: y mandatory;
+  }
   * {
     @apply border-border;
   }

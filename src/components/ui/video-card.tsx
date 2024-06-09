@@ -47,83 +47,84 @@ interface VideoCardVideoProps {
   fullPreview?: boolean;
   showDuration?: boolean;
 }
-const VideoCardPlayer = ({
-  className,
-  url,
-  autoPlay,
-  videoDuration,
-  thumbnail,
-  fullPreview = false,
-  showDuration = true,
-}: VideoCardVideoProps) => {
-  const [duration, setDuration] = React.useState(videoDuration ?? 0);
-  const [autoPlayState, setAutoPlayState] = React.useState(autoPlay);
-  const ref: React.MutableRefObject<ReactPlayerProps | null> =
-    React.useRef(null);
-  React.useEffect(() => {
-    if (ref.current) {
-      setDuration(ref.current?.getDuration() ?? 0);
-    }
-  }, [ref]);
-  return (
-    <>
-      {fullPreview ? (
-        <div className={cn("w-full aspect-video max-h-[80vh]", className)}>
-          <ReactPlayer
-            width="100%"
-            height="100%"
-            url={url}
-            controls
-            playing={true}
-            playsinline
-            ref={ref}
-            onDuration={(d) => setDuration(d)}
-            style={{ objectFit: "cover" }}
-          />
-        </div>
-      ) : (
-        <Link
-          href={"/watch?v=" + url}
-          className={cn(
-            "w-full aspect-video block cursor-pointer rounded-2xl relative overflow-hidden",
-            className,
-          )}
-        >
-          {showDuration && (
-            <span
-              className={cn(
-                "absolute text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
-                autoPlayState ? "hidden" : "block",
-              )}
-            >
-              {convertMillisecondsToTime(duration ?? 0)}
-            </span>
-          )}
-          <ReactPlayer
-            light={
-              // eslint-disable-next-line @next/next/no-img-element
-              thumbnail ? <img src={thumbnail} alt="Thumbnail" /> : true
-            }
-            width="100%"
-            height="100%"
-            url={url}
-            controls
-            playing={autoPlayState}
-            playsinline
-            ref={ref}
-            onDuration={(d) => setDuration(d)}
-            onPlay={() => setAutoPlayState(true)}
-            onPause={() => setAutoPlayState(false)}
-            style={{ objectFit: "cover" }}
-          />
-        </Link>
-      )}
-    </>
-  );
-};
+const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
+  (
+    {
+      className,
+      url,
+      autoPlay,
+      videoDuration,
+      thumbnail,
+      fullPreview = false,
+      showDuration = true,
+    },
+    ref,
+  ) => {
+    const [duration, setDuration] = React.useState(videoDuration ?? 0);
+    const [autoPlayState, setAutoPlayState] = React.useState(autoPlay);
 
+    return (
+      <>
+        {fullPreview ? (
+          <div
+            ref={ref}
+            className={cn("w-full aspect-video max-h-[80vh]", className)}
+          >
+            <ReactPlayer
+              width="100%"
+              height="100%"
+              url={url}
+              controls
+              playing={true}
+              playsinline
+              ref={ref}
+              onDuration={(d) => setDuration(d)}
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        ) : (
+          <Link
+            href={"/watch?v=" + url}
+            className={cn(
+              "w-full aspect-video block cursor-pointer rounded-2xl relative overflow-hidden",
+              className,
+            )}
+          >
+            {showDuration && (
+              <span
+                className={cn(
+                  "absolute text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
+                  autoPlayState ? "hidden" : "block",
+                )}
+              >
+                {convertMillisecondsToTime(duration ?? 0)}
+              </span>
+            )}
+            <ReactPlayer
+              light={
+                // eslint-disable-next-line @next/next/no-img-element
+                thumbnail ? <img src={thumbnail} alt="Thumbnail" /> : true
+              }
+              width="100%"
+              height="100%"
+              url={url}
+              controls
+              playing={autoPlayState}
+              playsinline
+              onDuration={(d) => setDuration(d)}
+              onPlay={() => setAutoPlayState(true)}
+              onPause={() => setAutoPlayState(false)}
+              style={{ objectFit: "cover" }}
+            />
+          </Link>
+        )}
+      </>
+    );
+  },
+);
+
+VideoCardPlayer.displayName = "VideoCardPlayer";
 VideoCard.Player = VideoCardPlayer;
-VideoCard.displayName = "VideoCardPlayer";
 
 interface VideoCardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;

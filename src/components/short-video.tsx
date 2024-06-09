@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { IYoutubeVideo } from "@/types";
 import { Button } from "./ui/button";
@@ -12,24 +12,48 @@ import { useAuthStore } from "@/zustand/useAuthStore";
 import { Typography } from "./ui/typography";
 import dynamic from "next/dynamic";
 import { VideoCard, VideoCardAvatar } from "./ui/video-card";
+import { useInView } from "react-intersection-observer";
+import { Pause, Play } from "lucide-react";
 
 type Props = IYoutubeVideo & {
   className?: string;
 };
 function ShortVideo({ url, songName, className }: Props) {
+  const [play, setPlay] = React.useState(false);
   const setOpen = useAuthStore((state) => state.setOpen);
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView) setPlay(true);
+    else setPlay(false);
+  }, [inView]);
   return (
-    <div className="cp-10 w-full sm:w-max flex items-end gap-3">
-      <div className="w-full h-[90vh] max-h-[850px] sm:w-[460px] rounded-2xl overflow-hidden relative">
+    <div
+      style={{ scrollSnapAlign: "start", scrollMarginTop: "56px" }}
+      className="cp-10 w-full sm:w-max flex items-end gap-3"
+    >
+      <div className="w-full h-[90vh] group/player max-h-[850px] sm:w-[460px] rounded-2xl overflow-hidden relative">
         <ReactPlayer
-          light={true}
           width="100%"
           height="100%"
           url={url}
-          playing={false}
+          playing={play}
           playsinline
           style={{ objectFit: "cover" }}
         />
+        <div
+          ref={ref}
+          className="absolute opacity-0 group-hover/player:opacity-100 z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <Button
+            onClick={() => {
+              setPlay(!play);
+            }}
+            variant="icon"
+            className="text-lg dark:text-black rounded-full hover:bg-white duration-200 p-0 bg-white shadow drop-shadow"
+          >
+            {play ? <Pause /> : <Play />}
+          </Button>
+        </div>
         <div className="w-[calc(100% - 40px)] absolute bottom-5 left-5 right-5 flex flex-col gap-5 justify-end">
           <Typography variant={"small"} className="text-white">
             {songName}
