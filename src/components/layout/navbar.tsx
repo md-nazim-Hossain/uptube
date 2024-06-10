@@ -31,7 +31,7 @@ function Navbar() {
       {openMobileSearch ? (
         <SearchBoxMobile onClose={() => setOpenMobileSearch(false)} />
       ) : (
-        <div className=" items-center justify-between flex gap-5 sticky top-0 z-50 bg-background h-[56px] cp-10">
+        <div className=" items-center justify-between flex gap-5 sticky top-0 z-50 bg-background h-[56px] container">
           <div className="flex gap-x-2 md:gap-x-4 items-center">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>

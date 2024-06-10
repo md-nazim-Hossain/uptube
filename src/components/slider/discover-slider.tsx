@@ -50,7 +50,7 @@ function DiscoverSlider({ favorites, className }: Props) {
       <CarouselContent>
         {favorites.map((favorite: IYoutubeVideo, index: number) => (
           <CarouselItem
-            className="basis-full relative h-[650px] rounded-2xl overflow-hidden"
+            className="basis-full relative h-[450px] lg:h-[650px] rounded-2xl overflow-hidden"
             key={index}
           >
             <VideoCardPlayer

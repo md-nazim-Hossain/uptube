@@ -7,7 +7,7 @@ function TermsAndPolicyLayout({ children }: { children: React.ReactNode }) {
     <>
       <Navbar />
       <div className="min-h-[calc(100vh-56px)] flex flex-col justify-between">
-        <div className="cp-10">{children}</div>
+        <div className="container">{children}</div>
         <Footer />
       </div>
     </>

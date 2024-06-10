@@ -4,7 +4,7 @@ import ChannelDetails from "../_components/channel-details";
 
 function page() {
   return (
-    <div className="py-10 space-y-5 w-full h-full">
+    <div className="pb-10 space-y-5 w-full h-full">
       <ChannelProfile />
       <ChannelDetails />
     </div>

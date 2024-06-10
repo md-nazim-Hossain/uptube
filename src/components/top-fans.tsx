@@ -12,9 +12,12 @@ function TopFans() {
   return (
     <div className="space-y-5">
       <Typography variant={"h3"}>Top Fans</Typography>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-row lg:flex-col gap-5 flex-wrap">
         {fans.map((fan, index) => (
-          <div key={index} className="flex items-center gap-3">
+          <div
+            key={index}
+            className="flex flex-col lg:flex-row items-center gap-3"
+          >
             <Link href={`/channel/${fan}`}>
               <UpTubeAvatarImage
                 className="size-12"

@@ -77,14 +77,15 @@
     @apply bg-background text-foreground;
   }
 
-  /* cp means center padding  its mean left and right both side are same padding */
-  .cp-10 {
-    @apply px-5 lg:px-10;
-  }
-
   /* sb means side border its create for debuging */
   .sb {
     @apply border border-red-500;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-[1840px] mx-auto w-full px-5 lg:px-8;
   }
 }
 

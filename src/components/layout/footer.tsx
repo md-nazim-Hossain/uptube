@@ -9,7 +9,7 @@ function Footer() {
   const pathname = usePathname();
   if (pathname === "/shorts") return null;
   return (
-    <div className="w-full cp-10">
+    <div className="w-full container">
       <div className="py-5 sm:py-10 border-t gap-5 flex flex-col sm:flex-row justify-between">
         <div className="max-w-2xl space-y-5">
           <Typography variant={"h3"}>Video & Short Theme</Typography>

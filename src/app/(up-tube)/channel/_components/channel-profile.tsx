@@ -32,15 +32,10 @@ function ChannelProfile({
   ...props
 }: CommentProps) {
   return (
-    <div {...props} className={cn("flex flex-col gap-5 cp-10", className)}>
-      {isMyChannel && (
-        <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
-          <UpTubeImage
-            alt="placeholder"
-            src={"/assets/images/placeholder.svg"}
-          />
-        </div>
-      )}
+    <div {...props} className={cn("flex flex-col gap-5 container", className)}>
+      <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
+        <UpTubeImage alt="placeholder" src={"/assets/images/placeholder.svg"} />
+      </div>
       <div className="max-w-2xl flex flex-col sm:flex-row items-center gap-10">
         <UpTubeAvatarImage
           alt={"Shadcn"}

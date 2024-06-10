@@ -28,7 +28,7 @@ function FullViewVideo({ url }: Props) {
           url={url}
         />
       </VideoCard>
-      <div className="cp-10 py-5 flex flex-col lg:flex-row justify-between gap-10">
+      <div className="container py-5 flex flex-col lg:flex-row justify-between gap-10">
         <VideoCard.Footer className="flex h-max flex-col gap-3">
           <VideoCard.Link href="/watch?v=" className="w-max">
             {findVideo?.songName}

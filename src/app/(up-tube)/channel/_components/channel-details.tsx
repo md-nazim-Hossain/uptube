@@ -10,7 +10,7 @@ function ChannelDetails() {
   return (
     <Tabs defaultValue="stations">
       <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
-        <div className="cp-10">
+        <div className="container">
           <TabsTrigger className="font-normal text-foreground" value="stations">
             Stations
           </TabsTrigger>
@@ -40,7 +40,7 @@ function ChannelDetails() {
           </TabsTrigger>
         </div>
       </TabsList>
-      <div className="cp-10">
+      <div className="container">
         <TabsContent value="stations">
           <Videos videos={youtubeVideos} className="py-5" />
         </TabsContent>
