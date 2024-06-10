@@ -6,7 +6,7 @@ import { Typography } from "@/components/ui/typography";
 function page() {
   return (
     <div className="space-y-5">
-      <Typography variant={"h3"}> Forgot Password</Typography>
+      <Typography variant={"h2"}> Forgot Password</Typography>
       <Typography>
         Please enter your username or email address. You will receive a link to
         create a new password via email.

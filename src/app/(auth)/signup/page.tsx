@@ -6,8 +6,8 @@ import { Typography } from "@/components/ui/typography";
 function page() {
   return (
     <>
-      <Typography variant={"h3"}> Sign Up</Typography>{" "}
-      <Typography variant={"h5"} className="py-5 font-normal">
+      <Typography variant={"h2"}>Create an account</Typography>{" "}
+      <Typography className="py-5 font-normal [&:not(:first-child)]:mt-0">
         Already have an account?{" "}
         <Link href="/signin" className="text-red-500">
           Sign In
