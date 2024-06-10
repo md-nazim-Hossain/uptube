@@ -168,7 +168,7 @@ function Navbar() {
                 <Separator />
 
                 {/* ============= Settings Features Sidebar Link =============*/}
-                <div className="pt-2 space-y-0.5">
+                <div className="py-2 space-y-0.5">
                   <span className="text-xs font-light mb-4">Settings</span>
                   <div className="flex flex-col gap-2">
                     <Link
@@ -200,7 +200,23 @@ function Navbar() {
                     </div>
                   </div>
                 </div>
-                <SheetFooter></SheetFooter>
+
+                {/* ===============privacy policy ==============*/}
+                <Separator />
+                <div className="space-x-2">
+                  <Link
+                    className="text-sm text-secondary"
+                    href={"/privacy-policy"}
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    className="text-sm text-secondary"
+                    href={"/terms-and-services"}
+                  >
+                    Terms & Services
+                  </Link>
+                </div>
               </SheetContent>
             </Sheet>
             <Link className="text-xl font-bold" href={"/"}>

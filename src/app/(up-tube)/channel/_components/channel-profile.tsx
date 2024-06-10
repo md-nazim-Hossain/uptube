@@ -18,6 +18,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { SocialIcons } from "@/data";
 import Link from "next/link";
 import UpTubeAvatarImage from "@/components/uptube/uptube-avatar-image";
+import ShareModal from "@/components/modals/share-modal";
 
 interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
@@ -67,7 +68,14 @@ function ChannelProfile({ className, src, ...props }: CommentProps) {
                 <BiDotsVerticalRounded size={18} className="cursor-pointer" />
               </PopoverTrigger>
               <PopoverContent align="end" className="w-36 px-0 py-2">
-                <Button variant={"flat"}>Share</Button>
+                <ShareModal
+                  user={{
+                    username: "shadcn",
+                    src: "https://github.com/shadcn.png",
+                    followers: 10000,
+                  }}
+                  trigger={<Button variant={"flat"}>Share</Button>}
+                />
               </PopoverContent>
             </Popover>
           </div>
