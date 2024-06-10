@@ -30,7 +30,7 @@ export const channelHistoryData: ISideProps[] = [
   {
     label: "Your Channel",
     Icon: "/assets/images/icons/channel.svg",
-    href: "/",
+    href: "/my-channel",
   },
   {
     label: "History",

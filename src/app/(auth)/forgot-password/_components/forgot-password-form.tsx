@@ -66,7 +66,7 @@ function ForgotPasswordForm() {
           loadingText="Getting..."
           loading={form.formState.isSubmitting}
           variant={"outline"}
-          className="px-6 text-destructive"
+          className="px-6 w-full sm:w-max text-destructive"
         >
           Get New Password
         </FormSubmitButton>

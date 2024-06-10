@@ -9,7 +9,7 @@ import React from "react";
 function ChannelDetails() {
   return (
     <Tabs defaultValue="stations">
-      <TabsList className="bg-transparent h-max p-0 rounded-none border-b w-full flex justify-start">
+      <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
         <div className="cp-10">
           <TabsTrigger className="font-normal text-foreground" value="stations">
             Stations

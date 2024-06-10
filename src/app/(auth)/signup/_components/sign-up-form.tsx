@@ -134,7 +134,7 @@ function SignUpForm() {
           loadingText="Creating..."
           loading={form.formState.isSubmitting}
           variant={"outline"}
-          className="max-w-[15rem] w-full text-destructive"
+          className="sm:max-w-[15rem] w-full text-destructive"
         >
           Create an account
         </FormSubmitButton>

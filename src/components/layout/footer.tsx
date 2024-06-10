@@ -3,6 +3,7 @@ import { footerSocialIcons } from "@/data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { Typography } from "../ui/typography";
 
 function Footer() {
   const pathname = usePathname();
@@ -11,15 +12,15 @@ function Footer() {
     <div className="w-full cp-10">
       <div className="py-5 sm:py-10 border-t gap-5 flex flex-col sm:flex-row justify-between">
         <div className="max-w-2xl space-y-5">
-          <h3>Video & Short Theme</h3>
-          <p>
+          <Typography variant={"h3"}>Video & Short Theme</Typography>
+          <Typography>
             We are the video platform that will exceed your expectations. The
             most powerful platform if you want to start a business. Get it now!
-          </p>
+          </Typography>
         </div>
         <div className="mt-5 sm:mt-0 flex gap-10 justify-between sm:justify-start">
           <div className="space-y-8">
-            <h6 className="uppercase text-slate-400">Browse</h6>
+            <Typography className="uppercase text-slate-400">Browse</Typography>
             <div className="flex flex-col gap-3">
               <Link className="text-sm" href={"/"}>
                 Explore
@@ -33,7 +34,7 @@ function Footer() {
             </div>
           </div>
           <div className="space-y-8">
-            <h6 className="uppercase text-slate-400">Help</h6>
+            <Typography className="uppercase text-slate-400">Help</Typography>
             <div className="flex flex-col gap-3">
               <Link className="text-sm" href={""}>
                 Premium
@@ -44,7 +45,9 @@ function Footer() {
             </div>
           </div>
           <div className="space-y-8">
-            <h6 className="uppercase text-slate-400">Follow Us</h6>
+            <Typography className="uppercase text-slate-400">
+              Follow Us
+            </Typography>
             <div className="flex items-center gap-5">
               {footerSocialIcons.map((icon) => {
                 return (

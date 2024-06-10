@@ -77,36 +77,12 @@
     @apply bg-background text-foreground;
   }
 
-  h1 {
-    @apply text-3xl font-bold md:text-4xl lg:text-5xl;
-  }
-
-  h2 {
-    @apply text-2xl font-bold md:text-3xl lg:text-4xl;
-  }
-
-  h3 {
-    @apply text-xl font-bold md:text-2xl lg:text-3xl;
-  }
-
-  h4 {
-    @apply text-lg font-bold md:text-xl lg:text-2xl;
-  }
-  h5 {
-    @apply text-sm md:text-base lg:text-lg;
-  }
-
-  h6 {
-    @apply text-xs md:text-sm lg:text-base;
-  }
-
-  p {
-    @apply text-base md:text-lg lg:text-xl;
-  }
-
+  /* cp means center padding  its mean left and right both side are same padding */
   .cp-10 {
     @apply px-5 lg:px-10;
   }
+
+  /* sb means side border its create for debuging */
   .sb {
     @apply border border-red-500;
   }

@@ -102,7 +102,7 @@ function SignInForm({ handleChangePage }: Props) {
           loadingText="Signing..."
           loading={form.formState.isSubmitting}
           variant={"outline"}
-          className="max-w-[15rem] w-full text-destructive"
+          className="sm:max-w-[15rem] w-full text-destructive"
         >
           Sign In
         </FormSubmitButton>

@@ -34,7 +34,7 @@ function ShareModal({ trigger, user }: Props) {
   const link = `${process.env.NEXT_PUBLIC_BASE_URL}/channel/${user?.username}`;
   return (
     <Dialog>
-      <DialogTrigger className="w-full">{trigger}</DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Embed</DialogTitle>
@@ -60,7 +60,7 @@ function ShareModal({ trigger, user }: Props) {
             className={cn(
               typographyVariants({
                 variant: "link",
-                className: "text-primary text-sm",
+                className: "text-destructive text-sm",
               }),
             )}
           >
@@ -71,7 +71,7 @@ function ShareModal({ trigger, user }: Props) {
           <Input
             variant={"destructive"}
             className="text-muted-foreground"
-            value={`<iframe width="100%" height="220" scrolling="no" frameborder="no" src="${link}" type="user"></iframe>`}
+            defaultValue={`<iframe width="100%" height="220" scrolling="no" frameborder="no" src="${link}" type="user"></iframe>`}
           />
         </div>
         <div className="space-y-5">
@@ -93,7 +93,7 @@ function ShareModal({ trigger, user }: Props) {
           <Input
             className="text-muted-foreground"
             variant={"destructive"}
-            value={`${link}`}
+            defaultValue={`${link}`}
           />
         </div>
       </DialogContent>
