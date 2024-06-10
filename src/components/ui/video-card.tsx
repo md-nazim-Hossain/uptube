@@ -19,6 +19,7 @@ import { Separator } from "./separator";
 import dynamic from "next/dynamic";
 import { ReactPlayerProps } from "react-player";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
+import ShareModal from "../modals/share-modal";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -311,7 +312,14 @@ const VideoCardActions = ({ className, show = false }: VideoActionsProps) => {
         <Button variant={"flat"}>Add to playlist</Button>
         <Button variant={"flat"}>Next to play</Button>
         <Button variant={"flat"}>Add to queue</Button>
-        <Button variant={"flat"}>Share</Button>
+        <ShareModal
+          trigger={<Button variant={"flat"}>Share</Button>}
+          user={{
+            followers: 1000,
+            src: "https://github.com/shadcn.png",
+            username: "Shadcn",
+          }}
+        />
 
         <Separator />
         <Button variant={"flat"}>Play</Button>

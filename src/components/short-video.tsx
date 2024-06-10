@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import { VideoCard, VideoCardAvatar } from "./ui/video-card";
 import { useInView } from "react-intersection-observer";
 import { Pause, Play } from "lucide-react";
+import ShareModal from "./modals/share-modal";
 
 type Props = IYoutubeVideo & {
   className?: string;
@@ -31,7 +32,7 @@ function ShortVideo({ url, songName, className }: Props) {
       style={{ scrollSnapAlign: "start", scrollMarginTop: "56px" }}
       className="container w-full sm:w-max flex items-end gap-3"
     >
-      <div className="w-full h-[90vh] group/player max-h-[850px] sm:w-[460px] rounded-2xl overflow-hidden relative">
+      <div className="w-full group/player h-[850px] sm:w-[460px] rounded-2xl overflow-hidden relative">
         <ReactPlayer
           width="100%"
           height="100%"
@@ -108,7 +109,14 @@ function ShortVideo({ url, songName, className }: Props) {
             className={cn("w-36 px-0 py-2", className)}
           >
             <Button variant={"flat"}>Add to playlist</Button>
-            <Button variant={"flat"}>Share</Button>
+            <ShareModal
+              trigger={<Button variant={"flat"}>Share</Button>}
+              user={{
+                followers: 1000,
+                src: "https://github.com/shadcn.png",
+                username: "Shadcn",
+              }}
+            />
           </PopoverContent>
         </Popover>
       </div>

@@ -25,7 +25,7 @@ function Footer() {
               <Link className="text-sm" href={"/"}>
                 Explore
               </Link>
-              <Link className="text-sm" href={"/short"}>
+              <Link className="text-sm" href={"/shorts"}>
                 Shorts
               </Link>
               <Link className="text-sm" href={"/library"}>
