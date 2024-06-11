@@ -64,6 +64,7 @@ function ChannelProfile({
           {isMyChannel && (
             <AboutMyChannelModal
               channel={{
+                fullName: "Shadcn",
                 username: "shadcn",
                 country: "USA",
                 description: ` Download & license original tracks directly from independent

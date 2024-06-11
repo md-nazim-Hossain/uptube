@@ -33,6 +33,7 @@ type Props = {
     totalViews: number;
     totalVideos: number;
     description: string;
+    fullName: string;
   };
 };
 function AboutMyChannelModal({ trigger, channel }: Props) {
@@ -105,9 +106,10 @@ function AboutMyChannelModal({ trigger, channel }: Props) {
             <ShareModal
               user={{
                 followers: 0,
-                username: channel?.username,
+                fullName: channel?.fullName,
                 src: "https://github.com/shadcn.png",
               }}
+              shareLink={`/${channel?.username}`}
               trigger={
                 <Button className="flex items-center gap-2 border">
                   <PiShareFatLight size={20} />

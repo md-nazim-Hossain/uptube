@@ -42,7 +42,10 @@ function FullViewVideo({ url }: Props) {
                   link="https://github.com/shadcn"
                 />
                 <div>
-                  <VideoCard.VerifiedBadge channelName="Shadcn">
+                  <VideoCard.VerifiedBadge
+                    fullName="Shadcn"
+                    channelName="@shadcn"
+                  >
                     Verified
                   </VideoCard.VerifiedBadge>
                   <p className="text-xs flex items-center gap-2">

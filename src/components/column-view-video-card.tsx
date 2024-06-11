@@ -17,7 +17,7 @@ const ColumnViewVideoCard = () => {
             <VideoCard.Link className="text-sm" href="/watch?v=">
               {url?.songName}
             </VideoCard.Link>
-            <VideoCard.VerifiedBadge channelName="Shadcn">
+            <VideoCard.VerifiedBadge fullName="Shadcn" channelName="@shadcn">
               Verified
             </VideoCard.VerifiedBadge>
             <VideoCard.Details views={1000} />
