@@ -41,8 +41,7 @@ function ChannelProfile({
           alt={"Shadcn"}
           src={src ?? "https://github.com/shadcn.png"}
           className={"w-32 flex-shrink-0 md:w-40 h-32 md:h-40"}
-          firstName="Shad"
-          lastName="cn"
+          name="Shadcn"
         />
 
         <div className="space-y-3 text-center sm:text-left">

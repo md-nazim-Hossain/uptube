@@ -43,8 +43,7 @@ function ShareModal({ trigger, user }: Props) {
           <div className="flex items-center gap-5">
             <UpTubeAvatarImage
               className="size-20"
-              firstName={user?.username.split(" ")[0]}
-              lastName={user?.username.split(" ")[1]}
+              name={user?.username}
               src={user?.src}
               alt={`profile of @${user?.username}`}
             />

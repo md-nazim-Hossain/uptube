@@ -2,14 +2,13 @@
 import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { blurImage, fallBackText } from "@/utils/common";
+import { blurImage } from "@/utils/common";
 
 type Props = {
   src: string;
   alt: string;
   className?: string;
-  firstName: string;
-  lastName: string;
+  name?: string;
   imgClassName?: string;
   onClick?: () => void;
 };
@@ -17,8 +16,7 @@ function UpTubeAvatarImage({
   alt,
   src,
   className,
-  firstName,
-  lastName,
+  name,
   imgClassName,
   onClick,
 }: Props) {
@@ -35,8 +33,8 @@ function UpTubeAvatarImage({
       )}
     >
       {(error || !src) && (
-        <div className="absolute p-0.5 w-full h-full rounded-full z-10 inset-0 bg-gray-200 flex justify-center items-center uppercase">
-          {fallBackText(firstName, lastName)}
+        <div className="absolute p-0.5 w-full h-full rounded-full z-10 inset-0 bg-slate-200 dark:bg-slate-500 flex justify-center items-center uppercase">
+          {name ? `${name[0]}${name?.split(" ")[1][0]}` : "CB"}
         </div>
       )}
       {!!src && (

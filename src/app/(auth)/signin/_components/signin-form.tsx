@@ -16,43 +16,68 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import axios from "@/utils/axios";
+import { IAPIResponse, IUser } from "@/types";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/zustand/useUserStore";
 const formSchema = z.object({
-  username: z
+  identifier: z
     .string()
     .min(1, { message: "This field has to be filled." })
     .max(255),
   password: z
     .string()
     .min(8, "The password must be at least 8 characters long")
-    .max(32, "The password must be a maximum 32 characters")
-    .regex(passwordRegex, {
-      message:
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
-    }),
+    .max(32, "The password must be a maximum 32 characters"),
+  // .regex(passwordRegex, {
+  //   message:
+  //     "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
+  // }),
 });
 
 type Props = {
   handleChangePage?: (page: string) => void;
 };
 function SignInForm({ handleChangePage }: Props) {
+  const { toast } = useToast();
+  const router = useRouter();
+  const setUser = useUserStore((state) => state.setUser);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      identifier: "",
       password: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = (await axios.post(
+        "/users/login",
+        values,
+      )) as IAPIResponse<IUser>;
+      if (!res.success) throw new Error(res.message);
+      setUser(res.data as IUser);
+      toast({
+        title: "Login Successful",
+        description: "You have successfully logged in.",
+      });
+      router.push("/");
+    } catch (error: IAPIResponse<any> | any) {
+      console.log(error);
+      toast({
+        title: "Login Failed",
+        description: error?.message,
+        variant: "destructive",
+      });
+    }
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="identifier"
           render={({ field }) => (
             <FormItem>
               <div>

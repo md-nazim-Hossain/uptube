@@ -17,8 +17,7 @@ function Follower({ username, src, fullName }: Props) {
           src={src}
           alt={`Avatar of ${username}`}
           className="size-[230px] md:size-[240px]"
-          firstName={fullName.split(" ")[0]}
-          lastName={fullName.split(" ")[1]}
+          name={fullName}
         />
         <Typography variant={"small"} className="block font-normal text-center">
           {username}

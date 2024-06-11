@@ -21,8 +21,7 @@ function TopFans() {
             <Link href={`/channel/${fan}`}>
               <UpTubeAvatarImage
                 className="size-12"
-                firstName="Shad"
-                lastName="cn"
+                name="Shadcn"
                 src="https://github.com/shadcn.png"
                 alt="Shadcn"
               />

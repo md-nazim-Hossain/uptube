@@ -1,11 +1,5 @@
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*-])[A-Za-z\d!@#$%&*-]{8,}$/;
-export const fallBackText = (firstName?: string, lastName?: string): string => {
-  if (!firstName && !lastName) return "CB";
-  if (firstName && !lastName) return `${firstName?.slice(0, 1)}B`;
-  if (lastName && !firstName) return `C${lastName?.slice(0, 1)}`;
-  return `${firstName?.slice(0, 1)}${lastName?.slice(0, 1)}`;
-};
 
 export const blurImage = () => {
   const image = `<svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">

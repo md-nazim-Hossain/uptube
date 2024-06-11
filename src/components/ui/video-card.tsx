@@ -170,8 +170,7 @@ const VideoCardAvatar = ({
       )}
     >
       <UpTubeAvatarImage
-        firstName={fallbackText.split(" ")[0]}
-        lastName={fallbackText.split(" ")[1]}
+        name={fallbackText}
         alt={alt}
         src={src}
         className={"w-full h-full"}

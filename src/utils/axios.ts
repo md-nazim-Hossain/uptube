@@ -1,10 +1,11 @@
-import Axios from "axios";
+import { IAPIResponse } from "@/types";
+import Axios, { AxiosResponse } from "axios";
 
 const axios = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000",
+  baseURL:
+    process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1",
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
     Accept: "application/json",
   },
   withCredentials: true,
@@ -12,10 +13,10 @@ const axios = Axios.create({
 
 axios.interceptors.response.use(
   (response) => {
-    return response?.data;
+    return response?.data as AxiosResponse<IAPIResponse<any>, any>;
   },
   (error) => {
-    return Promise.reject(error?.response?.data);
+    return Promise.reject(error?.response?.data) as Promise<IAPIResponse<any>>;
   },
 );
 
