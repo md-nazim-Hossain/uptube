@@ -2,7 +2,9 @@
 
 import ColumnViewVideoCard from "@/components/column-view-video-card";
 import Comment from "@/components/comment";
+import ShareModal from "@/components/modals/share-modal";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import { youtubeVideos } from "@/data";
 import { IYoutubeVideo } from "@/types";
@@ -45,9 +47,9 @@ function FullViewVideo({ url }: Props) {
                   <VideoCard.VerifiedBadge
                     fullName="Shadcn"
                     channelName="@shadcn"
-                  >
-                    Verified
-                  </VideoCard.VerifiedBadge>
+                    isVerified
+                  />
+
                   <p className="text-xs flex items-center gap-2">
                     <span className="text-secondary">Followers:</span>
                     <span className="font-medium">{4}</span>
@@ -72,7 +74,23 @@ function FullViewVideo({ url }: Props) {
                 )}
                 <span className="text-secondary text-sm">{3}</span>
               </div>
-              <VideoCard.Actions show={true} />
+              <VideoCard.Actions show={true}>
+                <Button variant={"flat"}>Add to playlist</Button>
+                <Button variant={"flat"}>Next to play</Button>
+                <Button variant={"flat"}>Add to queue</Button>
+                <ShareModal
+                  trigger={<Button variant={"flat"}>Share</Button>}
+                  user={{
+                    subscriber: 1000,
+                    avatar: "https://github.com/shadcn.png",
+                    fullName: "Shadcn",
+                  }}
+                  shareLink="/@shadcn"
+                />
+
+                <Separator />
+                <Button variant={"flat"}>Play</Button>
+              </VideoCard.Actions>
             </div>
           </div>
           <Comment />

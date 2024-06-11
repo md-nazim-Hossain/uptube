@@ -1,6 +1,9 @@
 import { IYoutubeVideo } from "@/types";
 import React from "react";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
+import { Button } from "./ui/button";
+import ShareModal from "./modals/share-modal";
+import { Separator } from "./ui/separator";
 
 type Props = IYoutubeVideo & {
   className?: string;
@@ -28,13 +31,33 @@ function SingleVideoCard({
           )}
           <div className="w-full h-full">
             <VideoCard.Link href={`/watch?v=${url}`}>{songName}</VideoCard.Link>
-            <VideoCard.VerifiedBadge fullName="Shadcn" channelName="@shadcn">
+            <VideoCard.VerifiedBadge
+              isVerified
+              fullName="Shadcn"
+              channelName="@shadcn"
+            >
               Verified
             </VideoCard.VerifiedBadge>
             <VideoCard.Details views={1000} />
           </div>
         </div>
-        <VideoCard.Actions />
+        <VideoCard.Actions>
+          <Button variant={"flat"}>Add to playlist</Button>
+          <Button variant={"flat"}>Next to play</Button>
+          <Button variant={"flat"}>Add to queue</Button>
+          <ShareModal
+            trigger={<Button variant={"flat"}>Share</Button>}
+            user={{
+              subscriber: 1000,
+              avatar: "https://github.com/shadcn.png",
+              fullName: "Shadcn",
+            }}
+            shareLink="/@shadcn"
+          />
+
+          <Separator />
+          <Button variant={"flat"}>Play</Button>
+        </VideoCard.Actions>
       </VideoCard.Footer>
     </VideoCard>
   );

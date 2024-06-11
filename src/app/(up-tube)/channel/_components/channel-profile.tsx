@@ -19,74 +19,75 @@ import { Typography } from "@/components/ui/typography";
 import AboutMyChannelModal from "@/components/modals/about-my-channel-modal";
 import { FiChevronRight } from "react-icons/fi";
 import UpTubeImage from "@/components/uptube/uptube-image";
+import { IChannelProfile } from "@/types";
+import { useUserStore } from "@/zustand/useUserStore";
 
 interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
-  src?: string;
-  isMyChannel?: boolean;
+  channel: IChannelProfile;
 }
-function ChannelProfile({
-  className,
-  src,
-  isMyChannel = false,
-  ...props
-}: CommentProps) {
+function ChannelProfile({ className, channel, ...props }: CommentProps) {
+  const user = useUserStore((state) => state.user);
+  const {
+    avatar,
+    channelSubscribedToCount,
+    coverImage,
+    createdAt,
+    fullName,
+    username,
+    description,
+    email,
+    isSubscribed,
+    totalViews,
+    isVerified,
+    subscribersCount,
+    totalVideos,
+  } = channel;
+  const isMyChannel = user?.username === channel?.username;
   return (
     <div {...props} className={cn("flex flex-col gap-5 container", className)}>
       <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
-        <UpTubeImage alt="placeholder" src={"/assets/images/placeholder.svg"} />
+        <UpTubeImage alt={`cover image of ${username}`} src={coverImage} />
       </div>
       <div className="max-w-2xl flex flex-col sm:flex-row items-center gap-10">
         <UpTubeAvatarImage
-          alt={"Shadcn"}
-          src={src ?? "https://github.com/shadcn.png"}
+          alt={`profile of ${username}`}
+          src={avatar}
           className={"w-32 flex-shrink-0 md:w-40 h-32 md:h-40"}
-          name="Shadcn"
+          name={fullName}
         />
 
         <div className="space-y-3 text-center sm:text-left">
           <div className="w-max mx-auto sm:mx-0">
             <VideoCardVerifiedBadge
               className="text-3xl font-bold"
-              channelName="@shadcn"
-              fullName="Shadcn"
+              channelName={username}
+              fullName={fullName}
               size={24}
-              status="verified"
+              isVerified={isVerified}
+              isLink={false}
             />
           </div>
-          {!isMyChannel && (
-            <Typography className="text-slate-400 text-sm font-normal">
-              Download & license original tracks directly from independent
-              artists for your content. Support indie artists using our
-              artist-first platform. Royalty Free Music for your next project.
-            </Typography>
-          )}
-          {isMyChannel && (
-            <AboutMyChannelModal
-              channel={{
-                fullName: "Shadcn",
-                username: "shadcn",
-                country: "USA",
-                description: ` Download & license original tracks directly from independent
-                  artists for your content. Support indie artists using our
-                  artist-first platform. Royalty Free Music for your next
-                  project.`,
-                createdAt: new Date().toDateString(),
-                email: "nazimhossaindpi@gmail.com",
-                totalVideos: 0,
-                totalViews: 0,
-              }}
-              trigger={
-                <Typography className="text-slate-400 space-x-1 cursor-pointer text-sm text-start font-normal">
-                  Download & license original tracks directly from independent
-                  artists for your content. Support indie artists using our
-                  artist-first platform. Royalty Free Music for your next
-                  project.
-                  <FiChevronRight size={20} className="inline" />
-                </Typography>
-              }
-            />
-          )}
+          <AboutMyChannelModal
+            channel={{
+              fullName,
+              username,
+              country: "USA",
+              description,
+              createdAt,
+              email,
+              totalVideos,
+              totalViews,
+              avatar,
+              subscriber: subscribersCount,
+            }}
+            trigger={
+              <Typography className="text-slate-400 space-x-1 cursor-pointer text-sm text-start font-normal">
+                {description}
+                <FiChevronRight size={20} className="inline" />
+              </Typography>
+            }
+          />
           {!isMyChannel && (
             <div className="pt-2 flex items-center gap-8 w-max mx-auto sm:mx-0">
               <Button
@@ -111,11 +112,11 @@ function ChannelProfile({
                 <PopoverContent align="end" className="w-36 px-0 py-2">
                   <ShareModal
                     user={{
-                      fullName: "shadcn",
-                      src: "https://github.com/shadcn.png",
-                      followers: 10000,
+                      fullName,
+                      avatar,
+                      subscriber: subscribersCount,
                     }}
-                    shareLink="/@shadcn"
+                    shareLink={`/${username}`}
                     trigger={<Button variant={"flat"}>Share</Button>}
                   />
                 </PopoverContent>
@@ -126,7 +127,7 @@ function ChannelProfile({
           {isMyChannel && (
             <div className="pt-2 space-x-5">
               <Link
-                href={`/studio/@${"shadcn"}`}
+                href={`/studio/${username}`}
                 className={cn(
                   buttonVariants({
                     variant: "link",
@@ -137,7 +138,7 @@ function ChannelProfile({
                 Customize Channel
               </Link>
               <Link
-                href={`/studio/@${"shadcn"}/content`}
+                href={`/studio/${username}/content`}
                 className={cn(
                   buttonVariants({
                     variant: "link",

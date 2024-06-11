@@ -16,10 +16,6 @@ export type IAPIResponse<T = unknown> = {
 };
 
 // users type
-export type IUserProfile = IUser & {
-  likeVideos: any[];
-  watchHistory: any[];
-};
 
 export type IUser = {
   avatar: string;
@@ -32,4 +28,17 @@ export type IUser = {
   updatedAt: string;
   username: string;
   description: string;
+};
+
+export type IUserProfile = IUser & {
+  likeVideos: any[];
+  watchHistory: any[];
+};
+
+export type IChannelProfile = IUser & {
+  totalViews: number;
+  totalVideos: number;
+  subscribersCount: number;
+  channelSubscribedToCount: number;
+  isSubscribed: boolean;
 };

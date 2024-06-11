@@ -71,9 +71,8 @@ function ShortVideo({ url, songName, className }: Props) {
                 className="text-white font-normal"
                 channelName="@shadcn"
                 fullName="Shadcn"
-              >
-                Verified
-              </VideoCard.VerifiedBadge>
+                isVerified
+              />
             </div>
             <Button className="bg-white text-xs h-max text-black hover:bg-white">
               Follow
@@ -113,8 +112,8 @@ function ShortVideo({ url, songName, className }: Props) {
             <ShareModal
               trigger={<Button variant={"flat"}>Share</Button>}
               user={{
-                followers: 1000,
-                src: "https://github.com/shadcn.png",
+                subscriber: 1000,
+                avatar: "https://github.com/shadcn.png",
                 fullName: "Shadcn",
               }}
               shareLink="/shorts/12"

@@ -22,6 +22,7 @@ import ShareModal from "./share-modal";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import CopyButton from "../copy-button";
+import { PiUserSound } from "react-icons/pi";
 
 type Props = {
   trigger: React.ReactNode;
@@ -34,6 +35,8 @@ type Props = {
     totalVideos: number;
     description: string;
     fullName: string;
+    avatar: string;
+    subscriber: number;
   };
 };
 function AboutMyChannelModal({ trigger, channel }: Props) {
@@ -78,6 +81,13 @@ function AboutMyChannelModal({ trigger, channel }: Props) {
             </Link>
           </div>
           <div className="flex items-center gap-3">
+            <PiUserSound size={20} />
+            <Typography variant={"small"} className="font-normal">
+              {channel?.subscriber}
+            </Typography>
+          </div>
+
+          <div className="flex items-center gap-3">
             <GoVideo size={20} />
             <Typography variant={"small"} className="font-normal">
               {channel?.totalVideos}
@@ -105,9 +115,9 @@ function AboutMyChannelModal({ trigger, channel }: Props) {
           <div className="flex items-center gap-3 justify-between">
             <ShareModal
               user={{
-                followers: 0,
+                subscriber: channel?.subscriber,
                 fullName: channel?.fullName,
-                src: "https://github.com/shadcn.png",
+                avatar: channel?.avatar,
               }}
               shareLink={`/${channel?.username}`}
               trigger={

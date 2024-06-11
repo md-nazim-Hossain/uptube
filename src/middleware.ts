@@ -9,5 +9,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/channel/:path*", "/studio/:path*"],
+  matcher: ["/channel/:path*", "/studio/:path*", "/settings"],
 };

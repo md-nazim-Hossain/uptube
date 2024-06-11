@@ -20,6 +20,7 @@ import dynamic from "next/dynamic";
 import { ReactPlayerProps } from "react-player";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import ShareModal from "../modals/share-modal";
+import { Typography } from "./typography";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -186,33 +187,45 @@ interface VideoCardVerifiedBadgeProps
   ref?: React.Ref<HTMLDivElement>;
   size?: number;
   channelName: string;
-  status?: "verified" | "unverified";
+  isVerified: boolean;
   fullName: string;
+  isLink?: boolean;
 }
 const VideoCardVerifiedBadge = ({
   className,
   size = 13,
   channelName,
   fullName,
-  children,
-  status,
+  isVerified,
+  isLink = true,
 }: VideoCardVerifiedBadgeProps) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <div className="flex items-center gap-1">
-          <Link
-            href={`/${channelName}`}
-            className={cn("text-sm cursor-pointer font-light", className)}
-          >
-            {fullName}
-          </Link>
+          {isLink ? (
+            <Link
+              href={`/${channelName}`}
+              className={cn("text-sm cursor-pointer font-light", className)}
+            >
+              {fullName}
+            </Link>
+          ) : (
+            <Typography className={cn("text-sm font-light", className)}>
+              {fullName}
+            </Typography>
+          )}
           <TooltipTrigger>
-            <VscVerifiedFilled className="text-secondary" size={size} />
+            <VscVerifiedFilled
+              className={cn(isVerified ? "text-blue-600" : "text-secondary")}
+              size={size}
+            />
           </TooltipTrigger>
         </div>
         <TooltipContent className="w-max">
-          <p className="capitalize text-sm">{status ? status : children}</p>
+          <p className="capitalize text-sm">
+            {isVerified ? "verified" : "unverified"}
+          </p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
@@ -248,7 +261,7 @@ const VideoCardLink = ({
 VideoCardLink.displayName = "VideoCardLink";
 VideoCard.Link = VideoCardLink;
 
-interface VideoActionsProps extends React.HTMLAttributes<HTMLDivElement> {
+interface VideoDetailsProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
   views?: number;
   createdAt?: Date | string | number;
@@ -262,7 +275,7 @@ const VideoDetails = ({
   createdAt = new Date(),
   showDate = true,
   ...props
-}: VideoActionsProps) => {
+}: VideoDetailsProps) => {
   return (
     <div
       className={cn(
@@ -294,9 +307,14 @@ VideoDetails.displayName = "VideoDetails";
 interface VideoActionsProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
   show?: boolean;
+  children: React.ReactNode;
 }
 
-const VideoCardActions = ({ className, show = false }: VideoActionsProps) => {
+const VideoCardActions = ({
+  className,
+  show = false,
+  children,
+}: VideoActionsProps) => {
   return (
     <Popover>
       <PopoverTrigger
@@ -310,21 +328,7 @@ const VideoCardActions = ({ className, show = false }: VideoActionsProps) => {
         <BiDotsVerticalRounded />
       </PopoverTrigger>
       <PopoverContent align="end" className={cn("w-36 px-0 py-2", className)}>
-        <Button variant={"flat"}>Add to playlist</Button>
-        <Button variant={"flat"}>Next to play</Button>
-        <Button variant={"flat"}>Add to queue</Button>
-        <ShareModal
-          trigger={<Button variant={"flat"}>Share</Button>}
-          user={{
-            followers: 1000,
-            src: "https://github.com/shadcn.png",
-            fullName: "Shadcn",
-          }}
-          shareLink="/@shadcn"
-        />
-
-        <Separator />
-        <Button variant={"flat"}>Play</Button>
+        {children}
       </PopoverContent>
     </Popover>
   );

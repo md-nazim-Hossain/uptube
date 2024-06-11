@@ -7,7 +7,10 @@ import { youtubeVideos } from "@/data";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
-function ChannelDetails() {
+type Props = {
+  isMyChannel?: boolean;
+};
+function ChannelDetails({ isMyChannel = false }: Props) {
   const currentTab = useSearchParams().get("tab") || "stations";
   const [tab, setTab] = React.useState(currentTab);
   useEffect(() => {
@@ -29,21 +32,28 @@ function ChannelDetails() {
           >
             Playlists
           </TabsTrigger>
-          <TabsTrigger className="font-normal text-foreground" value="likes">
-            Likes
-          </TabsTrigger>
-          <TabsTrigger
-            className="font-normal text-foreground"
-            value="followers"
-          >
-            Followers
-          </TabsTrigger>
-          <TabsTrigger
-            className="font-normal text-foreground"
-            value="following"
-          >
-            Following
-          </TabsTrigger>
+          {isMyChannel && (
+            <>
+              <TabsTrigger
+                className="font-normal text-foreground"
+                value="likes"
+              >
+                Likes
+              </TabsTrigger>
+              <TabsTrigger
+                className="font-normal text-foreground"
+                value="followers"
+              >
+                Followers
+              </TabsTrigger>
+              <TabsTrigger
+                className="font-normal text-foreground"
+                value="following"
+              >
+                Following
+              </TabsTrigger>
+            </>
+          )}
         </div>
       </TabsList>
       <div className="container">
@@ -56,21 +66,26 @@ function ChannelDetails() {
         <TabsContent value="playlists">
           <div>Playlists</div>
         </TabsContent>
-        <TabsContent value="likes">
-          <Videos videos={youtubeVideos} className="py-5" />
-        </TabsContent>
-        <TabsContent value="followers">
-          <div className="grid grid-cols-4 gap-5 py-10">
-            <Follower
-              fullName="Shadcn"
-              src="https://github.com/shadcn.png"
-              username="shadcn"
-            />
-          </div>
-        </TabsContent>
-        <TabsContent value="following">
-          <div>Following</div>
-        </TabsContent>
+        {isMyChannel && (
+          <>
+            {" "}
+            <TabsContent value="likes">
+              <Videos videos={youtubeVideos} className="py-5" />
+            </TabsContent>
+            <TabsContent value="followers">
+              <div className="grid grid-cols-4 gap-5 py-10">
+                <Follower
+                  fullName="Shadcn"
+                  src="https://github.com/shadcn.png"
+                  username="shadcn"
+                />
+              </div>
+            </TabsContent>
+            <TabsContent value="following">
+              <div>Following</div>
+            </TabsContent>
+          </>
+        )}
       </div>
     </Tabs>
   );

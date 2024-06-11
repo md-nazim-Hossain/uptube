@@ -64,6 +64,15 @@ function UserNavProfile({ className }: Props) {
           </div>
           <span className="text-secondary">Your channel</span>
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push(`/settings`)}>
+          <div className="relative w-6 h-5 mr-2">
+            <UpTubeImage
+              alt="Your channel"
+              src={"/assets/images/icons/settings.svg"}
+            />
+          </div>
+          <span className="text-secondary">Settings</span>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled={isLoading} onClick={() => signOut()}>
           <div className="relative w-6 h-5 mr-2">
@@ -72,7 +81,7 @@ function UserNavProfile({ className }: Props) {
               src={"/assets/images/icons/sign-out.svg"}
             />
           </div>
-          <span className="text-secondary ml-2"> Sign out</span>
+          <span className="text-secondary"> Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

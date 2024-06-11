@@ -26,8 +26,8 @@ type Props = {
   trigger: React.ReactNode;
   user: {
     fullName: string;
-    followers: number;
-    src: string;
+    subscriber: number;
+    avatar: string;
   };
   shareLink: string;
 };
@@ -47,13 +47,13 @@ function ShareModal({ trigger, user, shareLink }: Props) {
             <UpTubeAvatarImage
               className="size-20"
               name={user?.fullName}
-              src={user?.src}
+              src={user?.avatar}
               alt={`profile of ${user?.fullName}`}
             />
             <div>
               <Typography variant={"h4"}>{user?.fullName}</Typography>
               <Typography variant={"muted"}>
-                Followers: {viewsFormat(user?.followers)}
+                Subscribers: {viewsFormat(user?.subscriber)}
               </Typography>
             </div>
           </div>
