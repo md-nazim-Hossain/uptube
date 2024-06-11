@@ -32,7 +32,7 @@ function ShortVideo({ url, songName, className }: Props) {
       style={{ scrollSnapAlign: "start", scrollMarginTop: "56px" }}
       className="container w-full sm:w-max flex items-end gap-3"
     >
-      <div className="w-full group/player h-[850px] sm:w-[460px] rounded-2xl overflow-hidden relative">
+      <div className="w-full group/player h-[825px] sm:w-[460px] rounded-2xl overflow-hidden relative">
         <ReactPlayer
           width="100%"
           height="100%"

@@ -18,7 +18,7 @@ function TopFans() {
             key={index}
             className="flex flex-col lg:flex-row items-center gap-3"
           >
-            <Link href={`/channel/${fan}`}>
+            <Link href={`/@${fan}`}>
               <UpTubeAvatarImage
                 className="size-12"
                 name="Shadcn"
@@ -28,7 +28,7 @@ function TopFans() {
             </Link>
             <div className="flex flex-col gap-1 items-center">
               <Link
-                href={`/channel/${fan}`}
+                href={`/@${fan}`}
                 className={cn(
                   typographyVariants({
                     variant: "small",

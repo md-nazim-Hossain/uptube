@@ -3,14 +3,8 @@ import Link from "next/link";
 import React from "react";
 
 import { Button, buttonVariants } from "../ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTrigger,
-} from "../ui/sheet";
-import { channelHistoryData, exploreData, sidebarTopData } from "@/data";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../ui/sheet";
+import { exploreData, getChannelHistory, sidebarTopData } from "@/data";
 import Image from "next/image";
 import { ISideProps } from "@/types";
 import { cn } from "@/lib/utils";
@@ -111,6 +105,7 @@ function Navbar() {
                 <div className="svg pt-2 space-y-0.5">
                   {sidebarTopData.map((item: ISideProps, index: number) => (
                     <Link
+                      onClick={() => setOpen(false)}
                       key={index}
                       href={item.href}
                       className={cn(
@@ -132,35 +127,41 @@ function Navbar() {
                 <Separator />
 
                 {/* ============= Your channel Sidebar Link =============*/}
-                <div className="pt-2 space-y-0.5">
-                  <span className="text-xs font-light mb-4">You</span>
-                  {channelHistoryData.map((item: ISideProps, index: number) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      className={cn(
-                        "flex items-center gap-3 p-2 -ml-2.5 hover:bg-primary/10 rounded-[100vw]",
-                      )}
-                    >
-                      <Image
-                        src={item.Icon}
-                        alt={item.label}
-                        width={24}
-                        height={20}
-                      />
-                      <span className="text-sm text-secondary">
-                        {item.label}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-                <Separator />
+                {user && (
+                  <div className="pt-2 space-y-0.5">
+                    <span className="text-xs font-light mb-4">You</span>
+                    {getChannelHistory(user.username, user._id).map(
+                      (item: ISideProps, index: number) => (
+                        <Link
+                          onClick={() => setOpen(false)}
+                          key={index}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-3 p-2 -ml-2.5 hover:bg-primary/10 rounded-[100vw]",
+                          )}
+                        >
+                          <Image
+                            src={item.Icon}
+                            alt={item.label}
+                            width={24}
+                            height={20}
+                          />
+                          <span className="text-sm text-secondary">
+                            {item.label}
+                          </span>
+                        </Link>
+                      ),
+                    )}
+                  </div>
+                )}
+                {user && <Separator />}
 
                 {/* ============= Explore Features Sidebar Link =============*/}
                 <div className="pt-2 space-y-0.5">
                   <span className="text-xs font-light mb-4">Explore</span>
                   {exploreData.map((item: ISideProps, index: number) => (
                     <Link
+                      onClick={() => setOpen(false)}
                       key={index}
                       href={item.href}
                       className={cn(
@@ -186,6 +187,7 @@ function Navbar() {
                   <span className="text-xs font-light mb-4">Settings</span>
                   <div className="flex flex-col gap-2">
                     <Link
+                      onClick={() => setOpen(false)}
                       href={"/settings"}
                       className={cn(
                         "flex items-center gap-3 p-2 -ml-2.5 hover:bg-primary/10 rounded-[100vw]",

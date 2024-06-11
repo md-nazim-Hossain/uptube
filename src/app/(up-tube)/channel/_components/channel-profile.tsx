@@ -48,7 +48,8 @@ function ChannelProfile({
           <div className="w-max mx-auto sm:mx-0">
             <VideoCardVerifiedBadge
               className="text-3xl font-bold"
-              channelName="Shadcn"
+              channelName="@shadcn"
+              fullName="Shadcn"
               size={24}
               status="verified"
             />
@@ -123,7 +124,7 @@ function ChannelProfile({
           {isMyChannel && (
             <div className="pt-2 space-x-5">
               <Link
-                href={`/dashboard/shadcn`}
+                href={`/studio/@${"shadcn"}`}
                 className={cn(
                   buttonVariants({
                     variant: "link",
@@ -134,7 +135,7 @@ function ChannelProfile({
                 Customize Channel
               </Link>
               <Link
-                href={`/dashboard/shadcn/content`}
+                href={`/studio/@${"shadcn"}/content`}
                 className={cn(
                   buttonVariants({
                     variant: "link",

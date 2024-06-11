@@ -23,12 +23,12 @@ function SingleVideoCard({
             <VideoCardAvatar.Avatar
               src="https://github.com/shadcn.png"
               alt="Shadcn"
-              link="/channel/shadcn"
+              link="/@shadcn"
             />
           )}
           <div className="w-full h-full">
             <VideoCard.Link href={`/watch?v=${url}`}>{songName}</VideoCard.Link>
-            <VideoCard.VerifiedBadge channelName="Shadcn">
+            <VideoCard.VerifiedBadge fullName="Shadcn" channelName="@shadcn">
               Verified
             </VideoCard.VerifiedBadge>
             <VideoCard.Details views={1000} />

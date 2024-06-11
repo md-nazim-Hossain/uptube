@@ -17,7 +17,7 @@ export const sidebarTopData: ISideProps[] = [
   {
     label: "Shorts",
     Icon: "/assets/images/icons/shorts.svg",
-    href: "/shorts",
+    href: "/shorts/12",
   },
   {
     label: "Library",
@@ -26,44 +26,49 @@ export const sidebarTopData: ISideProps[] = [
   },
 ];
 
-export const channelHistoryData: ISideProps[] = [
-  {
-    label: "Your Channel",
-    Icon: "/assets/images/icons/channel.svg",
-    href: "/my-channel",
-  },
-  {
-    label: "History",
-    Icon: "/assets/images/icons/history.svg",
-    href: "/",
-  },
-  {
-    label: "Your Videos",
-    Icon: "/assets/images/icons/videos.svg",
-    href: "/",
-  },
-  {
-    label: "Likes",
-    Icon: "/assets/images/icons/like.svg",
-    href: "/",
-  },
-];
+export const getChannelHistory = (
+  username: string,
+  id: string,
+): ISideProps[] => {
+  return [
+    {
+      label: "Your Channel",
+      Icon: "/assets/images/icons/channel.svg",
+      href: `/channel/${id}?tab=stations`,
+    },
+    {
+      label: "History",
+      Icon: "/assets/images/icons/history.svg",
+      href: "/feed/history",
+    },
+    {
+      label: "Your Videos",
+      Icon: "/assets/images/icons/videos.svg",
+      href: `/studio/${username}/content`,
+    },
+    {
+      label: "Likes",
+      Icon: "/assets/images/icons/like.svg",
+      href: `/channel/${id}?tab=likes`,
+    },
+  ];
+};
 
 export const exploreData: ISideProps[] = [
   {
     label: "Trending",
     Icon: "/assets/images/icons/trending.svg",
-    href: "/",
+    href: "/feed/trending",
   },
   {
     label: "Music",
     Icon: "/assets/images/icons/music.svg",
-    href: "/",
+    href: "/feed/music",
   },
   {
     label: "Video",
     Icon: "/assets/images/icons/videos.svg",
-    href: "/",
+    href: "/feed/videos",
   },
 ];
 

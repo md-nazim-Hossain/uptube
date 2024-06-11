@@ -48,12 +48,14 @@ function UserNavProfile({ className }: Props) {
             <Typography className="leading-none truncate">
               {user?.fullName}
             </Typography>
-            <Typography variant={"muted"}>@{user?.username}</Typography>
+            <Typography variant={"muted"}>{user?.username}</Typography>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={() => router.push(`/my-channel`)}>
+        <DropdownMenuItem
+          onClick={() => router.push(`/channel/${user._id}?tab=stations`)}
+        >
           <div className="relative w-6 h-5 mr-2">
             <UpTubeImage
               alt="Your channel"

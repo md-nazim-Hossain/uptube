@@ -4,11 +4,17 @@ import Follower from "@/components/follower";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Videos from "@/components/videos";
 import { youtubeVideos } from "@/data";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
 
 function ChannelDetails() {
+  const currentTab = useSearchParams().get("tab") || "stations";
+  const [tab, setTab] = React.useState(currentTab);
+  useEffect(() => {
+    setTab(currentTab);
+  }, [currentTab]);
   return (
-    <Tabs defaultValue="stations">
+    <Tabs value={tab} onValueChange={setTab}>
       <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
         <div className="container">
           <TabsTrigger className="font-normal text-foreground" value="stations">

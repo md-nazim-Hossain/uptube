@@ -187,11 +187,13 @@ interface VideoCardVerifiedBadgeProps
   size?: number;
   channelName: string;
   status?: "verified" | "unverified";
+  fullName: string;
 }
 const VideoCardVerifiedBadge = ({
   className,
   size = 13,
   channelName,
+  fullName,
   children,
   status,
 }: VideoCardVerifiedBadgeProps) => {
@@ -200,10 +202,10 @@ const VideoCardVerifiedBadge = ({
       <Tooltip>
         <div className="flex items-center gap-1">
           <Link
-            href={`/channel/${channelName}`}
+            href={`/${channelName}`}
             className={cn("text-sm cursor-pointer font-light", className)}
           >
-            {channelName}
+            {fullName}
           </Link>
           <TooltipTrigger>
             <VscVerifiedFilled className="text-secondary" size={size} />
