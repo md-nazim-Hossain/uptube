@@ -69,7 +69,8 @@ function ShortVideo({ url, songName, className }: Props) {
 
               <VideoCard.VerifiedBadge
                 className="text-white font-normal"
-                channelName="Shadcn"
+                channelName="@shadcn"
+                fullName="Shadcn"
               >
                 Verified
               </VideoCard.VerifiedBadge>
@@ -114,8 +115,9 @@ function ShortVideo({ url, songName, className }: Props) {
               user={{
                 followers: 1000,
                 src: "https://github.com/shadcn.png",
-                username: "Shadcn",
+                fullName: "Shadcn",
               }}
+              shareLink="/shorts/12"
             />
           </PopoverContent>
         </Popover>

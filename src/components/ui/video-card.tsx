@@ -318,8 +318,9 @@ const VideoCardActions = ({ className, show = false }: VideoActionsProps) => {
           user={{
             followers: 1000,
             src: "https://github.com/shadcn.png",
-            username: "Shadcn",
+            fullName: "Shadcn",
           }}
+          shareLink="/@shadcn"
         />
 
         <Separator />

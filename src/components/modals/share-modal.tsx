@@ -25,13 +25,16 @@ import { cn } from "@/lib/utils";
 type Props = {
   trigger: React.ReactNode;
   user: {
-    username: string;
+    fullName: string;
     followers: number;
     src: string;
   };
+  shareLink: string;
 };
-function ShareModal({ trigger, user }: Props) {
-  const link = `${process.env.NEXT_PUBLIC_BASE_URL}/channel/${user?.username}`;
+function ShareModal({ trigger, user, shareLink }: Props) {
+  const link = `${process.env.NEXT_PUBLIC_BASE_URL}${
+    shareLink.includes("/") ? shareLink : `/${shareLink}`
+  }`;
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -43,12 +46,12 @@ function ShareModal({ trigger, user }: Props) {
           <div className="flex items-center gap-5">
             <UpTubeAvatarImage
               className="size-20"
-              name={user?.username}
+              name={user?.fullName}
               src={user?.src}
-              alt={`profile of @${user?.username}`}
+              alt={`profile of ${user?.fullName}`}
             />
             <div>
-              <Typography variant={"h4"}>{user?.username}</Typography>
+              <Typography variant={"h4"}>{user?.fullName}</Typography>
               <Typography variant={"muted"}>
                 Followers: {viewsFormat(user?.followers)}
               </Typography>

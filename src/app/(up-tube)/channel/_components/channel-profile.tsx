@@ -110,10 +110,11 @@ function ChannelProfile({
                 <PopoverContent align="end" className="w-36 px-0 py-2">
                   <ShareModal
                     user={{
-                      username: "shadcn",
+                      fullName: "shadcn",
                       src: "https://github.com/shadcn.png",
                       followers: 10000,
                     }}
+                    shareLink="/@shadcn"
                     trigger={<Button variant={"flat"}>Share</Button>}
                   />
                 </PopoverContent>
