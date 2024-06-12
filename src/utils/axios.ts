@@ -1,5 +1,5 @@
 import { IAPIResponse } from "@/types";
-import Axios, { AxiosResponse } from "axios";
+import Axios, { AxiosError, AxiosResponse } from "axios";
 
 const axios = Axios.create({
   baseURL:
@@ -15,8 +15,10 @@ axios.interceptors.response.use(
   (response) => {
     return response?.data as AxiosResponse<IAPIResponse<any>, any>;
   },
-  (error) => {
-    return Promise.reject(error?.response?.data) as Promise<IAPIResponse<any>>;
+  (error: AxiosError<any, any>) => {
+    return Promise.reject(error?.response) as Promise<
+      AxiosResponse<AxiosError>
+    >;
   },
 );
 

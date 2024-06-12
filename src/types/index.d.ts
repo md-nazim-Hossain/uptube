@@ -42,3 +42,13 @@ export type IChannelProfile = IUser & {
   channelSubscribedToCount: number;
   isSubscribed: boolean;
 };
+
+export interface GetInfinitePagesInterface<T> {
+  nextCursor: unknown;
+  prevPage: unknown;
+  nextPage: unknown;
+  nextId?: number;
+  previousId?: number;
+  data: T;
+  count: number;
+}
