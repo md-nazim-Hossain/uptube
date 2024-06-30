@@ -31,7 +31,7 @@ function UserNavProfile({ className }: Props) {
         <UpTubeAvatarImage
           name={user?.fullName}
           src={user?.avatar || ""}
-          alt={`profile of @${user?.username}`}
+          alt={`profile of ${user?.username}`}
           className="size-10"
         />
       </DropdownMenuTrigger>
@@ -43,7 +43,7 @@ function UserNavProfile({ className }: Props) {
           <UpTubeAvatarImage
             name={user?.fullName}
             src={user?.avatar || ""}
-            alt={`profile of @${user?.username}`}
+            alt={`profile of ${user?.username}`}
             className="size-10"
           />
           <div className="flex-1 truncate">
@@ -78,9 +78,7 @@ function UserNavProfile({ className }: Props) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() =>
-            router.push(isStudioPage ? `/` : `/studio/${user.username}`)
-          }
+          onClick={() => router.push(isStudioPage ? `/` : `/studio`)}
         >
           <div className="relative w-6 h-5 mr-2">
             <UpTubeImage

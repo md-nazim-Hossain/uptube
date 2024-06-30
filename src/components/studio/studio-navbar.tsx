@@ -9,7 +9,7 @@ import UploadContentDropdown from "./upload-content-dropdown";
 function StudioNavbar() {
   const user = useUserStore((state) => state.user);
   return (
-    <div className="studio-container items-center justify-between shadow flex gap-5 sticky top-0 z-50 bg-background h-[56px]">
+    <div className="studio-container items-center justify-between shadow-sm border-b flex gap-5 sticky top-0 z-50 bg-background h-[56px]">
       <Logo
         title="Studio"
         href={`/studio/${user?.username}`}

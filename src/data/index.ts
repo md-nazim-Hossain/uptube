@@ -7,6 +7,9 @@ import {
   FaTwitter,
 } from "react-icons/fa6";
 import { FiFacebook } from "react-icons/fi";
+import { IoGridSharp } from "react-icons/io5";
+import { MdOutlineVideoLibrary } from "react-icons/md";
+import { BiCommentDetail } from "react-icons/bi";
 
 export const sidebarTopData: ISideProps[] = [
   {
@@ -23,6 +26,24 @@ export const sidebarTopData: ISideProps[] = [
     label: "Library",
     Icon: "/assets/images/icons/library.svg",
     href: "/library",
+  },
+];
+
+export const studioSidebarData = [
+  {
+    label: "Dashboard",
+    Icon: IoGridSharp,
+    href: "/studio",
+  },
+  {
+    label: "Content",
+    Icon: MdOutlineVideoLibrary,
+    href: "/studio/content",
+  },
+  {
+    label: "Comments",
+    Icon: BiCommentDetail,
+    href: "/studio/comments",
   },
 ];
 
