@@ -12,9 +12,7 @@ const axios = Axios.create({
 });
 
 axios.interceptors.response.use(
-  (response) => {
-    return response?.data as AxiosResponse<IAPIResponse<any>, any>;
-  },
+  (response) => response,
   (error: AxiosError<any, any>) => {
     return Promise.reject(error?.response) as Promise<
       AxiosResponse<AxiosError>

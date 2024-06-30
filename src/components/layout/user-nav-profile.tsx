@@ -11,7 +11,7 @@ import {
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { useUserStore } from "@/zustand/useUserStore";
 import { IUser } from "@/types";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Typography } from "../ui/typography";
 import UpTubeImage from "../uptube/uptube-image";
 import { useSignOut } from "@/hooks/useSignOut";
@@ -23,6 +23,8 @@ function UserNavProfile({ className }: Props) {
   const user = useUserStore((state) => state.user) as IUser;
   const router = useRouter();
   const { signOut, isLoading } = useSignOut();
+  const pathname = usePathname();
+  const isStudioPage = pathname.startsWith("/studio");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
@@ -64,16 +66,7 @@ function UserNavProfile({ className }: Props) {
           </div>
           <span className="text-secondary">Your channel</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push(`/settings`)}>
-          <div className="relative w-6 h-5 mr-2">
-            <UpTubeImage
-              alt="Your channel"
-              src={"/assets/images/icons/settings.svg"}
-            />
-          </div>
-          <span className="text-secondary">Settings</span>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
+
         <DropdownMenuItem disabled={isLoading} onClick={() => signOut()}>
           <div className="relative w-6 h-5 mr-2">
             <UpTubeImage
@@ -83,6 +76,40 @@ function UserNavProfile({ className }: Props) {
           </div>
           <span className="text-secondary"> Sign out</span>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() =>
+            router.push(isStudioPage ? `/` : `/studio/${user.username}`)
+          }
+        >
+          <div className="relative w-6 h-5 mr-2">
+            <UpTubeImage
+              alt={isStudioPage ? "UPTube logo" : "UPTube Studio"}
+              src={
+                isStudioPage
+                  ? "/assets/images/logo.png"
+                  : "/assets/images/icons/studio.svg"
+              }
+            />
+          </div>
+          <span className="text-secondary">
+            UPTube {isStudioPage ? "" : "Studio"}
+          </span>
+        </DropdownMenuItem>
+        {!isStudioPage && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => router.push(`/settings`)}>
+              <div className="relative w-6 h-5 mr-2">
+                <UpTubeImage
+                  alt="Your channel"
+                  src={"/assets/images/icons/settings.svg"}
+                />
+              </div>
+              <span className="text-secondary">Settings</span>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -13,7 +13,7 @@ async function UserProfilePage({ params }: { params: { username: string } }) {
         username,
       },
     })
-    .then((res) => res.data as IChannelProfile)
+    .then((res) => res.data.data as IChannelProfile)
     .catch((e) => redirect("/"));
   if (!user) return redirect("/");
   return (

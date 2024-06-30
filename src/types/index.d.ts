@@ -52,3 +52,10 @@ export interface GetInfinitePagesInterface<T> {
   data: T;
   count: number;
 }
+
+export interface IPlayList {
+  _id: string;
+  title: string;
+  description: string;
+  videos: any[];
+}

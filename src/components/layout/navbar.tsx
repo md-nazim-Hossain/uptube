@@ -17,6 +17,7 @@ import { FiSearch } from "react-icons/fi";
 import UpTubeImage from "../uptube/uptube-image";
 import { useUserStore } from "@/zustand/useUserStore";
 import UserNavProfile from "./user-nav-profile";
+import Logo from "./logo";
 
 function Navbar() {
   const user = useUserStore((state) => state.user);
@@ -55,41 +56,7 @@ function Navbar() {
                 side="left"
               >
                 <SheetHeader>
-                  <div className="flex items-center gap-x-1 md:gap-2 -ml-2.5 h-[56px]">
-                    <Button
-                      onClick={() => setOpen(false)}
-                      size={"icon"}
-                      variant={"icon"}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        focusable="false"
-                        fill="currentColor"
-                        style={{
-                          pointerEvents: "none",
-                          display: "block",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                      >
-                        <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
-                      </svg>
-                    </Button>
-                    <Link
-                      className="text-xl font-bold flex items-center gap-1"
-                      href={"/"}
-                    >
-                      <span className="relative size-5 overflow-hidden">
-                        <UpTubeImage
-                          src="/assets/images/logo.png"
-                          alt="UPTube Logo"
-                          className="object-cover"
-                        />
-                      </span>
-                      <span>UPTube</span>
-                    </Link>
-                  </div>
+                  <Logo onClick={() => setOpen(false)} href={"/"} />
                 </SheetHeader>
                 <Link
                   href={"/signin"}

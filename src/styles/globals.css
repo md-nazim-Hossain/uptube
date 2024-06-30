@@ -81,6 +81,9 @@
   .sb {
     @apply border border-red-500;
   }
+  .studio-container {
+    @apply px-5 lg:px-8;
+  }
 }
 
 @layer components {

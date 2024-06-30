@@ -17,7 +17,7 @@ async function MyChannelPage({ params }: { params: { id: string } }) {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => res.data as IChannelProfile)
+    .then((res) => res.data.data as IChannelProfile)
     .catch((e) => redirect("/"));
   if (!user) return redirect("/");
   if (user._id !== id) return redirect("/");
