@@ -15,7 +15,11 @@ function Thumbnail({ getFile, className, defaultFile }: Props) {
   const [preview, setPreview] = React.useState("");
   useEffect(() => {
     if (defaultFile) {
-      setPreview(URL.createObjectURL(defaultFile));
+      setPreview(
+        defaultFile instanceof File
+          ? URL.createObjectURL(defaultFile)
+          : defaultFile,
+      );
     }
   }, [defaultFile]);
   return (
@@ -37,7 +41,7 @@ function Thumbnail({ getFile, className, defaultFile }: Props) {
         }}
       />
       {preview ? (
-        <div className="w-full h-full relative">
+        <div className="w-full h-full relative overflow-hidden">
           <UpTubeImage src={preview} alt="Thumbnail" />
         </div>
       ) : (

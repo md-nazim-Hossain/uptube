@@ -12,6 +12,7 @@ type Props = {
   thumbnail?: File;
   defaultFile?: File | null;
   onDelete: () => void;
+  isEdit?: boolean;
 };
 
 function UploadContent({
@@ -20,11 +21,16 @@ function UploadContent({
   defaultFile,
   thumbnail,
   onDelete,
+  isEdit,
 }: Props) {
   const [preview, setPreview] = React.useState("");
   useEffect(() => {
     if (defaultFile) {
-      setPreview(URL.createObjectURL(defaultFile));
+      setPreview(
+        defaultFile instanceof File
+          ? URL.createObjectURL(defaultFile)
+          : defaultFile,
+      );
     }
   }, [defaultFile]);
   return (
@@ -34,7 +40,7 @@ function UploadContent({
         className,
       )}
     >
-      {preview && (
+      {preview && !isEdit && (
         <Button
           type="button"
           onClick={() => {
@@ -64,7 +70,13 @@ function UploadContent({
       {preview ? (
         <div className="w-full h-full relative">
           <ReactPlayer
-            light={thumbnail ? URL.createObjectURL(thumbnail) : false}
+            light={
+              thumbnail
+                ? thumbnail instanceof File
+                  ? URL.createObjectURL(thumbnail)
+                  : thumbnail
+                : false
+            }
             className="w-full h-full"
             url={preview}
             controls

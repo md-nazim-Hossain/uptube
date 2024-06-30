@@ -1,13 +1,8 @@
-import ContentTabs from "@/components/studio/content/content-tabs";
-import { Typography } from "@/components/ui/typography";
+import { redirect } from "next/navigation";
 import React from "react";
 
 function ContentPage() {
-  return (
-    <div>
-      <ContentTabs />
-    </div>
-  );
+  redirect("/studio/content/videos");
 }
 
 export default ContentPage;

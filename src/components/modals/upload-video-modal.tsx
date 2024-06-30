@@ -33,6 +33,15 @@ import { IAPIResponse } from "@/types";
 type Props = {
   trigger: React.ReactNode;
   className?: string;
+  isEdit?: boolean;
+  defaultValue?: {
+    _id: string;
+    title: string;
+    description: string;
+    videoFiles: string;
+    thumbnail: string;
+    isPublished: boolean;
+  };
 };
 
 const formSchema = z.object({
@@ -43,33 +52,27 @@ const formSchema = z.object({
     .max(500),
   videoFiles: z
     .any()
-    .refine((file) => file, { message: "This field is required." })
-    .refine(
-      (file) => file?.type?.startsWith("video/"),
-      "Only Video are supported.",
-    ),
+    .refine((file) => file, { message: "This field is required." }),
   thumbnail: z
     .any()
-    .refine((file) => file, { message: "This field is required." })
-    .refine(
-      (file) => file?.type?.startsWith("image/"),
-      "Only Image are supported.",
-    ),
+    .refine((file) => file, { message: "This field is required." }),
   isPublished: z.boolean(),
 });
 
-function UploadVideoModal({ trigger, className }: Props) {
+function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      isPublished: false,
-      videoFiles: "",
-      thumbnail: "",
-    },
+    defaultValues: isEdit
+      ? defaultValue
+      : {
+          title: "",
+          description: "",
+          isPublished: false,
+          videoFiles: "",
+          thumbnail: "",
+        },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -77,16 +80,26 @@ function UploadVideoModal({ trigger, className }: Props) {
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("isPublished", String(values.isPublished));
-      formData.append("videoFiles", values.videoFiles);
       formData.append("thumbnail", values.thumbnail);
-      await axios.post("/videos/upload-video", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      if (isEdit) {
+        await axios.put(`/videos/update-video/${defaultValue?._id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        formData.append("videoFiles", values.videoFiles);
+        await axios.post("/videos/upload-video", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
       toast({
-        title: "Upload Successful",
-        description: "You have successfully uploaded a video.",
+        title: `${isEdit ? "Update" : "Upload"} Successful`,
+        description: `You have successfully ${
+          isEdit ? "updated" : "uploaded"
+        } a video.`,
       });
       form.reset();
       setOpen(false);
@@ -100,10 +113,10 @@ function UploadVideoModal({ trigger, className }: Props) {
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="block">{trigger}</DialogTrigger>
+      <DialogTrigger className="block w-full">{trigger}</DialogTrigger>
       <DialogContent className={cn("", className)}>
         <DialogHeader>
-          <DialogTitle>Upload Video</DialogTitle>
+          <DialogTitle>{isEdit ? "Update" : "Upload"} Video</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -159,13 +172,14 @@ function UploadVideoModal({ trigger, className }: Props) {
                     <FormControl>
                       <UploadContent
                         defaultFile={field?.value}
+                        isEdit={isEdit}
                         getFile={(file) => {
                           field.onChange(file);
                           form.setValue("title", file?.name || "");
                         }}
                         thumbnail={form.getValues().thumbnail}
                         onDelete={() => {
-                          field.onChange(null);
+                          !isEdit && field.onChange(null);
                         }}
                       />
                     </FormControl>
@@ -185,7 +199,9 @@ function UploadVideoModal({ trigger, className }: Props) {
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormLabel className="text-sm">Publish this video</FormLabel>
+                  <FormLabel className="text-sm cursor-pointer">
+                    Publish this video
+                  </FormLabel>
                 </FormItem>
               )}
             />
@@ -193,12 +209,14 @@ function UploadVideoModal({ trigger, className }: Props) {
               <FormSubmitButton
                 className="rounded"
                 loading={form.formState.isSubmitting}
-                loadingText="Uploading..."
+                loadingText={isEdit ? "Updating..." : "Uploading..."}
                 disabled={
-                  form.formState.isSubmitting || !form.formState.isValid
+                  form.formState.isSubmitting ||
+                  (!isEdit && !form.formState.isValid) ||
+                  !form.formState.isDirty
                 }
               >
-                Upload
+                {isEdit ? "Update" : "Upload"}
               </FormSubmitButton>
             </div>
           </form>

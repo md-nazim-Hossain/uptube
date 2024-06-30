@@ -59,3 +59,28 @@ export interface IPlayList {
   description: string;
   videos: any[];
 }
+
+export interface IPlayList {
+  _id: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IVideo {
+  _id: string;
+  title: string;
+  description: string;
+  videoFile: string;
+  thumbnail: string;
+  duration: number;
+  views: number;
+  isPublished: boolean;
+  owner: string;
+  createdAt: string;
+  updatedAt: string;
+  comments: number;
+  likes: number;
+  isLiked: boolean;
+  playLists: IPlayList[];
+}

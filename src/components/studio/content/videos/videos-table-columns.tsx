@@ -3,11 +3,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
-import { DataTableRowActions } from "@/components/table/data-table-row-actions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
+import { IVideo } from "@/types";
+import { viewsFormat } from "@/utils/video";
+import UpTubeImage from "@/components/uptube/uptube-image";
+import { Typography } from "@/components/ui/typography";
+import { DataTableRowActions } from "./data-table-row-actions";
 
-export const VideosTableColumn: ColumnDef<any>[] = [
+export const VideosTableColumn: ColumnDef<IVideo>[] = [
   {
     id: "select",
     header: ({ table, column }) => (
@@ -25,14 +29,34 @@ export const VideosTableColumn: ColumnDef<any>[] = [
         <DataTableColumnHeader column={column} title="Video" />
       </div>
     ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex gap-5">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+            className="translate-y-[2px]"
+          />
+          <div className="flex items-center gap-3">
+            <div className="w-[120px] h-[68px] relative overflow-hidden">
+              <UpTubeImage
+                src={row?.original?.thumbnail}
+                alt={row?.original?.title}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <Typography variant={"small"} className="text-sm">
+                {row?.original?.title}
+              </Typography>
+              <Typography variant={"muted"} className="text-xs">
+                {row?.original?.description}
+              </Typography>
+            </div>
+          </div>
+        </div>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -57,7 +81,7 @@ export const VideosTableColumn: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex w-[100px] items-center">
-          {format(new Date(row.getValue("updatedAt")), "dd MMM, yyyy")}
+          {format(new Date(row.getValue("updatedAt")), "dd MMM yyyy")}
         </div>
       );
     },
@@ -71,7 +95,11 @@ export const VideosTableColumn: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Views" />
     ),
     cell: ({ row }) => {
-      return <div className="flex items-center">{row.getValue("views")}</div>;
+      return (
+        <div className="flex items-center">
+          {viewsFormat(row.getValue("views"))}
+        </div>
+      );
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
@@ -84,7 +112,9 @@ export const VideosTableColumn: ColumnDef<any>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex items-center">{row.getValue("comments")}</div>
+        <div className="flex items-center">
+          {viewsFormat(row.getValue("comments"))}
+        </div>
       );
     },
     filterFn: (row, id, value) => {
@@ -97,7 +127,11 @@ export const VideosTableColumn: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Likes" />
     ),
     cell: ({ row }) => {
-      return <div className="flex items-center">{row.getValue("likes")}</div>;
+      return (
+        <div className="flex items-center">
+          {viewsFormat(row.getValue("likes"))}
+        </div>
+      );
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
@@ -105,6 +139,10 @@ export const VideosTableColumn: ColumnDef<any>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => (
+      <div className="flex items-center justify-center">
+        <DataTableRowActions row={row} />
+      </div>
+    ),
   },
 ];

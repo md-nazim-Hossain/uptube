@@ -13,7 +13,9 @@ export const useSignOut = () => {
   const signOut = async () => {
     try {
       setIsLoading(true);
-      const res = (await axios.post("/users/logout")) as IAPIResponse<any>;
+      const res = (await axios
+        .post("/users/logout")
+        .then((res) => res.data)) as IAPIResponse<any>;
       if (!res.success) throw new Error(res.message);
       removeUser();
       toast({

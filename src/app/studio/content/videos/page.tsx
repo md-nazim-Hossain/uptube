@@ -1,11 +1,22 @@
-import { VideosTableColumn } from "@/components/studio/content/videos-table-columns";
+import { VideosTableColumn } from "@/components/studio/content/videos/videos-table-columns";
 import { DataTable } from "@/components/table/data-table";
+import axios from "@/utils/axios";
+import { getCookie } from "cookies-next";
 import React from "react";
+import { cookies } from "next/headers";
+import { IAPIResponse, IVideo } from "@/types";
 
-function page() {
+async function page() {
+  const data = (await axios
+    .get("/videos/get-all-videos-by-user", {
+      headers: {
+        Authorization: `Bearer ${getCookie("accessToken", { cookies })}`,
+      },
+    })
+    .then((res) => res.data)) as IAPIResponse<IVideo[]>;
   return (
     <div className="pt-5">
-      <DataTable columns={VideosTableColumn} data={[]} />
+      <DataTable columns={VideosTableColumn} data={data?.data || []} />
     </div>
   );
 }

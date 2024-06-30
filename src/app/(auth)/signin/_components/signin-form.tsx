@@ -52,11 +52,9 @@ function SignInForm({ handleChangePage }: Props) {
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = (await axios.post(
-        "/users/login",
-        values,
-      )) as IAPIResponse<IUser>;
-      if (!res.success) throw new Error(res.message);
+      const res = (await axios
+        .post("/users/login", values)
+        .then((res) => res.data)) as IAPIResponse<IUser>;
       setUser(res.data as IUser);
       toast({
         title: "Login Successful",
@@ -67,7 +65,7 @@ function SignInForm({ handleChangePage }: Props) {
       console.log(error);
       toast({
         title: "Login Failed",
-        description: error?.message,
+        description: error?.data.message,
         variant: "destructive",
       });
     }
