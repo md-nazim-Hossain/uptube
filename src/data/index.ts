@@ -38,7 +38,7 @@ export const studioSidebarData = [
   {
     label: "Content",
     Icon: MdOutlineVideoLibrary,
-    href: "/studio/content",
+    href: "/studio/content/videos",
   },
   {
     label: "Comments",
