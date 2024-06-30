@@ -18,26 +18,42 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
   FormSubmitButton,
 } from "../ui/form";
 import { Textarea } from "../ui/textarea";
 import { AxiosError } from "axios";
 import axios from "@/utils/axios";
+import { Input } from "../ui/input";
+import { Checkbox } from "../ui/checkbox";
 
 type Props = {
   trigger: React.ReactNode;
   className?: string;
   isEdit?: boolean;
   defaultValue?: {
-    content: string;
+    name: string;
+    description: string;
+    _id: string;
+    isPublished: boolean;
   };
 };
 
 const formSchema = z.object({
-  content: z.string().min(1, { message: "This field has to be filled." }),
+  name: z.string().min(1, { message: "This field has to be filled." }),
+  description: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .max(500),
+  isPublished: z.boolean().default(false),
 });
-function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
+function PlaylistFormModal({
+  trigger,
+  className,
+  isEdit,
+  defaultValue,
+}: Props) {
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,21 +61,26 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
     defaultValues: isEdit
       ? defaultValue
       : {
-          content: "",
+          name: "",
+          description: "",
+          isPublished: false,
         },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (isEdit) {
-        await axios.put("/tweets/update-tweet", values);
+        await axios.put(
+          "/playlists/update-playlist/" + defaultValue?._id,
+          values,
+        );
       } else {
-        await axios.post("/tweets/create-tweet", values);
+        await axios.post("/playlists/create-playlist", values);
       }
       toast({
-        title: `${isEdit ? "Update" : "Create"} Create Successful`,
+        title: `${isEdit ? "Update" : "Create"} Successful`,
         description: `You have successfully ${
           isEdit ? "updated" : "created"
-        } a tweet.`,
+        } a playlist.`,
       });
       form.reset();
       setOpen(false);
@@ -76,15 +97,30 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
       <DialogTrigger className="block w-full">{trigger}</DialogTrigger>
       <DialogContent className={cn("", className)}>
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Update" : "Create"} Post</DialogTitle>
+          <DialogTitle>{isEdit ? "Update" : "Create"} Playlist</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="content"
+              name="name"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea placeholder="Write a text..." {...field} />
                   </FormControl>
@@ -92,17 +128,33 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="isPublished"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="text-sm cursor-pointer">
+                    Publish this playlist
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
             <div className="flex justify-end">
               <FormSubmitButton
                 className="rounded"
                 loading={form.formState.isSubmitting}
-                loadingText={isEdit ? "Updating..." : "Posting..."}
+                loadingText={isEdit ? "Updating..." : "Creating..."}
                 disabled={
                   form.formState.isSubmitting || !form.formState.isValid
                 }
               >
-                {isEdit ? "Update" : "Post"}
+                {isEdit ? "Update" : "Create"}
               </FormSubmitButton>
             </div>
           </form>
@@ -112,4 +164,4 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
   );
 }
 
-export default TweetFormModal;
+export default PlaylistFormModal;

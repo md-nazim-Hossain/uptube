@@ -15,8 +15,12 @@ async function page() {
     })
     .then((res) => res.data)) as IAPIResponse<IVideo[]>;
   return (
-    <div className="pt-5">
-      <DataTable columns={VideosTableColumn} data={data?.data || []} />
+    <div>
+      <DataTable
+        searchField="title"
+        columns={VideosTableColumn}
+        data={data?.data || []}
+      />
     </div>
   );
 }

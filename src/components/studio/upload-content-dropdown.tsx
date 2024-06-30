@@ -16,6 +16,7 @@ import {
 } from "react-icons/pi";
 import UploadVideoModal from "../modals/upload-video-modal";
 import TweetFormModal from "../modals/tweet-form-modal";
+import PlaylistFormModal from "../modals/playlist-form-modal";
 
 function UploadContentDropdown() {
   const router = useRouter();
@@ -53,10 +54,17 @@ function UploadContentDropdown() {
             </DropdownMenuItem>
           }
         />
-        <DropdownMenuItem className="w-full">
-          <PiPlaylistThin className="w-6 h-5 mr-2 text-secondary" />
-          <span className="text-secondary">New Playlist</span>
-        </DropdownMenuItem>
+        <PlaylistFormModal
+          trigger={
+            <DropdownMenuItem
+              onSelect={(e) => e.preventDefault()}
+              className="w-full"
+            >
+              <PiPlaylistThin className="w-6 h-5 mr-2 text-secondary" />
+              <span className="text-secondary">New Playlist</span>
+            </DropdownMenuItem>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

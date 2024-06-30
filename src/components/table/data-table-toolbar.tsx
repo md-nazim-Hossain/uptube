@@ -12,11 +12,13 @@ import { Button } from "../ui/button";
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   placeHolder?: string;
+  searchField?: string;
 }
 
 export function DataTableToolbar<TData>({
   table,
   placeHolder,
+  searchField,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -25,9 +27,13 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder={placeHolder ?? "Filter videos..."}
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn(searchField ?? "")?.getFilterValue() as string) ??
+            ""
+          }
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            searchField &&
+            table.getColumn(searchField)?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />

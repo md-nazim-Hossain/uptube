@@ -9,7 +9,7 @@ function ContentRootLayout({ children }: { children: React.ReactNode }) {
         Channel Content
       </Typography>
       <ContentTabs />
-      {children}
+      <div className="pt-5">{children}</div>
     </div>
   );
 }
