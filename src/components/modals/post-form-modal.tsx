@@ -41,7 +41,7 @@ type Props = {
 const formSchema = z.object({
   content: z.string().min(1, { message: "This field has to be filled." }),
 });
-function TweetFormModal({
+function PostFormModal({
   trigger,
   className,
   isEdit,
@@ -70,7 +70,7 @@ function TweetFormModal({
         title: `${isEdit ? "Update" : "Create"} Create Successful`,
         description: `You have successfully ${
           isEdit ? "updated" : "created"
-        } a tweet.`,
+        } a post.`,
       });
       form.reset();
       setOpen(false);
@@ -132,4 +132,4 @@ function TweetFormModal({
   );
 }
 
-export default TweetFormModal;
+export default PostFormModal;

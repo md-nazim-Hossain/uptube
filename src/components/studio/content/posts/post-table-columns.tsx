@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { viewsFormat } from "@/utils/video";
 import { Typography } from "@/components/ui/typography";
 import { PostTableRowActions } from "./post-table-row-actions";
-import TweetFormModal from "@/components/modals/tweet-form-modal";
+import PostFormModal from "@/components/modals/post-form-modal";
 
 export const PostTableColumns: ColumnDef<any>[] = [
   {
@@ -17,7 +17,7 @@ export const PostTableColumns: ColumnDef<any>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <TweetFormModal
+        <PostFormModal
           isEdit
           defaultValue={{
             content: row?.getValue("content"),

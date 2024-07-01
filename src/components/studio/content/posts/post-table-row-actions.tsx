@@ -11,10 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import PlaylistFormModal from "@/components/modals/playlist-form-modal";
 import DeleteAlertModal from "@/components/modals/delete-alert-modal";
 import { useDelete } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
+import PostFormModal from "@/components/modals/post-form-modal";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -23,7 +23,7 @@ interface DataTableRowActionsProps<TData> {
 export function PostTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const { _id, name, description, isPublished } = row.original as any;
+  const { _id, content } = row.original as any;
   const { mutateAsync } = useDelete<any>(
     apiRoutes.posts.deletePost,
     apiRoutes.posts.getAllUserPosts,
@@ -46,13 +46,11 @@ export function PostTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <PlaylistFormModal
+        <PostFormModal
           isEdit
           defaultValue={{
             _id,
-            name,
-            description,
-            isPublished,
+            content,
           }}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

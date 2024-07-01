@@ -15,7 +15,7 @@ import {
   PiVideoLight,
 } from "react-icons/pi";
 import UploadVideoModal from "../modals/upload-video-modal";
-import TweetFormModal from "../modals/tweet-form-modal";
+import PostFormModal from "../modals/post-form-modal";
 import PlaylistFormModal from "../modals/playlist-form-modal";
 
 function UploadContentDropdown() {
@@ -43,7 +43,7 @@ function UploadContentDropdown() {
             </DropdownMenuItem>
           }
         />
-        <TweetFormModal
+        <PostFormModal
           trigger={
             <DropdownMenuItem
               className="w-full"
