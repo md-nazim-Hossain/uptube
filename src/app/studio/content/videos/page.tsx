@@ -5,10 +5,11 @@ import { getCookie } from "cookies-next";
 import React from "react";
 import { cookies } from "next/headers";
 import { IAPIResponse, IVideo } from "@/types";
+import { apiRoutes } from "@/utils/routes";
 
 async function page() {
   const data = (await axios
-    .get("/videos/get-all-videos-by-user", {
+    .get(apiRoutes.videos.getAllVideosByUser, {
       headers: {
         Authorization: `Bearer ${getCookie("accessToken", { cookies })}`,
       },

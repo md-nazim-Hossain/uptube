@@ -1,5 +1,5 @@
 import DiscoverSlider from "@/components/slider/discover-slider";
-import MoviesSlider from "@/components/slider/movies-slider";
+import ShortsSlider from "@/components/slider/shorts-slider";
 import TopFans from "@/components/top-fans";
 import { Typography } from "@/components/ui/typography";
 import Videos from "@/components/videos";
@@ -21,8 +21,10 @@ export default function Home() {
       </div>
 
       <div>
-        <Typography variant={"h3"}>Movies</Typography>
-        <MoviesSlider movies={youtubeVideos} />
+        <Typography variant={"h3"}>Shorts</Typography>
+        <ShortsSlider movies={youtubeVideos} />
+        <Typography variant={"h3"}>Feed</Typography>
+        <Videos videos={youtubeVideos} />
       </div>
     </main>
   );

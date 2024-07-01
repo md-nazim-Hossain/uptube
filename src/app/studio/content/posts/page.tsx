@@ -5,10 +5,11 @@ import React from "react";
 import { cookies } from "next/headers";
 import axios from "@/utils/axios";
 import { IAPIResponse } from "@/types";
+import { apiRoutes } from "@/utils/routes";
 
 async function PostsPage() {
   const data = (await axios
-    .get("/tweets/get-all-user-tweets", {
+    .get(apiRoutes.posts.getAllUserPosts, {
       headers: {
         Authorization: `Bearer ${getCookie("accessToken", { cookies })}`,
       },

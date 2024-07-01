@@ -24,6 +24,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { AxiosError } from "axios";
 import axios from "@/utils/axios";
+import { apiRoutes } from "@/utils/routes";
 
 type Props = {
   trigger: React.ReactNode;
@@ -59,9 +60,9 @@ function TweetFormModal({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (isEdit) {
-        await axios.put("/tweets/update-tweet/" + defaultValue?._id, values);
+        await axios.put(apiRoutes.posts.updatePost + defaultValue?._id, values);
       } else {
-        await axios.post("/tweets/create-tweet", values);
+        await axios.post(apiRoutes.posts.createPost, values);
       }
       toast({
         title: `${isEdit ? "Update" : "Create"} Create Successful`,

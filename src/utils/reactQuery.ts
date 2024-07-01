@@ -25,7 +25,11 @@ export const fetcher = async <T>({
     .then((res) => res.data);
 };
 
-export const useLoadMore = <T>(url: string | null, params?: object) => {
+export const useLoadMore = <T>(
+  url: string | null,
+  params?: object,
+  initialData?: any[],
+) => {
   const context = useInfiniteQuery<
     GetInfinitePagesInterface<T>,
     Error,
@@ -35,10 +39,11 @@ export const useLoadMore = <T>(url: string | null, params?: object) => {
     queryKey: [url!, params],
     queryFn: ({ queryKey, pageParam }) => fetcher({ queryKey, pageParam }),
     initialPageParam: 1,
-    getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
+    getPreviousPageParam: (firstPage) => firstPage?.previousId ?? false,
     getNextPageParam: (lastPage) => {
-      return lastPage.nextId ?? false;
+      return lastPage?.nextId ?? false;
     },
+    // initialData: { pageParams: [1], pages: initialData ?? [] },
   });
 
   return context;

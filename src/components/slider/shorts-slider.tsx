@@ -17,7 +17,7 @@ type Props = {
   movies: IYoutubeVideo[];
   className?: string;
 };
-function MoviesSlider({ movies, className }: Props) {
+function ShortsSlider({ movies, className }: Props) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -77,4 +77,4 @@ function MoviesSlider({ movies, className }: Props) {
   );
 }
 
-export default MoviesSlider;
+export default ShortsSlider;

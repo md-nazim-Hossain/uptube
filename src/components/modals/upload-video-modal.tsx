@@ -29,6 +29,7 @@ import axios from "@/utils/axios";
 import { useToast } from "../ui/use-toast";
 import { AxiosError } from "axios";
 import { IAPIResponse } from "@/types";
+import { apiRoutes } from "@/utils/routes";
 
 type Props = {
   trigger: React.ReactNode;
@@ -82,14 +83,18 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       formData.append("isPublished", String(values.isPublished));
       formData.append("thumbnail", values.thumbnail);
       if (isEdit) {
-        await axios.put(`/videos/update-video/${defaultValue?._id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
+        await axios.put(
+          `${apiRoutes.videos.updateVideo}${defaultValue?._id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
-        });
+        );
       } else {
         formData.append("videoFiles", values.videoFiles);
-        await axios.post("/videos/upload-video", formData, {
+        await axios.post(apiRoutes.videos.uploadVideo, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

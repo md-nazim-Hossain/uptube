@@ -27,6 +27,7 @@ import { AxiosError } from "axios";
 import axios from "@/utils/axios";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
+import { apiRoutes } from "@/utils/routes";
 
 type Props = {
   trigger: React.ReactNode;
@@ -70,11 +71,11 @@ function PlaylistFormModal({
     try {
       if (isEdit) {
         await axios.put(
-          "/playlists/update-playlist/" + defaultValue?._id,
+          apiRoutes.playlists.updatePlaylist + defaultValue?._id,
           values,
         );
       } else {
-        await axios.post("/playlists/create-playlist", values);
+        await axios.post(apiRoutes.playlists.createPlaylist, values);
       }
       toast({
         title: `${isEdit ? "Update" : "Create"} Successful`,

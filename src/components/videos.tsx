@@ -3,12 +3,15 @@ import { IYoutubeVideo } from "@/types";
 import React from "react";
 import SingleVideoCard from "./single-video-card";
 import { cn } from "@/lib/utils";
+import { useLoadMore } from "@/utils/reactQuery";
 
 type Props = {
   videos: IYoutubeVideo[];
   className?: string;
 };
 function Videos({ videos, className }: Props) {
+  const { data } = useLoadMore<any>("/videos/get-all-videos", {});
+  console.log(data);
   return (
     <div
       className={cn(
