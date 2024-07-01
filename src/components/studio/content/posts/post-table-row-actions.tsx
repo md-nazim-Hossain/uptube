@@ -11,8 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { IPlayList } from "@/types";
 import PlaylistFormModal from "@/components/modals/playlist-form-modal";
+import DeleteAlertModal from "@/components/modals/delete-alert-modal";
+import { useDelete } from "@/utils/reactQuery";
+import { apiRoutes } from "@/utils/routes";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -21,7 +23,17 @@ interface DataTableRowActionsProps<TData> {
 export function PostTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const { _id, name, description, isPublished } = row.original as IPlayList;
+  const { _id, name, description, isPublished } = row.original as any;
+  const { mutateAsync } = useDelete<any>(
+    apiRoutes.posts.deletePost,
+    apiRoutes.posts.getAllUserPosts,
+    undefined,
+    (oldData, id) => {
+      return {
+        data: oldData?.data?.filter((post: any) => post._id !== id),
+      };
+    },
+  );
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -48,10 +60,20 @@ export function PostTableRowActions<TData>({
             </DropdownMenuItem>
           }
         />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <DeleteAlertModal
+          text="post"
+          onDelete={async () => {
+            try {
+              await mutateAsync(_id);
+            } catch (error) {}
+          }}
+          trigger={
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              Delete
+              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

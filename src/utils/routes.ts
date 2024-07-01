@@ -5,7 +5,7 @@ export const apiRoutes = {
     uploadVideo: "/videos/upload-video",
     getAllVideosByUser: "/videos/get-all-videos-by-user",
     updateVideo: "/videos/update-video/",
-    deleteVideo: "/videos/delete-video/",
+    deleteVideo: "/videos/delete-video",
   },
   users: {
     getCurrentUser: "/users/user",
@@ -14,19 +14,19 @@ export const apiRoutes = {
     getAllUserPosts: "/tweets/get-all-user-tweets",
     createPost: "/tweets/create-tweet",
     updatePost: "/tweets/update-tweet/",
-    deletePost: "/tweets/delete-tweet/",
+    deletePost: "/tweets/delete-tweet",
   },
   comments: {
     createComment: "/comments/create-comment",
     updateComment: "/comments/update-comment/",
-    deleteComment: "/comments/delete-comment/",
+    deleteComment: "/comments/delete-comment",
   },
   playlists: {
     getAllPlaylists: "/playlists/get-all-playlists",
     getPlaylistById: "/playlists",
     createPlaylist: "/playlists/create-playlist",
     updatePlaylist: "/playlists/update-playlist/",
-    deletePlaylist: "/playlists/delete-playlist/",
+    deletePlaylist: "/playlists/delete-playlist",
   },
 };
 

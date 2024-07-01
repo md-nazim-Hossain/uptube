@@ -9,6 +9,7 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { api } from "./api";
 import { GetInfinitePagesInterface } from "@/types";
+import { useToast } from "@/components/ui/use-toast";
 
 type QueryKeyT = [string, object | undefined];
 
@@ -81,32 +82,38 @@ export const useFetch = <T>(
 const useGenericMutation = <T, S>(
   func: (data: T | S) => Promise<AxiosResponse<S>>,
   url: string,
+  updaterQueryKey?: string,
   params?: object,
   updater?: ((oldData: T, newData: S) => T) | undefined,
 ) => {
   const queryClient = useQueryClient();
-
+  const { toast } = useToast();
+  const queryKey = updaterQueryKey ? [updaterQueryKey, params] : [url, params];
   return useMutation<AxiosResponse, AxiosError, T | S>({
     mutationFn: func,
     onMutate: async (data: T | S) => {
       await queryClient.cancelQueries({
-        queryKey: [url!, params],
+        queryKey,
       });
+      const previousData = queryClient.getQueryData(queryKey);
 
-      const previousData = queryClient.getQueryData([url!, params]);
-
-      queryClient.setQueryData<T>([url!, params], (oldData) => {
-        return updater ? updater(oldData!, data as S) : (data as T);
+      queryClient.setQueryData<T>(queryKey, (oldData) => {
+        return updater ? updater(oldData!, data as S) : ({ data } as T);
       });
 
       return previousData;
     },
     onError: (err: any, _: any, context: any) => {
-      queryClient.setQueryData([url!, params], context);
+      queryClient.setQueryData(queryKey, context);
+      toast({
+        title: "Failed",
+        description: err?.data?.message,
+        variant: "destructive",
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [url!, params],
+        queryKey,
       });
     },
   });
@@ -114,12 +121,14 @@ const useGenericMutation = <T, S>(
 
 export const useDelete = <T>(
   url: string,
+  updaterQueryKey?: string,
   params?: object,
   updater?: (oldData: T, id: string | number) => T,
 ) => {
   return useGenericMutation<T, string | number>(
     (id) => api.delete(`${url}/${id}`),
     url,
+    updaterQueryKey,
     params,
     updater,
   );
@@ -127,12 +136,14 @@ export const useDelete = <T>(
 
 export const usePost = <T, S>(
   url: string,
+  updaterQueryKey?: string,
   params?: object,
   updater?: (oldData: T, newData: S) => T,
 ) => {
   return useGenericMutation<T, S>(
     (data) => api.post<S>(url, data),
     url,
+    updaterQueryKey,
     params,
     updater,
   );
@@ -140,12 +151,14 @@ export const usePost = <T, S>(
 
 export const useUpdate = <T, S>(
   url: string,
+  updaterQueryKey?: string,
   params?: object,
   updater?: (oldData: T, newData: S) => T,
 ) => {
   return useGenericMutation<T, S>(
     (data) => api.patch<S>(url, data),
     url,
+    updaterQueryKey,
     params,
     updater,
   );

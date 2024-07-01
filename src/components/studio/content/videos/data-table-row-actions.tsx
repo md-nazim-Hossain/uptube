@@ -13,6 +13,9 @@ import {
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import UploadVideoModal from "@/components/modals/upload-video-modal";
 import { IVideo } from "@/types";
+import { useDelete } from "@/utils/reactQuery";
+import { apiRoutes } from "@/utils/routes";
+import DeleteAlertModal from "@/components/modals/delete-alert-modal";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -23,6 +26,17 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const { _id, title, description, videoFile, thumbnail, isPublished } =
     row.original as IVideo;
+
+  const { mutateAsync } = useDelete<any>(
+    apiRoutes.videos.deleteVideo,
+    apiRoutes.videos.getAllVideosByUser,
+    undefined,
+    (oldData, id) => {
+      return {
+        data: oldData?.data?.filter((video: IVideo) => video._id !== id),
+      };
+    },
+  );
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -52,10 +66,26 @@ export function DataTableRowActions<TData>({
           }
         />
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <DeleteAlertModal
+          onDelete={() => {
+            try {
+              mutateAsync(_id);
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          text={`${title} video`}
+          trigger={
+            <DropdownMenuItem
+              onSelect={(e) => {
+                e.preventDefault();
+              }}
+            >
+              Delete
+              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );
