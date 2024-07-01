@@ -29,6 +29,10 @@ import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { apiRoutes } from "@/utils/routes";
 import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "../ui/button";
+import SelectMultipleVideoModal from "./select-multiple-video-modal";
+import Image from "next/image";
+import { Typography } from "../ui/typography";
 
 type Props = {
   trigger: React.ReactNode;
@@ -39,6 +43,7 @@ type Props = {
     description: string;
     _id: string;
     isPublished: boolean;
+    videos: string[];
   };
 };
 
@@ -49,6 +54,9 @@ const formSchema = z.object({
     .min(1, { message: "This field has to be filled." })
     .max(500),
   isPublished: z.boolean().default(false),
+  videos: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
 });
 function PlaylistFormModal({
   trigger,
@@ -67,6 +75,7 @@ function PlaylistFormModal({
           name: "",
           description: "",
           isPublished: false,
+          videos: [],
         },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -134,30 +143,68 @@ function PlaylistFormModal({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="isPublished"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className="text-sm cursor-pointer">
-                    Publish this playlist
-                  </FormLabel>
-                </FormItem>
-              )}
-            />
+            <div className="flex justify-between items-center gap-5">
+              <FormField
+                control={form.control}
+                name="isPublished"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm cursor-pointer">
+                      Publish this playlist
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex-1 flex justify-end flex-col items-end">
+                <SelectMultipleVideoModal
+                  name="videos"
+                  trigger={
+                    form.getValues("videos")?.length > 0 ? (
+                      <div className="border h-10 w-max flex items-center justify-between gap-5 px-3">
+                        <div className="flex items-center gap-2">
+                          <Image
+                            src={"/assets/images/icons/videos.svg"}
+                            alt={"video"}
+                            width={24}
+                            height={20}
+                          />
+                          <Typography variant={"muted"}>
+                            {form.watch("videos").length} Videos
+                          </Typography>
+                        </div>
+                      </div>
+                    ) : (
+                      <Button
+                        className="rounded w-max"
+                        variant={"flat"}
+                        type="button"
+                      >
+                        Add Videos
+                      </Button>
+                    )
+                  }
+                />
+                {form.formState.errors.videos && (
+                  <Typography variant={"muted"} className="text-red-500">
+                    {form.formState.errors.videos.message}
+                  </Typography>
+                )}
+              </div>
+            </div>
             <div className="flex justify-end">
               <FormSubmitButton
                 className="rounded"
                 loading={form.formState.isSubmitting}
                 loadingText={isEdit ? "Updating..." : "Creating..."}
                 disabled={
-                  form.formState.isSubmitting || !form.formState.isValid
+                  form.formState.isSubmitting || !form.formState.isDirty
                 }
               >
                 {isEdit ? "Update" : "Create"}

@@ -6,7 +6,7 @@ function StudioRootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <StudioNavbar />
-      <div className="min-h-[calc(100vh-56px)] w-full flex">
+      <div className="h-[calc(100vh-56px)] w-full flex overflow-hidden fixed">
         <Sidebar />
         <div className="flex-1">{children}</div>
       </div>

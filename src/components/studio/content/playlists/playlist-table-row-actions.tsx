@@ -24,7 +24,7 @@ interface DataTableRowActionsProps<TData> {
 export function PlaylistTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const { _id, name, description, isPublished } = row.original as IPlayList;
+  const { _id } = row.original as IPlayList;
   const { mutateAsync } = useDelete<any>(
     apiRoutes.playlists.deletePlaylist,
     apiRoutes.playlists.getAllPlaylists,
@@ -50,10 +50,10 @@ export function PlaylistTableRowActions<TData>({
         <PlaylistFormModal
           isEdit
           defaultValue={{
-            _id,
-            name,
-            description,
-            isPublished,
+            ...(row?.original as IPlayList),
+            videos: (row?.original as IPlayList)?.videos?.map(
+              (video) => video._id,
+            ),
           }}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

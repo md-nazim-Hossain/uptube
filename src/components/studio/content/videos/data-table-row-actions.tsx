@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import UploadVideoModal from "@/components/modals/upload-video-modal";
-import { IVideo } from "@/types";
-import { useDelete } from "@/utils/reactQuery";
+import { IAPIResponse, IVideo } from "@/types";
+import { useDelete, usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import DeleteAlertModal from "@/components/modals/delete-alert-modal";
 
@@ -34,6 +34,19 @@ export function DataTableRowActions<TData>({
     (oldData, id) => {
       return {
         data: oldData?.data?.filter((video: IVideo) => video._id !== id),
+      };
+    },
+  );
+  const { mutateAsync: makeACopy } = usePost<IAPIResponse<IVideo[]>, IVideo>(
+    apiRoutes.videos.makeACopy + "/" + _id,
+    apiRoutes.videos.getAllVideosByUser,
+    undefined,
+    (oldData, data) => {
+      return {
+        data: [data, ...(oldData?.data || [])],
+        error: null,
+        success: true,
+        message: "Video copied successfully",
       };
     },
   );
@@ -65,7 +78,15 @@ export function DataTableRowActions<TData>({
             </DropdownMenuItem>
           }
         />
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={async () => {
+            try {
+              makeACopy(row.original as IVideo);
+            } catch (error) {}
+          }}
+        >
+          Make a copy
+        </DropdownMenuItem>
         <DeleteAlertModal
           onDelete={() => {
             try {

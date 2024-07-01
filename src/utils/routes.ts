@@ -6,6 +6,7 @@ export const apiRoutes = {
     getAllVideosByUser: "/videos/get-all-videos-by-user",
     updateVideo: "/videos/update-video/",
     deleteVideo: "/videos/delete-video",
+    makeACopy: "/videos/make-copy",
   },
   users: {
     getCurrentUser: "/users/user",

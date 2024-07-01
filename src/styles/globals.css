@@ -84,6 +84,13 @@
   .studio-container {
     @apply px-5 lg:px-8;
   }
+  .scroll::-webkit-scrollbar-thumb {
+    @apply bg-primary/20 rounded-sm;
+  }
+
+  .scroll::-webkit-scrollbar {
+    @apply w-1;
+  }
 }
 
 @layer components {

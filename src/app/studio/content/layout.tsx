@@ -4,13 +4,15 @@ import React from "react";
 
 function ContentRootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <>
       <Typography variant={"h3"} className="studio-container py-5">
         Channel Content
       </Typography>
       <ContentTabs />
-      <div className="pt-5">{children}</div>
-    </div>
+      <div className="py-5 h-[calc(100vh-177px)] scroll overflow-y-auto">
+        {children}
+      </div>
+    </>
   );
 }
 

@@ -19,12 +19,16 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
       <DataTableColumnHeader column={column} title="Playlist" />
     ),
     cell: ({ row }) => {
+      const videos = row?.original?.videos?.map((video) => video._id);
       return (
         <div className="flex items-center gap-3">
           <div className="w-[120px] h-[68px] relative overflow-hidden">
             <PlaylistFormModal
               isEdit
-              defaultValue={row?.original}
+              defaultValue={{
+                ...row?.original,
+                videos,
+              }}
               trigger={
                 <>
                   <div className="absolute flex justify-center items-center top-0 right-0 z-10 w-1/2 h-full bg-black/70">

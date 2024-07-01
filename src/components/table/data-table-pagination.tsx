@@ -40,7 +40,7 @@ export function DataTablePagination<TData>({
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -55,7 +55,7 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex border-primary/20"
+            className="hidden h-8 w-8 p-0 lg:flex border-primary/20 hover:bg-primary/40"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -64,7 +64,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0 border-primary/20"
+            className="h-8 w-8 p-0 border-primary/20 hover:bg-primary/40"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -73,7 +73,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="h-8 w-8 p-0 border-primary/20"
+            className="h-8 w-8 p-0 border-primary/20 hover:bg-primary/40"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -82,7 +82,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex border-primary/20"
+            className="hidden h-8 w-8 p-0 lg:flex border-primary/20 hover:bg-primary/40"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
