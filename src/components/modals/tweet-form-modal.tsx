@@ -29,15 +29,23 @@ type Props = {
   trigger: React.ReactNode;
   className?: string;
   isEdit?: boolean;
+  triggerClassName?: string;
   defaultValue?: {
     content: string;
+    _id: string;
   };
 };
 
 const formSchema = z.object({
   content: z.string().min(1, { message: "This field has to be filled." }),
 });
-function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
+function TweetFormModal({
+  trigger,
+  className,
+  isEdit,
+  defaultValue,
+  triggerClassName,
+}: Props) {
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,7 +59,7 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (isEdit) {
-        await axios.put("/tweets/update-tweet", values);
+        await axios.put("/tweets/update-tweet/" + defaultValue?._id, values);
       } else {
         await axios.post("/tweets/create-tweet", values);
       }
@@ -73,7 +81,9 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="block w-full">{trigger}</DialogTrigger>
+      <DialogTrigger className={cn("block w-full", triggerClassName)}>
+        {trigger}
+      </DialogTrigger>
       <DialogContent className={cn("", className)}>
         <DialogHeader>
           <DialogTitle>{isEdit ? "Update" : "Create"} Post</DialogTitle>
@@ -86,7 +96,11 @@ function TweetFormModal({ trigger, className, isEdit, defaultValue }: Props) {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea placeholder="Write a text..." {...field} />
+                    <Textarea
+                      rows={10}
+                      placeholder="Write a text..."
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

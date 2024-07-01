@@ -14,7 +14,7 @@ import PlaylistFormModal from "@/components/modals/playlist-form-modal";
 
 export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
   {
-    id: "select",
+    accessorKey: "name",
     header: ({ table, column }) => (
       <DataTableColumnHeader column={column} title="Playlist" />
     ),
@@ -52,8 +52,11 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
         </div>
       );
     },
-    enableSorting: false,
-    enableHiding: false,
+  },
+  {
+    accessorKey: "description",
+    header: "",
+    cell: () => <div className="w-0 p-0"></div>,
   },
   {
     accessorKey: "isPublished",
@@ -71,7 +74,7 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
   {
     accessorKey: "updatedAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Updated" />
+      <DataTableColumnHeader isShown column={column} title="Last Updated" />
     ),
     cell: ({ row }) => {
       return (
@@ -96,9 +99,6 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
           {viewsFormat(videos?.length || 0)}
         </div>
       );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
     },
   },
 

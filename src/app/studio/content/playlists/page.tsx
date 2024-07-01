@@ -18,7 +18,6 @@ async function PlaylistPage() {
     <div>
       <DataTable
         searchPlaceholder="Search Playlists..."
-        searchField="name"
         columns={PlaylistTableColumns}
         data={data?.data || []}
       />

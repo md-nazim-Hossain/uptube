@@ -18,7 +18,7 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-export function PlaylistTableRowActions<TData>({
+export function PostTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const { _id, name, description, isPublished } = row.original as IPlayList;

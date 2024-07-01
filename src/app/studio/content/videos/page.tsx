@@ -17,7 +17,7 @@ async function page() {
   return (
     <div>
       <DataTable
-        searchField="title"
+        searchPlaceholder="Search Videos..."
         columns={VideosTableColumn}
         data={data?.data || []}
       />

@@ -15,50 +15,61 @@ export const VideosTableColumn: ColumnDef<IVideo>[] = [
   {
     id: "select",
     header: ({ table, column }) => (
-      <div className="flex items-center gap-5">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value: any) =>
-            table.toggleAllPageRowsSelected(!!value)
-          }
-          aria-label="Select all"
-        />
-        <DataTableColumnHeader column={column} title="Video" />
-      </div>
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
+        aria-label="Select all"
+      />
     ),
+
     cell: ({ row }) => {
       return (
-        <div className="flex gap-5">
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-            className="translate-y-[2px]"
-          />
-          <div className="flex items-center gap-3">
-            <div className="w-[120px] h-[68px] relative overflow-hidden">
-              <UpTubeImage
-                src={row?.original?.thumbnail}
-                alt={row?.original?.title}
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <Typography variant={"small"} className="text-sm">
-                {row?.original?.title}
-              </Typography>
-              <Typography variant={"muted"} className="text-xs">
-                {row?.original?.description}
-              </Typography>
-            </div>
-          </div>
-        </div>
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
       );
     },
     enableSorting: false,
     enableHiding: false,
+  },
+
+  {
+    accessorKey: "title",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Video" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-3">
+          <div className="w-[120px] h-[68px] relative overflow-hidden">
+            <UpTubeImage
+              src={row?.original?.thumbnail}
+              alt={row?.original?.title}
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Typography variant={"small"} className="text-sm">
+              {row?.original?.title}
+            </Typography>
+            <Typography variant={"muted"} className="text-xs">
+              {row?.original?.description}
+            </Typography>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "description",
+    header: "",
+    cell: () => <div className="w-0 p-0"></div>,
   },
   {
     accessorKey: "isPublished",
@@ -101,9 +112,6 @@ export const VideosTableColumn: ColumnDef<IVideo>[] = [
         </div>
       );
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
   },
   {
     accessorKey: "comments",
@@ -117,9 +125,6 @@ export const VideosTableColumn: ColumnDef<IVideo>[] = [
         </div>
       );
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
   },
   {
     accessorKey: "likes",
@@ -132,9 +137,6 @@ export const VideosTableColumn: ColumnDef<IVideo>[] = [
           {viewsFormat(row.getValue("likes"))}
         </div>
       );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
     },
   },
   {
