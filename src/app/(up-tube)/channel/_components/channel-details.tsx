@@ -58,7 +58,7 @@ function ChannelDetails({ isMyChannel = false }: Props) {
       </TabsList>
       <div className="container">
         <TabsContent value="stations">
-          <Videos videos={youtubeVideos} className="py-5" />
+          {/* <Videos videos={youtubeVideos} className="py-5" /> */}
         </TabsContent>
         <TabsContent value="shorts">
           <div>Shorts</div>
@@ -70,7 +70,7 @@ function ChannelDetails({ isMyChannel = false }: Props) {
           <>
             {" "}
             <TabsContent value="likes">
-              <Videos videos={youtubeVideos} className="py-5" />
+              {/* <Videos videos={youtubeVideos} className="py-5" /> */}
             </TabsContent>
             <TabsContent value="followers">
               <div className="grid grid-cols-4 gap-5 py-10">
