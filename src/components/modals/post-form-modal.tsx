@@ -119,7 +119,7 @@ function PostFormModal({
                 loading={form.formState.isSubmitting}
                 loadingText={isEdit ? "Updating..." : "Posting..."}
                 disabled={
-                  form.formState.isSubmitting || !form.formState.isValid
+                  form.formState.isSubmitting || !form.formState.isDirty
                 }
               >
                 {isEdit ? "Update" : "Post"}
