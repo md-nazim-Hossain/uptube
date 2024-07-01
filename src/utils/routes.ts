@@ -10,6 +10,7 @@ export const apiRoutes = {
   },
   users: {
     getCurrentUser: "/users/user",
+    likeVideos: "/users/like-videos",
   },
   posts: {
     getAllUserPosts: "/tweets/get-all-user-tweets",

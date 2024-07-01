@@ -1,44 +1,60 @@
-import { IYoutubeVideo } from "@/types";
+"use client";
+
+import { IVideo } from "@/types";
 import React from "react";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import { Button } from "./ui/button";
 import ShareModal from "./modals/share-modal";
 import { Separator } from "./ui/separator";
 
-type Props = IYoutubeVideo & {
+type Props = IVideo & {
   className?: string;
   playerClassName?: string;
   showAvatar?: boolean;
 };
 function SingleVideoCard({
-  url,
-  songName,
+  thumbnail,
+  videoFile,
+  title,
+  owner,
+  views,
+  duration,
+  createdAt,
+  subscribersCount,
   className,
   playerClassName,
   showAvatar = true,
 }: Props) {
+  const { avatar, username, fullName, isVerified } = owner || {};
   return (
     <VideoCard className={className}>
-      <VideoCard.Player className={playerClassName} url={url} />
+      <VideoCard.Player
+        thumbnail={thumbnail}
+        className={playerClassName}
+        url={videoFile}
+        videoDuration={duration}
+      />
       <VideoCard.Footer>
         <div className="flex flex-1 gap-3">
           {showAvatar && (
             <VideoCardAvatar.Avatar
-              src="https://github.com/shadcn.png"
-              alt="Shadcn"
-              link="/@shadcn"
+              src={avatar}
+              alt={`profile of ${username}`}
+              link={`/${username}`}
             />
           )}
           <div className="w-full h-full">
-            <VideoCard.Link href={`/watch?v=${url}`}>{songName}</VideoCard.Link>
+            <VideoCard.Link href={`/watch?v=${videoFile}`}>
+              {title}
+            </VideoCard.Link>
             <VideoCard.VerifiedBadge
               isVerified
-              fullName="Shadcn"
-              channelName="@shadcn"
+              fullName={fullName}
+              channelName={username}
             >
-              Verified
+              {isVerified ? "Verified" : "Unverified"}
             </VideoCard.VerifiedBadge>
-            <VideoCard.Details views={1000} />
+            <VideoCard.Details createdAt={new Date(createdAt)} views={views} />
           </div>
         </div>
         <VideoCard.Actions>
@@ -48,11 +64,11 @@ function SingleVideoCard({
           <ShareModal
             trigger={<Button variant={"flat"}>Share</Button>}
             user={{
-              subscriber: 1000,
-              avatar: "https://github.com/shadcn.png",
-              fullName: "Shadcn",
+              subscriber: subscribersCount ?? 0,
+              avatar,
+              fullName,
             }}
-            shareLink="/@shadcn"
+            shareLink={`/${username}`}
           />
 
           <Separator />

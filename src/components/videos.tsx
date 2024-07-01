@@ -1,18 +1,23 @@
 "use client";
-import { IYoutubeVideo } from "@/types";
+import { IAPIResponse, IVideo } from "@/types";
 import React from "react";
 import SingleVideoCard from "./single-video-card";
 import { cn } from "@/lib/utils";
-import { useLoadMore } from "@/utils/reactQuery";
+import { useFetch, useLoadMore } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
+import { VideoCardSkeletons } from "./skeletons/video-card-skeleton";
 
 type Props = {
-  videos: IYoutubeVideo[];
+  isFeed?: boolean;
   className?: string;
 };
-function Videos({ videos, className }: Props) {
-  const { data } = useLoadMore<any>(apiRoutes.videos.getAllVideos, {});
-  console.log(data);
+function Videos({ isFeed, className }: Props) {
+  const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
+    apiRoutes.videos.getAllVideos,
+  );
+  if (isLoading) return <VideoCardSkeletons size={8} />;
+  const videos = data?.data?.data || [];
+  const sliceVideos = isFeed ? videos : videos?.slice(0, 8);
   return (
     <div
       className={cn(
@@ -20,8 +25,8 @@ function Videos({ videos, className }: Props) {
         className,
       )}
     >
-      {videos.map((url: IYoutubeVideo, index) => (
-        <SingleVideoCard key={index} {...url} />
+      {sliceVideos.map((video: IVideo, index) => (
+        <SingleVideoCard key={index} {...video} />
       ))}
     </div>
   );

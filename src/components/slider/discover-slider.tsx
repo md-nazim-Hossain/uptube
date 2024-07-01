@@ -9,13 +9,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import { IYoutubeVideo } from "@/types";
+import { IVideo } from "@/types";
 import { cn } from "@/lib/utils";
 import { VideoCardPlayer, VideoDetails } from "../ui/video-card";
 import { Typography } from "../ui/typography";
+import Link from "next/link";
 
 type Props = {
-  favorites: IYoutubeVideo[];
+  favorites: IVideo[];
   className?: string;
 };
 function DiscoverSlider({ favorites, className }: Props) {
@@ -48,20 +49,26 @@ function DiscoverSlider({ favorites, className }: Props) {
       className={cn("w-full py-5 group", className)}
     >
       <CarouselContent>
-        {favorites.map((favorite: IYoutubeVideo, index: number) => (
+        {favorites.map((favorite: IVideo, index: number) => (
           <CarouselItem
             className="basis-full relative h-[450px] lg:h-[650px] rounded-2xl overflow-hidden"
             key={index}
           >
             <VideoCardPlayer
               className="w-full h-full aspect-auto"
-              url={favorite.url}
+              url={favorite?.videoFile}
+              thumbnail={favorite?.thumbnail}
+              videoDuration={favorite?.duration}
             />
             <div className="absolute bottom-10 left-10 space-y-5">
               <Typography variant={"h1"} className="text-white">
-                {favorite.songName}
+                {favorite?.title}
               </Typography>
-              <VideoDetails views={1000} />
+              <VideoDetails
+                createdAt={new Date(favorite?.createdAt)}
+                className="text-secondary-foreground"
+                views={favorite?.views}
+              />
             </div>
           </CarouselItem>
         ))}

@@ -12,7 +12,11 @@ import {
 } from "./tooltip";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import Link from "next/link";
-import { convertMillisecondsToTime, viewsFormat } from "@/utils/video";
+import {
+  convertMillisecondsToTime,
+  getCreationDateDifference,
+  viewsFormat,
+} from "@/utils/video";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Button } from "./button";
 import { Separator } from "./separator";
@@ -103,10 +107,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
               </span>
             )}
             <ReactPlayer
-              light={
-                // eslint-disable-next-line @next/next/no-img-element
-                thumbnail ? <img src={thumbnail} alt="Thumbnail" /> : true
-              }
+              light={thumbnail || true}
               width="100%"
               height="100%"
               url={url}
@@ -264,7 +265,7 @@ VideoCard.Link = VideoCardLink;
 interface VideoDetailsProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
   views?: number;
-  createdAt?: Date | string | number;
+  createdAt?: Date;
   showDate?: boolean;
 }
 
@@ -294,7 +295,7 @@ const VideoDetails = ({
       {showDate && (
         <>
           <span> - </span>
-          <span>{"14 years ago"}</span>
+          <span>{getCreationDateDifference(createdAt)}</span>
         </>
       )}
     </div>

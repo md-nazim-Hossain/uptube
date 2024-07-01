@@ -79,11 +79,12 @@ export interface IVideo {
   duration: number;
   views: number;
   isPublished: boolean;
-  owner: string;
+  owner: IUser;
   createdAt: string;
   updatedAt: string;
   comments: number;
   likes: number;
   isLiked: boolean;
   playLists: IPlayList[];
+  subscribersCount?: number;
 }
