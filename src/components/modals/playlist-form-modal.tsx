@@ -28,6 +28,7 @@ import axios from "@/utils/axios";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 import { apiRoutes } from "@/utils/routes";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   trigger: React.ReactNode;
@@ -56,6 +57,7 @@ function PlaylistFormModal({
   defaultValue,
 }: Props) {
   const [open, setOpen] = React.useState(false);
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -85,6 +87,9 @@ function PlaylistFormModal({
       });
       form.reset();
       setOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: [apiRoutes.playlists.getAllPlaylists],
+      });
     } catch (error: AxiosError<any, any> | any) {
       toast({
         title: `${isEdit ? "Update" : "Create"} Failed`,

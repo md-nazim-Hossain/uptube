@@ -1,20 +1,17 @@
+"use client";
 import { PostTableColumns } from "@/components/studio/content/posts/post-table-columns";
 import { DataTable } from "@/components/table/data-table";
-import { getCookie } from "cookies-next";
 import React from "react";
-import { cookies } from "next/headers";
-import axios from "@/utils/axios";
 import { IAPIResponse } from "@/types";
 import { apiRoutes } from "@/utils/routes";
+import { useFetch } from "@/utils/reactQuery";
+import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
 
-async function PostsPage() {
-  const data = (await axios
-    .get(apiRoutes.posts.getAllUserPosts, {
-      headers: {
-        Authorization: `Bearer ${getCookie("accessToken", { cookies })}`,
-      },
-    })
-    .then((res) => res.data)) as IAPIResponse<any[]>;
+function PostsPage() {
+  const { data, isLoading } = useFetch<IAPIResponse<any[]>>(
+    apiRoutes.posts.getAllUserPosts,
+  );
+  if (isLoading) return <DataTableSkeleton />;
   return (
     <div>
       <DataTable

@@ -25,6 +25,7 @@ import { Textarea } from "../ui/textarea";
 import { AxiosError } from "axios";
 import axios from "@/utils/axios";
 import { apiRoutes } from "@/utils/routes";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   trigger: React.ReactNode;
@@ -49,6 +50,7 @@ function TweetFormModal({
 }: Props) {
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: isEdit
@@ -72,6 +74,9 @@ function TweetFormModal({
       });
       form.reset();
       setOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: [apiRoutes.posts.getAllUserPosts],
+      });
     } catch (error: AxiosError<any, any> | any) {
       toast({
         title: `${isEdit ? "Update" : "Create"} Failed`,

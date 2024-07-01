@@ -30,6 +30,7 @@ import { useToast } from "../ui/use-toast";
 import { AxiosError } from "axios";
 import { IAPIResponse } from "@/types";
 import { apiRoutes } from "@/utils/routes";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   trigger: React.ReactNode;
@@ -63,6 +64,7 @@ const formSchema = z.object({
 function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: isEdit
@@ -108,6 +110,9 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       });
       form.reset();
       setOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: [apiRoutes.videos.getAllVideosByUser],
+      });
     } catch (error: AxiosError<IAPIResponse<any>> | any) {
       toast({
         title: "Upload Failed",

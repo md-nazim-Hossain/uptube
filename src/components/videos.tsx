@@ -4,13 +4,14 @@ import React from "react";
 import SingleVideoCard from "./single-video-card";
 import { cn } from "@/lib/utils";
 import { useLoadMore } from "@/utils/reactQuery";
+import { apiRoutes } from "@/utils/routes";
 
 type Props = {
   videos: IYoutubeVideo[];
   className?: string;
 };
 function Videos({ videos, className }: Props) {
-  const { data } = useLoadMore<any>("/videos/get-all-videos", {});
+  const { data } = useLoadMore<any>(apiRoutes.videos.getAllVideos, {});
   console.log(data);
   return (
     <div
