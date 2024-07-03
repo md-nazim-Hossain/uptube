@@ -100,6 +100,7 @@ export interface IVideo {
   isLiked: boolean;
   playLists: IPlayList[];
   type: string;
+  subscribersCount: number;
 }
 
 export interface IUserFavoriteVideo {

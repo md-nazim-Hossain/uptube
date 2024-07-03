@@ -7,13 +7,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { cn } from "@/lib/utils";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { useFormContext } from "react-hook-form";
 import { IAPIResponse, IVideo } from "@/types";
 import { Checkbox } from "../ui/checkbox";
@@ -30,7 +24,7 @@ type Props = {
 function SelectMultipleVideoModal({ trigger, className, name }: Props) {
   const form = useFormContext();
   const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
-    apiRoutes.videos.getAllVideosByUser,
+    apiRoutes.videos.getAllUserContentByType,
   );
   if (isLoading) return <div>loading...</div>;
   const vidoes = (data?.data || []) as IVideo[];
