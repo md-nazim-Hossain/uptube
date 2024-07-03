@@ -15,6 +15,7 @@ import { VideoCard, VideoCardAvatar } from "./ui/video-card";
 import { useInView } from "react-intersection-observer";
 import { Pause, Play } from "lucide-react";
 import ShareModal from "./modals/share-modal";
+import { addHTTPPrefix } from "@/utils/common";
 
 type Props = IYoutubeVideo & {
   className?: string;
@@ -36,7 +37,7 @@ function ShortVideo({ url, songName, className }: Props) {
         <ReactPlayer
           width="100%"
           height="100%"
-          url={url}
+          url={addHTTPPrefix(url)}
           playing={play}
           playsinline
           style={{ objectFit: "cover" }}

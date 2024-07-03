@@ -5,17 +5,21 @@ import Comment from "@/components/comment";
 import ShareModal from "@/components/modals/share-modal";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Typography } from "@/components/ui/typography";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import { youtubeVideos } from "@/data";
-import { IYoutubeVideo } from "@/types";
+import { cn } from "@/lib/utils";
+import { IVideo } from "@/types";
+import { viewsFormat } from "@/utils/video";
 import React from "react";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 type Props = {
-  url: string;
+  video: IVideo;
 };
-function FullViewVideo({ url }: Props) {
-  const findVideo = youtubeVideos.find((video) => video.url === url);
+function FullViewVideo({ video }: Props) {
   const [liked, setLiked] = React.useState(false);
+  const [showMore, setShowMore] = React.useState(false);
+  const { _id, comments, likes, views, title, owner, videoFile } = video;
 
   const handleLike = () => {
     setLiked(!liked);
@@ -27,33 +31,35 @@ function FullViewVideo({ url }: Props) {
           fullPreview={true}
           autoPlay={true}
           className="rounded-none"
-          url={url}
+          url={videoFile}
         />
       </VideoCard>
       <div className="container py-5 flex flex-col lg:flex-row justify-between gap-10">
         <VideoCard.Footer className="flex h-max flex-col gap-3">
-          <VideoCard.Link href="/watch?v=" className="w-max">
-            {findVideo?.songName}
+          <VideoCard.Link href={`/watch?v=${_id}`} className="w-max">
+            {title}
           </VideoCard.Link>
-          <div className="flex mb-10 flex-col sm:flex-row justify-between sm:items-center gap-5 sm:gap-2">
+          <div className="flex mb-6 flex-col sm:flex-row justify-between sm:items-center gap-5 sm:gap-2">
             <div className="flex justify-between items-center gap-20">
               <div className="flex gap-5 items-center">
                 <VideoCardAvatar.Avatar
-                  src="https://github.com/shadcn.png"
-                  alt="Shadcn"
-                  link="https://github.com/shadcn"
+                  src={owner?.avatar!}
+                  alt={owner?.fullName}
+                  link={owner?.username}
                 />
                 <div>
                   <VideoCard.VerifiedBadge
-                    fullName="Shadcn"
-                    channelName="@shadcn"
-                    isVerified
+                    fullName={owner?.fullName}
+                    channelName={owner?.username}
+                    isVerified={owner?.isVerified}
                   />
 
-                  <p className="text-xs flex items-center gap-2">
+                  <Typography className="text-xs [&:not(:first-child)]:mt-0 flex items-center gap-2">
                     <span className="text-secondary">Followers:</span>
-                    <span className="font-medium">{4}</span>
-                  </p>
+                    <span className="font-medium">
+                      {viewsFormat(owner?.subscribersCount ?? 0)}
+                    </span>
+                  </Typography>
                 </div>
               </div>
               <Button variant={"outline"} className="text-destructive h-7">
@@ -61,7 +67,7 @@ function FullViewVideo({ url }: Props) {
               </Button>
             </div>
             <div className="flex items-center gap-5 w-max">
-              <VideoCard.Details showDate={false} views={1000} />
+              <VideoCard.Details showDate={false} views={views} />
               <div className="flex items-center gap-1">
                 {liked ? (
                   <IoMdHeart
@@ -72,7 +78,9 @@ function FullViewVideo({ url }: Props) {
                 ) : (
                   <IoIosHeartEmpty onClick={handleLike} size={20} />
                 )}
-                <span className="text-secondary text-sm">{3}</span>
+                <span className="text-secondary text-sm">
+                  {viewsFormat(likes)}
+                </span>
               </div>
               <VideoCard.Actions show={true}>
                 <Button variant={"flat"}>Add to playlist</Button>
@@ -81,11 +89,11 @@ function FullViewVideo({ url }: Props) {
                 <ShareModal
                   trigger={<Button variant={"flat"}>Share</Button>}
                   user={{
-                    subscriber: 1000,
-                    avatar: "https://github.com/shadcn.png",
-                    fullName: "Shadcn",
+                    subscriber: owner?.subscribersCount ?? 0,
+                    avatar: owner?.avatar ?? "",
+                    fullName: owner?.fullName ?? "",
                   }}
-                  shareLink="/@shadcn"
+                  shareLink={`/${owner?.username}`}
                 />
 
                 <Separator />
@@ -93,9 +101,23 @@ function FullViewVideo({ url }: Props) {
               </VideoCard.Actions>
             </div>
           </div>
-          <Comment />
+          <div className="mb-4 p-3 rounded-md bg-primary/10">
+            <Typography className={cn("text-primary")} variant={"muted"}>
+              <span>
+                {showMore
+                  ? video?.description
+                  : video?.description?.slice(0, 200)}
+              </span>
+              {video?.description?.length > 200 && (
+                <span onClick={() => setShowMore(!showMore)}>
+                  {showMore ? " Show Less" : "...more"}
+                </span>
+              )}
+            </Typography>
+          </div>
+          <Comment comments={comments} />
         </VideoCard.Footer>
-        <ColumnViewVideoCard />
+        <ColumnViewVideoCard currentVideoId={video._id} />
       </div>
     </div>
   );

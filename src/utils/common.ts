@@ -16,3 +16,10 @@ export const blurImage = () => {
       : window.btoa(image);
   return `data:image/svg+xml;base64,${toBase(image)}`;
 };
+
+export const addHTTPPrefix = (url: string) => {
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}${url}`;
+  }
+  return url;
+};

@@ -20,6 +20,7 @@ function SingleVideoCard({
   views,
   duration,
   createdAt,
+  _id,
   subscribersCount,
   className,
   playerClassName,
@@ -33,6 +34,7 @@ function SingleVideoCard({
         className={playerClassName}
         url={videoFile}
         videoDuration={duration}
+        _id={_id}
       />
       <VideoCard.Footer>
         <div className="flex flex-1 gap-3">

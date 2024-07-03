@@ -18,13 +18,10 @@ import {
   viewsFormat,
 } from "@/utils/video";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { Button } from "./button";
-import { Separator } from "./separator";
 import dynamic from "next/dynamic";
-import { ReactPlayerProps } from "react-player";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
-import ShareModal from "../modals/share-modal";
 import { Typography } from "./typography";
+import { addHTTPPrefix } from "@/utils/common";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -52,6 +49,7 @@ interface VideoCardVideoProps {
   videoDuration?: number;
   fullPreview?: boolean;
   showDuration?: boolean;
+  _id?: string;
 }
 const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
   (
@@ -60,6 +58,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
       url,
       autoPlay,
       videoDuration,
+      _id,
       thumbnail,
       fullPreview = false,
       showDuration = true,
@@ -79,7 +78,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
             <ReactPlayer
               width="100%"
               height="100%"
-              url={url}
+              url={addHTTPPrefix(url)}
               controls
               playing={true}
               playsinline
@@ -90,7 +89,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
           </div>
         ) : (
           <Link
-            href={"/watch?v=" + url}
+            href={"/watch?v=" + _id}
             className={cn(
               "w-full aspect-video block cursor-pointer rounded-2xl relative overflow-hidden",
               className,
@@ -107,7 +106,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
               </span>
             )}
             <ReactPlayer
-              light={thumbnail || true}
+              light={(thumbnail && addHTTPPrefix(thumbnail)) || true}
               width="100%"
               height="100%"
               url={url}

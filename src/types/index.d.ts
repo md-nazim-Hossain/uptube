@@ -28,6 +28,8 @@ export type IUser = {
   updatedAt: string;
   username: string;
   description: string;
+  subscribersCount: number;
+  isSubscribed: boolean;
 };
 
 export type IUserProfile = IUser & {
@@ -38,9 +40,7 @@ export type IUserProfile = IUser & {
 export type IChannelProfile = IUser & {
   totalViews: number;
   totalVideos: number;
-  subscribersCount: number;
   channelSubscribedToCount: number;
-  isSubscribed: boolean;
 };
 
 export interface GetInfinitePagesInterface<T> {
@@ -86,7 +86,7 @@ export interface IVideo {
   likes: number;
   isLiked: boolean;
   playLists: IPlayList[];
-  subscribersCount?: number;
+  type: string;
 }
 
 export interface IUserFavoriteVideo {
