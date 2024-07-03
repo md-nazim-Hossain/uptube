@@ -31,6 +31,7 @@ import { AxiosError } from "axios";
 import { IAPIResponse } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 
 type Props = {
   trigger: React.ReactNode;
@@ -62,6 +63,8 @@ const formSchema = z.object({
 });
 
 function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
+  const pathname = usePathname();
+  const isShort = pathname === "/studio/content/shorts";
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -84,6 +87,9 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       formData.append("description", values.description);
       formData.append("isPublished", String(values.isPublished));
       formData.append("thumbnail", values.thumbnail);
+      if (isShort && !isEdit) {
+        formData.append("type", "short");
+      }
       if (isEdit) {
         await axios.put(
           `${apiRoutes.videos.updateVideo}${defaultValue?._id}`,
@@ -111,7 +117,11 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       form.reset();
       setOpen(false);
       queryClient.invalidateQueries({
-        queryKey: [apiRoutes.videos.getAllVideosByUser],
+        queryKey: [
+          apiRoutes.videos.getAllUserContentByType + isShort
+            ? "?type=short"
+            : "?type=video",
+        ],
       });
     } catch (error: AxiosError<IAPIResponse<any>> | any) {
       toast({

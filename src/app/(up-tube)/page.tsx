@@ -1,10 +1,9 @@
 "use client";
 import DiscoverFavorites from "@/components/home/discover-favorites";
-import ShortsSlider from "@/components/slider/shorts-slider";
+import Shorts from "@/components/home/shorts";
 import TopFans from "@/components/top-fans";
 import { Typography } from "@/components/ui/typography";
 import Videos from "@/components/videos";
-import { youtubeVideos } from "@/data";
 import { useUserStore } from "@/zustand/useUserStore";
 
 function Home() {
@@ -23,8 +22,7 @@ function Home() {
       </div>
 
       <div>
-        <Typography variant={"h3"}>Shorts</Typography>
-        <ShortsSlider movies={youtubeVideos} />
+        <Shorts />
         <Typography variant={"h3"}>Feed</Typography>
         <Videos isFeed />
       </div>

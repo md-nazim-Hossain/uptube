@@ -16,20 +16,24 @@ import { IAPIResponse, IVideo } from "@/types";
 import { useDelete, usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import DeleteAlertModal from "@/components/modals/delete-alert-modal";
+import { usePathname } from "next/navigation";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-export function DataTableRowActions<TData>({
+export function ContentTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const pathname = usePathname();
+  const type =
+    pathname === `/studio/content/shorts` ? "?type=short" : "?type=video";
   const { _id, title, description, videoFile, thumbnail, isPublished } =
     row.original as IVideo;
 
   const { mutateAsync } = useDelete<any>(
     apiRoutes.videos.deleteVideo,
-    apiRoutes.videos.getAllVideosByUser,
+    apiRoutes.videos.getAllUserContentByType + type,
     undefined,
     (oldData, id) => {
       return {
@@ -39,7 +43,7 @@ export function DataTableRowActions<TData>({
   );
   const { mutateAsync: makeACopy } = usePost<IAPIResponse<IVideo[]>, IVideo>(
     apiRoutes.videos.makeACopy + "/" + _id,
-    apiRoutes.videos.getAllVideosByUser,
+    apiRoutes.videos.getAllUserContentByType + type,
     undefined,
     (oldData, data) => {
       return {

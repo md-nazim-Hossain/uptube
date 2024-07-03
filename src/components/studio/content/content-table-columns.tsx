@@ -9,9 +9,9 @@ import { IVideo } from "@/types";
 import { viewsFormat } from "@/utils/video";
 import UpTubeImage from "@/components/uptube/uptube-image";
 import { Typography } from "@/components/ui/typography";
-import { DataTableRowActions } from "./data-table-row-actions";
+import { ContentTableRowActions } from "./content-table-row-actions";
 
-export const VideosTableColumn: ColumnDef<IVideo>[] = [
+export const ContentTableColumn: ColumnDef<IVideo>[] = [
   {
     id: "select",
     header: ({ table, column }) => (
@@ -143,7 +143,7 @@ export const VideosTableColumn: ColumnDef<IVideo>[] = [
     id: "actions",
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        <DataTableRowActions row={row} />
+        <ContentTableRowActions row={row} />
       </div>
     ),
   },

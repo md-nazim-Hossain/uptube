@@ -1,5 +1,5 @@
 "use client";
-import { VideosTableColumn } from "@/components/studio/content/videos/videos-table-columns";
+import { ContentTableColumn } from "@/components/studio/content/content-table-columns";
 import { DataTable } from "@/components/table/data-table";
 import React from "react";
 import { IAPIResponse, IVideo } from "@/types";
@@ -9,14 +9,14 @@ import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
 
 function ContentPage() {
   const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
-    apiRoutes.videos.getAllVideosByUser,
+    apiRoutes.videos.getAllUserContentByType + "?type=video",
   );
   if (isLoading) return <DataTableSkeleton />;
   return (
     <div>
       <DataTable
         searchPlaceholder="Search Videos..."
-        columns={VideosTableColumn}
+        columns={ContentTableColumn}
         data={data?.data || []}
       />
     </div>

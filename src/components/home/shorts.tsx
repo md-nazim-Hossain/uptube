@@ -5,11 +5,12 @@ import DiscoverSlider from "../slider/discover-slider";
 import { Typography } from "../ui/typography";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
-import { IAPIResponse, IUserFavoriteVideo } from "@/types";
+import { IAPIResponse, IVideo } from "@/types";
 import { Skeleton } from "../ui/skeleton";
-function DiscoverFavorites() {
-  const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(
-    apiRoutes.likes.getUserLikeVideos,
+import ShortsSlider from "../slider/shorts-slider";
+function Shorts() {
+  const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
+    apiRoutes.videos.getAllContentByType + "?type=short",
   );
   if (isLoading)
     return (
@@ -18,14 +19,14 @@ function DiscoverFavorites() {
         <Skeleton className="w-full h-[600px]" />
       </div>
     );
-  const favoriteVideos = data?.data || [];
-  if (!favoriteVideos.length) return null;
+  const shortVideos = data?.data?.data || [];
+  if (!shortVideos.length) return null;
   return (
     <>
-      <Typography variant={"h3"}>Discover your favorites</Typography>
-      <DiscoverSlider favorites={favoriteVideos.slice(0, 10)} />
+      <Typography variant={"h3"}>Shorts</Typography>
+      <ShortsSlider shorts={shortVideos?.slice(0, 10)} />
     </>
   );
 }
 
-export default DiscoverFavorites;
+export default Shorts;

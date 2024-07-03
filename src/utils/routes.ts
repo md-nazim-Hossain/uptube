@@ -1,9 +1,9 @@
 export const apiRoutes = {
   videos: {
-    getAllVideos: "/videos/get-all-videos",
+    getAllContentByType: "/videos/get-all-content-by-type",
     getVideoById: "/videos/get-video/",
     uploadVideo: "/videos/upload-video",
-    getAllVideosByUser: "/videos/get-all-videos-by-user",
+    getAllUserContentByType: "/videos/get-all-user-content-by-type",
     updateVideo: "/videos/update-video/",
     deleteVideo: "/videos/delete-video",
     makeACopy: "/videos/make-copy",

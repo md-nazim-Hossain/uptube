@@ -9,15 +9,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import { IYoutubeVideo } from "@/types";
+import { IVideo, IYoutubeVideo } from "@/types";
 import SingleVideoCard from "../single-video-card";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  movies: IYoutubeVideo[];
+  shorts: IVideo[];
   className?: string;
 };
-function ShortsSlider({ movies, className }: Props) {
+function ShortsSlider({ shorts, className }: Props) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -43,17 +43,17 @@ function ShortsSlider({ movies, className }: Props) {
       className={cn("w-full py-5 group", className)}
     >
       <CarouselContent>
-        {movies.map((movie: IYoutubeVideo, index: number) => (
+        {shorts.map((short: IVideo, index: number) => (
           <CarouselItem
             className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
             key={index}
           >
-            {/* <SingleVideoCard
+            <SingleVideoCard
               playerClassName="h-[450px] w-full aspect-auto"
               className="h-full"
-              {...movie}
+              {...short}
               showAvatar={false}
-            /> */}
+            />
           </CarouselItem>
         ))}
       </CarouselContent>

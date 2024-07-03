@@ -13,7 +13,7 @@ type Props = {
 };
 function Videos({ isFeed, className }: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
-    apiRoutes.videos.getAllVideos,
+    apiRoutes.videos.getAllContentByType,
   );
   if (isLoading) return <VideoCardSkeletons size={8} />;
   const videos = data?.data?.data || [];

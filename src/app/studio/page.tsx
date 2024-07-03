@@ -5,13 +5,6 @@ import React from "react";
 import { cookies } from "next/headers";
 
 async function DashboardPage() {
-  const data = await axios
-    .get(apiRoutes.users.likeVideos, {
-      headers: {
-        Authorization: `Bearer ${getCookie("accessToken", { cookies })}`,
-      },
-    })
-    .then((res) => res.data);
   return <div>DashboardPage</div>;
 }
 
