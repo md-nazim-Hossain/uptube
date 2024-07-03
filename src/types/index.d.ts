@@ -88,3 +88,11 @@ export interface IVideo {
   playLists: IPlayList[];
   subscribersCount?: number;
 }
+
+export interface IUserFavoriteVideo {
+  _id: string;
+  video: IVideo;
+  createdAt: string;
+  updatedAt: string;
+  likedBy: string;
+}

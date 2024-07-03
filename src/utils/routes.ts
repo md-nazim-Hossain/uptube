@@ -10,7 +10,6 @@ export const apiRoutes = {
   },
   users: {
     getCurrentUser: "/users/user",
-    likeVideos: "/users/like-videos",
   },
   posts: {
     getAllUserPosts: "/tweets/get-all-user-tweets",
@@ -29,6 +28,9 @@ export const apiRoutes = {
     createPlaylist: "/playlists/create-playlist",
     updatePlaylist: "/playlists/update-playlist/",
     deletePlaylist: "/playlists/delete-playlist",
+  },
+  likes: {
+    getUserLikeVideos: "/likes/get-user-like-videos",
   },
 };
 

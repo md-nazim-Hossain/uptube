@@ -9,14 +9,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import { IVideo } from "@/types";
+import { IUserFavoriteVideo, IVideo } from "@/types";
 import { cn } from "@/lib/utils";
 import { VideoCardPlayer, VideoDetails } from "../ui/video-card";
 import { Typography } from "../ui/typography";
 import Link from "next/link";
 
 type Props = {
-  favorites: IVideo[];
+  favorites: IUserFavoriteVideo[];
   className?: string;
 };
 function DiscoverSlider({ favorites, className }: Props) {
@@ -49,29 +49,32 @@ function DiscoverSlider({ favorites, className }: Props) {
       className={cn("w-full py-5 group", className)}
     >
       <CarouselContent>
-        {favorites.map((favorite: IVideo, index: number) => (
-          <CarouselItem
-            className="basis-full relative h-[450px] lg:h-[650px] rounded-2xl overflow-hidden"
-            key={index}
-          >
-            <VideoCardPlayer
-              className="w-full h-full aspect-auto"
-              url={favorite?.videoFile}
-              thumbnail={favorite?.thumbnail}
-              videoDuration={favorite?.duration}
-            />
-            <div className="absolute bottom-10 left-10 space-y-5">
-              <Typography variant={"h1"} className="text-white">
-                {favorite?.title}
-              </Typography>
-              <VideoDetails
-                createdAt={new Date(favorite?.createdAt)}
-                className="text-secondary-foreground"
-                views={favorite?.views}
+        {favorites.map((favorite: IUserFavoriteVideo, index: number) => {
+          const video = favorite?.video as IVideo;
+          return (
+            <CarouselItem
+              className="basis-full relative h-[450px] lg:h-[650px] rounded-2xl overflow-hidden"
+              key={index}
+            >
+              <VideoCardPlayer
+                className="w-full h-full aspect-auto"
+                url={video?.videoFile}
+                thumbnail={video?.thumbnail}
+                videoDuration={video?.duration}
               />
-            </div>
-          </CarouselItem>
-        ))}
+              <div className="absolute bottom-10 left-10 space-y-5">
+                <Typography variant={"h1"} className="text-white">
+                  {video?.title}
+                </Typography>
+                <VideoDetails
+                  createdAt={new Date(video?.createdAt)}
+                  className="text-secondary-foreground"
+                  views={video?.views}
+                />
+              </div>
+            </CarouselItem>
+          );
+        })}
       </CarouselContent>
       <div className="absolute px-3 left-1/2 space-x-5 -translate-x-1/2 bottom-10 z-10">
         {Array.from({ length: favorites.length }).map((_, index) => (
