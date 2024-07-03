@@ -1,13 +1,12 @@
 "use client";
 
 import ColumnViewVideoCard from "@/components/column-view-video-card";
-import Comment from "@/components/comment";
+import Comments from "@/components/comments/comments";
 import ShareModal from "@/components/modals/share-modal";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Typography } from "@/components/ui/typography";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
-import { youtubeVideos } from "@/data";
 import { cn } from "@/lib/utils";
 import { IVideo } from "@/types";
 import { viewsFormat } from "@/utils/video";
@@ -115,7 +114,7 @@ function FullViewVideo({ video }: Props) {
               )}
             </Typography>
           </div>
-          <Comment comments={comments} />
+          <Comments comments={comments} contentId={_id} />
         </VideoCard.Footer>
         <ColumnViewVideoCard currentVideoId={video._id} />
       </div>

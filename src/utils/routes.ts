@@ -19,7 +19,7 @@ export const apiRoutes = {
   },
   comments: {
     createComment: "/comments/create-comment",
-    updateComment: "/comments/update-comment/",
+    updateComment: "/comments/update-comment",
     deleteComment: "/comments/delete-comment",
   },
   playlists: {
@@ -31,6 +31,8 @@ export const apiRoutes = {
   },
   likes: {
     getUserLikeVideos: "/likes/get-user-like-videos",
+    createLike: "/likes/like",
+    deleteLike: "/likes/dislike",
   },
 };
 

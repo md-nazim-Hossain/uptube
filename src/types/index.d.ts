@@ -70,6 +70,19 @@ export interface IPlayList {
   updatedAt: string;
 }
 
+export interface IComment {
+  _id: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  owner: IUser;
+  video: string;
+  isEdited: boolean;
+  lastEditedAt: string;
+  likes: number;
+  isLiked: boolean;
+}
+
 export interface IVideo {
   _id: string;
   title: string;
@@ -82,7 +95,7 @@ export interface IVideo {
   owner: IUser;
   createdAt: string;
   updatedAt: string;
-  comments: number;
+  comments: IComment[];
   likes: number;
   isLiked: boolean;
   playLists: IPlayList[];

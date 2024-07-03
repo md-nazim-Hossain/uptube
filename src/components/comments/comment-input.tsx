@@ -1,10 +1,10 @@
 import React from "react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { useUserStore } from "@/zustand/useUserStore";
-import UpTubeAvatarImage from "./uptube/uptube-avatar-image";
+import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { cn } from "@/lib/utils";
 import { viewsFormat } from "@/utils/video";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -12,39 +12,86 @@ import {
   FormItem,
   FormMessage,
   FormSubmitButton,
-} from "./ui/form";
+} from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "@/utils/axios";
+import { apiRoutes } from "@/utils/routes";
+import { revalidateTag } from "next/cache";
 
-interface CommentProps {
-  comments: number;
+interface CommentInputProps {
+  totalComments?: number;
   className?: string;
+  contentId: string;
+  avatarClassName?: string;
+  isReply?: boolean;
+  onClose?: () => void;
+  isEdit?: boolean;
+  defaultValue?: {
+    comment: string;
+    _id: string;
+  };
 }
 
 const CommentFormSchema = z.object({
   comment: z.string().min(1, "Comment is required"),
 });
-function Comment({ className, comments }: CommentProps) {
+function CommentInput({
+  className,
+  totalComments,
+  contentId,
+  avatarClassName,
+  isReply = false,
+  onClose,
+  defaultValue,
+  isEdit,
+}: CommentInputProps) {
   const user = useUserStore((state) => state.user);
-  const [showSubmitButton, setShowSubmitButton] = React.useState(false);
+  const [showSubmitButton, setShowSubmitButton] = React.useState(
+    isReply || isEdit,
+  );
   const form = useForm({
     resolver: zodResolver(CommentFormSchema),
     defaultValues: {
-      comment: "",
+      comment: isEdit ? (defaultValue?.comment as string) : "",
     },
   });
-  async function onSubmit(values: z.infer<typeof CommentFormSchema>) {}
+  async function onSubmit(values: z.infer<typeof CommentFormSchema>) {
+    try {
+      if (isEdit) {
+        await axios.put(
+          apiRoutes.comments.updateComment + "/" + defaultValue?._id,
+          {
+            content: values.comment,
+          },
+        );
+      } else {
+        await axios.post(apiRoutes.comments.createComment, {
+          videoId: contentId,
+          content: values.comment,
+        });
+      }
+      form.reset();
+      revalidateTag(contentId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn("flex flex-col gap-4", className)}
       >
-        <h4 className="font-light">{viewsFormat(comments)} Comment</h4>
+        {!isReply && !isEdit && (
+          <h4 className="font-medium">
+            {viewsFormat(totalComments ?? 0)} Comment
+          </h4>
+        )}
         <div className="flex items-center gap-3">
           <UpTubeAvatarImage
-            className="size-9"
+            className={cn("size-9", avatarClassName)}
             alt={user?.fullName + ""}
             src={user?.avatar!}
             name={user?.fullName}
@@ -56,7 +103,7 @@ function Comment({ className, comments }: CommentProps) {
               <FormItem className="w-full">
                 <FormControl>
                   <Input
-                    placeholder="Add a comment"
+                    placeholder={`Add a ${isReply ? "reply" : "comment"}...`}
                     className="focus-visible:border-b-secondary/40"
                     variant={"destructive"}
                     {...field}
@@ -74,7 +121,10 @@ function Comment({ className, comments }: CommentProps) {
             <div></div>
             <div className="flex gap-2 items-center">
               <Button
-                onClick={() => setShowSubmitButton(false)}
+                onClick={() => {
+                  setShowSubmitButton(false);
+                  onClose && onClose();
+                }}
                 variant={"flat"}
                 className="rounded-[100vw] h-8"
               >
@@ -82,14 +132,14 @@ function Comment({ className, comments }: CommentProps) {
               </Button>
               <FormSubmitButton
                 loading={form.formState.isSubmitting}
-                loadingText="Posting..."
+                loadingText={isEdit ? "Saving..." : "Posting..."}
                 className="h-8"
                 variant={"destructive"}
                 disabled={
                   form.formState.isSubmitting || !form.formState.isDirty
                 }
               >
-                Comment
+                {isEdit ? "Save" : "Comment"}
               </FormSubmitButton>
             </div>
           </div>
@@ -99,4 +149,4 @@ function Comment({ className, comments }: CommentProps) {
   );
 }
 
-export default Comment;
+export default CommentInput;
