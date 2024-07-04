@@ -6,18 +6,30 @@ import { cn } from "@/lib/utils";
 import { useFetch, useLoadMore } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { VideoCardSkeletons } from "./skeletons/video-card-skeleton";
+import EmptyState from "./empty-state";
 
 type Props = {
   isFeed?: boolean;
   className?: string;
+  isChannelProfile?: boolean;
+  userId?: string;
 };
-function Videos({ isFeed, className }: Props) {
+function Videos({
+  isFeed,
+  className,
+  isChannelProfile = false,
+  userId,
+}: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
-    apiRoutes.videos.getAllContentByType,
+    isChannelProfile
+      ? apiRoutes.videos.getVideoByUserId + `/${userId}`
+      : apiRoutes.videos.getAllContentByType,
   );
-  if (isLoading) return <VideoCardSkeletons size={8} />;
+  if (isLoading) return <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />;
   const videos = data?.data?.data || [];
   const sliceVideos = isFeed ? videos : videos?.slice(0, 8);
+  if (!sliceVideos.length && isChannelProfile)
+    return <EmptyState text={"No videos found"} />;
   return (
     <div
       className={cn(
@@ -26,7 +38,11 @@ function Videos({ isFeed, className }: Props) {
       )}
     >
       {sliceVideos.map((video: IVideo, index) => (
-        <SingleVideoCard key={index} {...video} />
+        <SingleVideoCard
+          showAvatar={!isChannelProfile}
+          key={index}
+          {...video}
+        />
       ))}
     </div>
   );

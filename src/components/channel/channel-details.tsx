@@ -7,6 +7,9 @@ import { IChannelProfile, IVideo } from "@/types";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
+import Videos from "../videos";
+import ChannelShorts from "./channel-shorts";
+import ChannelPlaylists from "./channel-playlists";
 
 type Props = {
   channel: IChannelProfile;
@@ -20,8 +23,7 @@ function ChannelDetails({ channel }: Props) {
     setTab(currentTab);
   }, [currentTab]);
 
-  const { subscribers, subscribedTo, videos, shorts, playlists } =
-    channel || {};
+  const { subscribers, subscribedTo } = channel || {};
   return (
     <Tabs value={tab} onValueChange={setTab}>
       <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
@@ -33,21 +35,14 @@ function ChannelDetails({ channel }: Props) {
             <span>Stations</span>{" "}
             <span className="text-destructive">{channel?.totalVideos}</span>
           </TabsTrigger>
-          <TabsTrigger
-            className="font-normal text-foreground space-x-1"
-            value="shorts"
-          >
-            <span>Shorts</span>{" "}
-            <span className="text-destructive">{channel?.shorts?.length}</span>
+          <TabsTrigger className="font-normal text-foreground" value="shorts">
+            Shorts
           </TabsTrigger>
           <TabsTrigger
-            className="font-normal text-foreground space-x-1"
+            className="font-normal text-foreground"
             value="playlists"
           >
-            <span>Playlists</span>{" "}
-            <span className="text-destructive">
-              {channel?.playlists?.length}
-            </span>
+            Playlists
           </TabsTrigger>
           {isMyChannel && (
             <>
@@ -81,28 +76,13 @@ function ChannelDetails({ channel }: Props) {
       </TabsList>
       <div className="container">
         <TabsContent value="stations">
-          <div className="py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {videos?.map((video) => (
-              <SingleVideoCard showAvatar={false} key={video._id} {...video} />
-            ))}
-          </div>
+          <Videos isChannelProfile userId={channel?._id} />
         </TabsContent>
         <TabsContent value="shorts">
-          <div className="py-5 gap-5 flex sm:flex-row flex-col flex-grow">
-            {shorts?.map((short: IVideo, index) => (
-              <SingleVideoCard
-                key={index}
-                playerClassName="h-[450px] w-full aspect-auto"
-                className="h-full w-[300px]"
-                {...short}
-                showAvatar={false}
-                isShort
-              />
-            ))}
-          </div>
+          <ChannelShorts userId={channel?._id} />
         </TabsContent>
         <TabsContent value="playlists">
-          <div>Playlists</div>
+          <ChannelPlaylists userId={channel?._id} />
         </TabsContent>
         {isMyChannel && (
           <>

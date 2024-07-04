@@ -10,6 +10,7 @@ import { viewsFormat } from "@/utils/video";
 import UpTubeImage from "@/components/uptube/uptube-image";
 import { Typography } from "@/components/ui/typography";
 import { ContentTableRowActions } from "./content-table-row-actions";
+import { addHTTPPrefix } from "@/utils/common";
 
 export const ContentTableColumn: ColumnDef<IVideo>[] = [
   {
@@ -50,7 +51,7 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
         <div className="flex items-center gap-3">
           <div className="w-[120px] h-[68px] relative overflow-hidden">
             <UpTubeImage
-              src={row?.original?.thumbnail}
+              src={addHTTPPrefix(row?.original?.thumbnail)}
               alt={row?.original?.title}
             />
           </div>

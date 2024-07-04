@@ -7,6 +7,7 @@ export const apiRoutes = {
     updateVideo: "/videos/update-video/",
     deleteVideo: "/videos/delete-video",
     makeACopy: "/videos/make-copy",
+    getVideoByUserId: "/videos/get-video-by-user-id",
   },
   users: {
     getCurrentUser: "/users/user",
@@ -25,6 +26,7 @@ export const apiRoutes = {
   playlists: {
     getAllPlaylists: "/playlists/get-all-playlists",
     getPlaylistById: "/playlists",
+    getPlaylistByUserId: "/playlists/get-all-playlist-by-user-id",
     createPlaylist: "/playlists/create-playlist",
     updatePlaylist: "/playlists/update-playlist/",
     deletePlaylist: "/playlists/delete-playlist",

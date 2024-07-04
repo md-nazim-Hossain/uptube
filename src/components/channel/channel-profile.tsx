@@ -127,7 +127,7 @@ function ChannelProfile({ className, channel, ...props }: CommentProps) {
           {isMyChannel && (
             <div className="pt-2 space-x-5">
               <Link
-                href={`/studio/${username}`}
+                href={`/studio`}
                 className={cn(
                   buttonVariants({
                     variant: "link",
@@ -138,7 +138,7 @@ function ChannelProfile({ className, channel, ...props }: CommentProps) {
                 Customize Channel
               </Link>
               <Link
-                href={`/studio/${username}/content`}
+                href={`/studio/content/videos`}
                 className={cn(
                   buttonVariants({
                     variant: "link",

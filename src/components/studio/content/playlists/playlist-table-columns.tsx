@@ -11,6 +11,7 @@ import { Typography } from "@/components/ui/typography";
 import { PlaylistTableRowActions } from "./playlist-table-row-actions";
 import { PiPlaylistLight } from "react-icons/pi";
 import PlaylistFormModal from "@/components/modals/playlist-form-modal";
+import { addHTTPPrefix } from "@/utils/common";
 
 export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
   {
@@ -38,7 +39,7 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
                     </span>
                   </div>
                   <UpTubeImage
-                    src={row?.original?.videos?.[0]?.thumbnail}
+                    src={addHTTPPrefix(row?.original?.videos?.[0]?.thumbnail)}
                     alt={row?.original?.name}
                   />
                 </>

@@ -41,9 +41,6 @@ export type IChannelProfile = IUser & {
   totalViews: number;
   totalVideos: number;
   channelSubscribedToCount: number;
-  videos: IVideo[];
-  shorts: IVideo[];
-  playlists: IPlayList[];
   subscribers: any[];
   subscribedTo: any[];
 };
@@ -66,13 +63,7 @@ export interface IPlayList {
   createdAt: string;
   updatedAt: string;
   isPublished: boolean;
-}
-
-export interface IPlayList {
-  _id: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
+  owner: IUser;
 }
 
 export interface IComment {
