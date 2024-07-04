@@ -9,7 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import { IVideo, IYoutubeVideo } from "@/types";
+import { IVideo } from "@/types";
 import SingleVideoCard from "../single-video-card";
 import { cn } from "@/lib/utils";
 
@@ -53,6 +53,7 @@ function ShortsSlider({ shorts, className }: Props) {
               className="h-full"
               {...short}
               showAvatar={false}
+              isShort
             />
           </CarouselItem>
         ))}

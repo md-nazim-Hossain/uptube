@@ -10,7 +10,7 @@ export function viewsFormat(num: number): string {
   } else if (num >= thousand) {
     return (num / thousand).toFixed(1) + "K";
   } else {
-    return num.toString();
+    return (num ?? 0)?.toString();
   }
 }
 

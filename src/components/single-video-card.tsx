@@ -6,11 +6,16 @@ import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import { Button } from "./ui/button";
 import ShareModal from "./modals/share-modal";
 import { Separator } from "./ui/separator";
+import ReactPlayer from "react-player";
+import { addHTTPPrefix } from "@/utils/common";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 type Props = IVideo & {
   className?: string;
   playerClassName?: string;
   showAvatar?: boolean;
+  isShort?: boolean;
 };
 function SingleVideoCard({
   thumbnail,
@@ -25,17 +30,37 @@ function SingleVideoCard({
   className,
   playerClassName,
   showAvatar = true,
+  isShort = false,
 }: Props) {
   const { avatar, username, fullName, isVerified } = owner || {};
   return (
     <VideoCard className={className}>
-      <VideoCard.Player
-        thumbnail={thumbnail}
-        className={playerClassName}
-        url={videoFile}
-        videoDuration={duration}
-        _id={_id}
-      />
+      {isShort ? (
+        <Link
+          href={`/shorts/${_id}`}
+          className={cn(
+            "h-[450px] w-[300px] block rounded-2xl overflow-hidden",
+            playerClassName,
+          )}
+        >
+          <ReactPlayer
+            light={addHTTPPrefix(thumbnail) ?? true}
+            width="100%"
+            height="100%"
+            url={addHTTPPrefix(videoFile)}
+            playsinline
+            style={{ objectFit: "cover" }}
+          />
+        </Link>
+      ) : (
+        <VideoCard.Player
+          thumbnail={thumbnail}
+          className={playerClassName}
+          url={videoFile}
+          videoDuration={duration}
+          _id={_id}
+        />
+      )}
       <VideoCard.Footer>
         <div className="flex flex-1 gap-3">
           {showAvatar && (
@@ -46,7 +71,9 @@ function SingleVideoCard({
             />
           )}
           <div className="w-full h-full">
-            <VideoCard.Link href={`/watch?v=${videoFile}`}>
+            <VideoCard.Link
+              href={isShort ? `/shorts/${_id}` : `/watch?v=${videoFile}`}
+            >
               {title}
             </VideoCard.Link>
             <VideoCard.VerifiedBadge

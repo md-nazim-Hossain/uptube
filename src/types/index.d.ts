@@ -41,6 +41,11 @@ export type IChannelProfile = IUser & {
   totalViews: number;
   totalVideos: number;
   channelSubscribedToCount: number;
+  videos: IVideo[];
+  shorts: IVideo[];
+  playlists: IPlayList[];
+  subscribers: any[];
+  subscribedTo: any[];
 };
 
 export interface GetInfinitePagesInterface<T> {

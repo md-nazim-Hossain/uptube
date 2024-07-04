@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-import { IYoutubeVideo } from "@/types";
+import { IVideo } from "@/types";
 import { Button } from "./ui/button";
-import { FaHeart } from "react-icons/fa6";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
@@ -17,10 +17,19 @@ import { Pause, Play } from "lucide-react";
 import ShareModal from "./modals/share-modal";
 import { addHTTPPrefix } from "@/utils/common";
 
-type Props = IYoutubeVideo & {
+type Props = IVideo & {
   className?: string;
 };
-function ShortVideo({ url, songName, className }: Props) {
+function ShortVideo({
+  thumbnail,
+  videoFile,
+  title,
+  owner,
+  _id,
+  isLiked,
+  className,
+}: Props) {
+  const { avatar, username, fullName, isVerified, subscribersCount } = owner;
   const [play, setPlay] = React.useState(false);
   const setOpen = useAuthStore((state) => state.setOpen);
   const { ref, inView } = useInView();
@@ -35,9 +44,10 @@ function ShortVideo({ url, songName, className }: Props) {
     >
       <div className="w-full group/player h-[825px] sm:w-[460px] rounded-2xl overflow-hidden relative">
         <ReactPlayer
+          light={addHTTPPrefix(thumbnail) ?? true}
           width="100%"
           height="100%"
-          url={addHTTPPrefix(url)}
+          url={addHTTPPrefix(videoFile)}
           playing={play}
           playsinline
           style={{ objectFit: "cover" }}
@@ -58,21 +68,21 @@ function ShortVideo({ url, songName, className }: Props) {
         </div>
         <div className="w-[calc(100% - 40px)] absolute bottom-5 left-5 right-5 flex flex-col gap-5 justify-end">
           <Typography variant={"small"} className="text-white">
-            {songName}
+            {title}
           </Typography>
           <div className="flex items-center justify-between">
             <div className="flex gap-3">
               <VideoCardAvatar.Avatar
-                src="https://github.com/shadcn.png"
-                alt="Shadcn"
-                link="/channel/shadcn"
+                src={avatar}
+                alt={fullName}
+                link={`/${username}`}
               />
 
               <VideoCard.VerifiedBadge
                 className="text-white font-normal"
-                channelName="@shadcn"
-                fullName="Shadcn"
-                isVerified
+                channelName={username}
+                fullName={fullName}
+                isVerified={isVerified}
               />
             </div>
             <Button className="bg-white text-xs h-max text-black hover:bg-white">
@@ -87,7 +97,7 @@ function ShortVideo({ url, songName, className }: Props) {
           variant="icon"
           className="sm:size-12 sm:text-xl rounded-full p-0 bg-primary/10"
         >
-          <FaHeart />
+          {isLiked ? <FaHeart /> : <FaRegHeart />}
         </Button>
         <Button
           onClick={() => setOpen(true)}
@@ -113,11 +123,11 @@ function ShortVideo({ url, songName, className }: Props) {
             <ShareModal
               trigger={<Button variant={"flat"}>Share</Button>}
               user={{
-                subscriber: 1000,
-                avatar: "https://github.com/shadcn.png",
-                fullName: "Shadcn",
+                subscriber: subscribersCount ?? 0,
+                avatar,
+                fullName,
               }}
-              shareLink="/shorts/12"
+              shareLink={`/shorts/${_id}`}
             />
           </PopoverContent>
         </Popover>

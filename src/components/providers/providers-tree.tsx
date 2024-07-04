@@ -2,7 +2,6 @@
 "use client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ReactNode } from "react";
-import AuthProvider from "./auth-provider";
 import ReactQueryProvider from "./react-query-provider";
 const buildProviders = (componentWithProps: any[]) => {
   const initialComponents = ({ children }: { children: ReactNode }) => (
@@ -23,5 +22,4 @@ const buildProviders = (componentWithProps: any[]) => {
 export const ProvidersTree = buildProviders([
   [NextThemesProvider, { attribute: "class", defaultTheme: "system" }],
   [ReactQueryProvider],
-  [AuthProvider],
 ]);

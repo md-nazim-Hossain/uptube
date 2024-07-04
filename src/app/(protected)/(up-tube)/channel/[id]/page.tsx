@@ -1,11 +1,11 @@
 import React from "react";
-import ChannelDetails from "../_components/channel-details";
-import ChannelProfile from "../_components/channel-profile";
 import { notFound, redirect } from "next/navigation";
 import axios from "@/utils/axios";
 import { cookies } from "next/headers";
 import { getCookie } from "cookies-next";
 import { IChannelProfile } from "@/types";
+import ChannelProfile from "@/components/channel/channel-profile";
+import ChannelDetails from "@/components/channel/channel-details";
 async function MyChannelPage({ params }: { params: { id: string } }) {
   const id = params?.id;
   if (!id) return notFound();
@@ -24,7 +24,7 @@ async function MyChannelPage({ params }: { params: { id: string } }) {
   return (
     <div className="space-y-5 w-full h-full">
       <ChannelProfile channel={user} />
-      <ChannelDetails isMyChannel />
+      <ChannelDetails channel={user} />
     </div>
   );
 }

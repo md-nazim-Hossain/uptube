@@ -103,7 +103,9 @@ function AboutMyChannelModal({ trigger, channel }: Props) {
           <div className="flex items-center gap-3">
             <BsExclamationOctagon size={20} className="rotate-90" />
             <Typography variant={"small"} className="font-normal">
-              Joined {format(new Date(channel?.createdAt), "dd MMM yyyy")}
+              Joined{" "}
+              {channel?.createdAt &&
+                format(new Date(channel?.createdAt), "dd MMM yyyy")}
             </Typography>
           </div>
           <div className="flex items-center gap-3">

@@ -1,6 +1,6 @@
 import React from "react";
-import StudioNavbar from "../../components/studio/studio-navbar";
 import Sidebar from "@/components/studio/sidebar";
+import StudioNavbar from "@/components/studio/studio-navbar";
 
 function StudioRootLayout({ children }: { children: React.ReactNode }) {
   return (
