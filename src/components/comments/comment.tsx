@@ -6,61 +6,95 @@ import { getCreationDateDifference, viewsFormat } from "@/utils/video";
 import { cn } from "@/lib/utils";
 import { VideoCard } from "../ui/video-card";
 import { Button } from "../ui/button";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import CommentInput from "./comment-input";
 import { useDelete, usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { useToast } from "../ui/use-toast";
 import { useUserStore } from "@/zustand/useUserStore";
 import DeleteAlertModal from "../modals/delete-alert-modal";
+import { useAuthStore } from "@/zustand/useAuthStore";
 
 type CommentProps = {
   className?: string;
   comment: IComment;
+  contentId: string;
 };
-function Comment({ className, comment }: CommentProps) {
+function Comment({ className, comment, contentId }: CommentProps) {
   const user = useUserStore((state) => state.user);
+  const setOpen = useAuthStore((state) => state.setOpen);
   const { toast } = useToast();
   const { content, owner, createdAt, _id, isEdited, isLiked, likes } = comment;
   const [isReply, setIsReply] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
   const [isLike, setIsLike] = React.useState(isLiked);
-  const [totalCommentsLikes, setTotalCommentsLikes] = React.useState(likes);
   const isMyComment = user?._id === owner?._id;
-  const { mutateAsync: mutateDelete } = useDelete(
+  const { mutateAsync: commentDelete } = useDelete<any>(
     apiRoutes.comments.deleteComment,
+    apiRoutes.videos.getVideoById + contentId,
+    undefined,
+    (oldData, id) => {
+      if (!oldData) return;
+      return {
+        data: {
+          ...oldData?.data,
+          comment: oldData?.data?.comment?.filter(
+            (comment: IComment) => comment._id !== id,
+          ),
+        },
+      };
+    },
   );
 
-  const { mutateAsync: mutateLike } = usePost(apiRoutes.likes.createLike);
-  const { mutateAsync: disLike } = useDelete(apiRoutes.likes.deleteLike);
+  const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
+    apiRoutes.likes.likeDislike,
+    apiRoutes.videos.getVideoById + contentId,
+    undefined,
+    (oldData, data: { commentId: string; state: "like" | "dislike" }) => {
+      if (!oldData) return;
+      return {
+        data: {
+          ...oldData?.data,
+          comment: oldData?.data?.comment?.map((comment: IComment) => {
+            const { likes: totalLikes } = comment;
+            if (comment._id === data.commentId) {
+              return {
+                ...comment,
+                likes:
+                  data?.state === "dislike"
+                    ? totalLikes - (totalLikes > 0 ? 1 : 0)
+                    : totalLikes + 1,
+                isLiked: data?.state === "dislike" ? false : true,
+              };
+            }
+            return comment;
+          }),
+        },
+      };
+    },
+  );
 
   const handleLikedAndDisliked = async (id: string) => {
     const prevLike = isLike;
-    const prevTotalLikes = totalCommentsLikes;
     try {
-      if (isLike) {
-        if (totalCommentsLikes <= 0) return;
-        await disLike(id);
-        setIsLike(false);
-        setTotalCommentsLikes(totalCommentsLikes - 1);
-      } else {
-        await mutateLike(id);
-        setIsLike(true);
-        setTotalCommentsLikes(totalCommentsLikes + 1);
-      }
+      setIsLike(!isLike);
+      await mutateLikeDislike({
+        commentId: id,
+        state: isLike ? "dislike" : "like",
+      });
     } catch (error) {
       setIsLike(prevLike);
-      setTotalCommentsLikes(prevTotalLikes);
     }
   };
 
   if (isEdit)
     return (
       <CommentInput
-        contentId=""
+        contentId={contentId}
         defaultValue={{ comment: content, _id }}
         isEdit
         onClose={() => setIsEdit(false)}
+        onSuccess={() => setIsEdit(false)}
       />
     );
 
@@ -92,7 +126,7 @@ function Comment({ className, comment }: CommentProps) {
             </Typography>
             <Typography variant={"muted"}>{content}</Typography>
           </div>
-          <VideoCard.Actions show>
+          <VideoCard.Actions show={!!user}>
             {isMyComment ? (
               <>
                 <Button onClick={() => setIsEdit(true)} variant={"flat"}>
@@ -101,7 +135,7 @@ function Comment({ className, comment }: CommentProps) {
                 <DeleteAlertModal
                   onDelete={async () => {
                     try {
-                      await mutateDelete(_id);
+                      await commentDelete(_id);
                       toast({
                         description: "Comment deleted successfully",
                       });
@@ -123,18 +157,18 @@ function Comment({ className, comment }: CommentProps) {
         <div className="flex gap-2">
           <div className="flex gap-0.5 items-center">
             <Button
-              onClick={() => handleLikedAndDisliked(_id)}
+              onClick={() =>
+                user ? handleLikedAndDisliked(_id) : setOpen(true)
+              }
               variant="icon"
               className="size-8 text-base rounded-full p-0 hover:bg-primary/10"
             >
-              {isLike ? <FaHeart /> : <FaRegHeart />}
+              {isLike ? <IoMdHeart /> : <IoIosHeartEmpty />}
             </Button>
-            <Typography variant="muted">
-              {viewsFormat(totalCommentsLikes)}
-            </Typography>
+            <Typography variant="muted">{viewsFormat(likes)}</Typography>
           </div>
           <Button
-            onClick={() => setIsReply(true)}
+            onClick={() => (user ? setIsReply(true) : setOpen(true))}
             variant={"flat"}
             className="w-max rounded-[100vw] h-8"
           >

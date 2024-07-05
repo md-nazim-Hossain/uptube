@@ -11,6 +11,7 @@ export const apiRoutes = {
   },
   users: {
     getCurrentUser: "/users/user",
+    getUser: "/users/user",
   },
   posts: {
     getAllUserPosts: "/tweets/get-all-user-tweets",
@@ -33,8 +34,10 @@ export const apiRoutes = {
   },
   likes: {
     getUserLikeVideos: "/likes/get-user-like-videos",
-    createLike: "/likes/like",
-    deleteLike: "/likes/dislike",
+    likeDislike: "/likes/like-dislike",
+  },
+  follows: {
+    createFollowAndUnfollow: "/subscriptions/create-subscribe-and-unsubscribe",
   },
 };
 

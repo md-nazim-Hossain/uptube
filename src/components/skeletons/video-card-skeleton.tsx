@@ -4,14 +4,21 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { Skeleton } from "../ui/skeleton";
 
-export function VideoCardSkeleton() {
+type SkeletonProps = {
+  className?: string;
+  showAvatar?: boolean;
+};
+export function VideoCardSkeleton({
+  className,
+  showAvatar = true,
+}: SkeletonProps) {
   return (
-    <div className="w-full space-y-2">
+    <div className={cn("w-full space-y-2", className)}>
       <Skeleton className="w-full aspect-video rounded-2xl" />
       <div className="flex gap-3">
-        <Skeleton className="size-9 rounded-full" />
+        {showAvatar && <Skeleton className="size-9 rounded-full" />}
         <div className="flex-1 space-y-1.5">
-          <Skeleton className="w-11/12 h-4" />
+          <Skeleton className={cn("h-4", !showAvatar ? "w-full" : "w-11/12")} />
           <Skeleton className="w-1/2 h-3" />
           <div className="flex gap-1">
             <Skeleton className="w-10 h-2" />

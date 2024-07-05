@@ -21,6 +21,7 @@ function Comments({ comments, className, contentId }: Props) {
               key={comment._id}
               comment={comment}
               className={className}
+              contentId={contentId}
             />
           ))}
         </div>

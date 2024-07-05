@@ -1,31 +1,27 @@
+"use client";
 import React from "react";
 import FullViewVideo from "./_components/full-view-video";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { apiRoutes } from "@/utils/routes";
-import { IVideo } from "@/types";
+import { IAPIResponse, IVideo } from "@/types";
 
-async function page({ searchParams: { v } }: { searchParams: { v: string } }) {
-  if (!v) redirect("/");
-  const data = await fetch(
-    process.env.NEXT_PUBLIC_API_BASE_URL + apiRoutes.videos.getVideoById + v,
+import { useFetch } from "@/utils/reactQuery";
+import HomePageSkeleton from "@/components/skeletons/home-page-skeleton";
+function WatchPage() {
+  const v = useSearchParams().get("v");
+  const { data, isLoading, isError } = useFetch<IAPIResponse<IVideo>>(
+    apiRoutes.videos.getVideoById + v,
+    undefined,
     {
-      cache: "no-store",
-      next: {
-        tags: [v],
-      },
+      queryKey: [apiRoutes.videos.getVideoById + v, undefined],
+      enabled: !!v,
     },
-  )
-    .then((res) => res.json())
-    .then((res) => res.data as IVideo)
-    .catch((e) => {
-      redirect("/");
-    });
-  if (!data) redirect("/");
-  return (
-    <div>
-      <FullViewVideo video={data} />
-    </div>
   );
+
+  if (isLoading) return <HomePageSkeleton />;
+  const video = data?.data as IVideo;
+  if (!video || isError) redirect("/");
+  return <FullViewVideo video={video} />;
 }
 
-export default page;
+export default WatchPage;

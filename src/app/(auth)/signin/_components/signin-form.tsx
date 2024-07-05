@@ -21,6 +21,7 @@ import { IAPIResponse, IUser } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/zustand/useUserStore";
+import { useAuthStore } from "@/zustand/useAuthStore";
 const formSchema = z.object({
   identifier: z
     .string()
@@ -43,6 +44,8 @@ function SignInForm({ handleChangePage }: Props) {
   const { toast } = useToast();
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
+  const { open, setOpen } = useAuthStore((state) => state);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,7 +63,7 @@ function SignInForm({ handleChangePage }: Props) {
         title: "Login Successful",
         description: "You have successfully logged in.",
       });
-      router.push("/");
+      open ? setOpen(false) : router.push("/");
     } catch (error: IAPIResponse<any> | any) {
       console.log(error);
       toast({

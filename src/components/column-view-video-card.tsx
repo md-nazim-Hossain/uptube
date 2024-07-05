@@ -8,7 +8,10 @@ import ShareModal from "./modals/share-modal";
 import { Separator } from "./ui/separator";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
-import { VideoCardSkeletons } from "./skeletons/video-card-skeleton";
+import {
+  VideoCardSkeleton,
+  VideoCardSkeletons,
+} from "./skeletons/video-card-skeleton";
 
 const ColumnViewVideoCard = ({
   currentVideoId,
@@ -18,7 +21,18 @@ const ColumnViewVideoCard = ({
   const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
     apiRoutes.videos.getAllContentByType,
   );
-  if (isLoading) return <VideoCardSkeletons size={8} />;
+  if (isLoading)
+    return (
+      <div className="space-y-5 w-full lg:max-w-sm">
+        {Array.from({ length: 4 }, (_, i) => (
+          <VideoCardSkeleton
+            showAvatar={false}
+            className="flex gap-5 space-y-0"
+            key={i}
+          />
+        ))}
+      </div>
+    );
   const videos = data?.data?.data || [];
   const sliceVideos = videos?.slice(0, 8);
 

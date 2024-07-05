@@ -18,8 +18,14 @@ type Props = {
   trigger: React.ReactNode;
   onDelete: () => void;
   text?: string;
+  isFollow?: boolean;
 };
-function DeleteAlertModal({ trigger, onDelete, text }: Props) {
+function DeleteAlertModal({
+  trigger,
+  onDelete,
+  text,
+  isFollow = false,
+}: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger className="w-full">{trigger}</AlertDialogTrigger>
@@ -27,8 +33,10 @@ function DeleteAlertModal({ trigger, onDelete, text }: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your{" "}
-            {text} and remove your data from our servers.
+            {isFollow
+              ? `Unfollow from ${text}`
+              : ` This action cannot be undone. This will permanently delete your{" "}
+            ${text} and remove your data from our servers.`}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

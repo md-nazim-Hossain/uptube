@@ -18,7 +18,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "@/utils/axios";
 import { apiRoutes } from "@/utils/routes";
-import { revalidateTag } from "next/cache";
+import { addHTTPPrefix } from "@/utils/common";
+import { FaUserCircle } from "react-icons/fa";
+import { useAuthStore } from "@/zustand/useAuthStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CommentInputProps {
   totalComments?: number;
@@ -26,6 +29,7 @@ interface CommentInputProps {
   contentId: string;
   avatarClassName?: string;
   isReply?: boolean;
+  onSuccess?: () => void;
   onClose?: () => void;
   isEdit?: boolean;
   defaultValue?: {
@@ -43,11 +47,14 @@ function CommentInput({
   contentId,
   avatarClassName,
   isReply = false,
+  onSuccess,
   onClose,
   defaultValue,
   isEdit,
 }: CommentInputProps) {
   const user = useUserStore((state) => state.user);
+  const setOpen = useAuthStore((state) => state.setOpen);
+  const queryClient = useQueryClient();
   const [showSubmitButton, setShowSubmitButton] = React.useState(
     isReply || isEdit,
   );
@@ -73,7 +80,11 @@ function CommentInput({
         });
       }
       form.reset();
-      revalidateTag(contentId);
+      queryClient.invalidateQueries({
+        queryKey: [apiRoutes.videos.getVideoById + contentId, undefined],
+      });
+      setShowSubmitButton(false);
+      onSuccess && onSuccess();
     } catch (error) {
       console.log(error);
     }
@@ -90,12 +101,16 @@ function CommentInput({
           </h4>
         )}
         <div className="flex items-center gap-3">
-          <UpTubeAvatarImage
-            className={cn("size-9", avatarClassName)}
-            alt={user?.fullName + ""}
-            src={user?.avatar!}
-            name={user?.fullName}
-          />
+          {user ? (
+            <UpTubeAvatarImage
+              className={cn("size-9", avatarClassName)}
+              alt={user?.fullName + ""}
+              src={addHTTPPrefix(user?.avatar!)}
+              name={user?.fullName}
+            />
+          ) : (
+            <FaUserCircle className={cn("size-9", avatarClassName)} />
+          )}
           <FormField
             control={form.control}
             name="comment"
@@ -107,7 +122,9 @@ function CommentInput({
                     className="focus-visible:border-b-secondary/40"
                     variant={"destructive"}
                     {...field}
-                    onFocus={() => setShowSubmitButton(true)}
+                    onFocus={() =>
+                      user ? setShowSubmitButton(true) : setOpen(true)
+                    }
                   />
                 </FormControl>
 

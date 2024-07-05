@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { passwordRegex } from "@/utils/common";
+import { useAuthStore } from "@/zustand/useAuthStore";
 const formSchema = z
   .object({
     username: z.string().min(1, { message: "This field has to be filled." }),
@@ -51,6 +52,8 @@ const formSchema = z
   });
 
 function SignUpForm() {
+  const { open, setOpen } = useAuthStore((state) => state);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

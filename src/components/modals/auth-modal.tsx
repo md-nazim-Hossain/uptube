@@ -23,7 +23,7 @@ function AuthModal() {
               {currentAuthPage === "signup"
                 ? "Already have an account?"
                 : "Don't have an account"}
-              ?{" "}
+
               <span
                 onClick={() =>
                   handlePageChange(
@@ -32,7 +32,7 @@ function AuthModal() {
                 }
                 className="text-red-500 cursor-pointer"
               >
-                {currentAuthPage === "signup" ? "Sign In" : "Sign Up"}
+                {currentAuthPage === "signup" ? " Sign In" : " Sign Up"}
               </span>
             </h6>
           </>

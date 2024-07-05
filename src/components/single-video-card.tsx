@@ -72,7 +72,7 @@ function SingleVideoCard({
           )}
           <div className="w-full h-full">
             <VideoCard.Link
-              href={isShort ? `/shorts/${_id}` : `/watch?v=${videoFile}`}
+              href={isShort ? `/shorts/${_id}` : `/watch?v=${_id}`}
             >
               {title}
             </VideoCard.Link>
