@@ -225,31 +225,7 @@ function Navbar() {
                 className="cursor-pointer text-secondary"
               />
             </div>
-            {!user && (
-              <>
-                {" "}
-                <Link
-                  href={"/signin"}
-                  className={buttonVariants({
-                    className:
-                      "border-none px-2 py-0 hover:!bg-transparent hover:!text-primary",
-                    variant: "outline",
-                  })}
-                >
-                  Login
-                </Link>
-                <Link
-                  href={"/signup"}
-                  className={buttonVariants({
-                    variant: "destructive",
-                    className: "h-8",
-                  })}
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
-            {user && <UserNavProfile />}
+            <UserNavProfile />
           </div>
         </div>
       )}

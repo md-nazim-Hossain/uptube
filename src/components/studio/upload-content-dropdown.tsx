@@ -22,7 +22,7 @@ function UploadContentDropdown() {
   const router = useRouter();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button
           variant={"flat"}
           className="border hover:border hover:bg-transparent"

@@ -3,11 +3,15 @@ import NavbarSkeleton from "./navbar-skeleton";
 import { Skeleton } from "../ui/skeleton";
 import { VideoCardSkeletons } from "./video-card-skeleton";
 import { TopFansSkeletons } from "./top-fans-skeleton";
+import { cn } from "@/lib/utils";
 
-function HomePageSkeleton() {
+type Props = {
+  showNavbar?: boolean;
+};
+function HomePageSkeleton({ showNavbar = true }: Props) {
   return (
-    <div className="space-y-5">
-      <NavbarSkeleton />
+    <div className={cn("", showNavbar ? "space-y-5" : "")}>
+      {showNavbar && <NavbarSkeleton />}
       <div className="container flex gap-10">
         <div className="flex-1 space-y-5">
           <div className="flex-1 space-y-5">

@@ -61,6 +61,7 @@ function DiscoverSlider({ favorites, className }: Props) {
                 url={video?.videoFile}
                 thumbnail={video?.thumbnail}
                 videoDuration={video?.duration}
+                _id={video?._id}
               />
               <div className="absolute bottom-10 left-10 space-y-5">
                 <Typography variant={"h1"} className="text-white">

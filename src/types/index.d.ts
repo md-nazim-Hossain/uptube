@@ -41,8 +41,6 @@ export type IChannelProfile = IUser & {
   totalViews: number;
   totalVideos: number;
   channelSubscribedToCount: number;
-  subscribers: any[];
-  subscribedTo: any[];
 };
 
 export interface GetInfinitePagesInterface<T> {
@@ -105,4 +103,10 @@ export interface IUserFavoriteVideo {
   createdAt: string;
   updatedAt: string;
   likedBy: string;
+}
+export interface IFollower {
+  _id: string;
+  subscriber: IUser;
+  createdAt: string;
+  updatedAt: string;
 }

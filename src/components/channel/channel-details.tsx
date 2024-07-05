@@ -1,15 +1,16 @@
 "use client";
 
 import Follower from "@/components/follower";
-import SingleVideoCard from "@/components/single-video-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IChannelProfile, IVideo } from "@/types";
+import { IChannelProfile, IFollower } from "@/types";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import Videos from "../videos";
 import ChannelShorts from "./channel-shorts";
 import ChannelPlaylists from "./channel-playlists";
+import ChannelUserFavoriteVideos from "./channel-user-favorite-videos";
+import EmptyState from "../empty-state";
 
 type Props = {
   channel: IChannelProfile;
@@ -23,7 +24,6 @@ function ChannelDetails({ channel }: Props) {
     setTab(currentTab);
   }, [currentTab]);
 
-  const { subscribers, subscribedTo } = channel || {};
   return (
     <Tabs value={tab} onValueChange={setTab}>
       <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
@@ -86,18 +86,19 @@ function ChannelDetails({ channel }: Props) {
         </TabsContent>
         {isMyChannel && (
           <>
-            {" "}
             <TabsContent value="likes">
-              {/* <Videos videos={youtubeVideos} className="py-5" /> */}
+              <ChannelUserFavoriteVideos />
             </TabsContent>
             <TabsContent value="followers">
-              <div className="grid grid-cols-4 gap-5 py-10">
-                <Follower
-                  fullName="Shadcn"
-                  src="https://github.com/shadcn.png"
-                  username="shadcn"
-                />
-              </div>
+              {channel?.subscribersCount > 0 ? (
+                <div className="grid grid-cols-4 gap-5 py-10">
+                  {/* {subscribers?.map((subscriber: IFollower, index) => (
+                    <Follower key={index} {...subscriber?.subscriber} />
+                  ))} */}
+                </div>
+              ) : (
+                <EmptyState text={"No followers found"} />
+              )}
             </TabsContent>
             <TabsContent value="following">
               <div>Following</div>

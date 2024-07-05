@@ -1,18 +1,26 @@
-import React from "react";
+"use client";
 
-import { notFound, redirect } from "next/navigation";
-import axios from "@/utils/axios";
-import { IChannelProfile } from "@/types";
+import React from "react";
+import { IAPIResponse, IChannelProfile } from "@/types";
 import ChannelProfile from "@/components/channel/channel-profile";
 import ChannelDetails from "@/components/channel/channel-details";
-async function UserProfilePage({ params }: { params: { username: string } }) {
+import ChannelNotFound from "@/components/channel/channel-not-found";
+import { useFetch } from "@/utils/reactQuery";
+import ChannelProfileSkeleton from "@/components/skeletons/channel-profile-skeletons";
+function UserProfilePage({ params }: { params: { username: string } }) {
   const channelName = decodeURIComponent(params?.username);
-  if (!channelName || !channelName.startsWith("@")) return notFound();
-  const channel = await axios
-    .get(`/users/${channelName}/channel-profile`)
-    .then((res) => res.data.data as IChannelProfile)
-    .catch((e) => redirect("/"));
-  if (!channel) return redirect("/");
+  const { data, isLoading } = useFetch<IAPIResponse<IChannelProfile>>(
+    `/users/${channelName}/channel-profile`,
+    {},
+    {
+      enabled: !!channelName && channelName.startsWith("@"),
+      queryKey: ["/users/" + channelName + "/channel-profile", undefined],
+    },
+  );
+
+  if (isLoading) return <ChannelProfileSkeleton />;
+  const channel = data?.data as IChannelProfile;
+  if (!channel) return <ChannelNotFound />;
   return (
     <div className="pb-10 space-y-5 w-full h-full">
       <ChannelProfile channel={channel} />
