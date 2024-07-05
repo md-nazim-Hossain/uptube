@@ -104,9 +104,18 @@ export interface IUserFavoriteVideo {
   updatedAt: string;
   likedBy: string;
 }
-export interface IFollower {
+
+interface IBaseOfFollower {
   _id: string;
-  subscriber: IUser;
   createdAt: string;
   updatedAt: string;
+}
+export interface IFollower extends IBaseOfFollower {
+  channel: string;
+  subscriber: IUser;
+}
+
+export interface IFollowing extends IBaseOfFollower {
+  channel: IUser;
+  subscriber: string;
 }

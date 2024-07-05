@@ -6,8 +6,13 @@ import Link from "next/link";
 import FollowUnfollow from "./channel/follow-unfollow";
 import { IFollower } from "@/types";
 
-type Props = IFollower["subscriber"];
-function Follower({ username, avatar, fullName, isSubscribed }: Props) {
+type Props = {
+  username: string;
+  avatar: string;
+  fullName: string;
+  isFollow: boolean;
+};
+function Follower({ username, avatar, fullName, isFollow }: Props) {
   return (
     <div className="w-full max-w-[230px] md:max-w-[240px] space-y-1.5">
       <Link href={`/channel/${username}`} className="space-y-2.5">
@@ -23,7 +28,7 @@ function Follower({ username, avatar, fullName, isSubscribed }: Props) {
       </Link>
       <div className="flex items-center justify-center">
         <FollowUnfollow
-          isFollow={isSubscribed}
+          isFollow={isFollow}
           revalidateQueryKey=""
           className="text-destructive h-max text-xs px-2 py-0.5"
           channelName={fullName}

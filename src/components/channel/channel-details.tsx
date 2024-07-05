@@ -11,6 +11,8 @@ import ChannelShorts from "./channel-shorts";
 import ChannelPlaylists from "./channel-playlists";
 import ChannelUserFavoriteVideos from "./channel-user-favorite-videos";
 import EmptyState from "../empty-state";
+import ChannelFollowers from "./channel-followers";
+import ChannelFollowings from "./channel-followings";
 
 type Props = {
   channel: IChannelProfile;
@@ -90,18 +92,10 @@ function ChannelDetails({ channel }: Props) {
               <ChannelUserFavoriteVideos />
             </TabsContent>
             <TabsContent value="followers">
-              {channel?.subscribersCount > 0 ? (
-                <div className="grid grid-cols-4 gap-5 py-10">
-                  {/* {subscribers?.map((subscriber: IFollower, index) => (
-                    <Follower key={index} {...subscriber?.subscriber} />
-                  ))} */}
-                </div>
-              ) : (
-                <EmptyState text={"No followers found"} />
-              )}
+              <ChannelFollowers />
             </TabsContent>
             <TabsContent value="following">
-              <div>Following</div>
+              <ChannelFollowings />
             </TabsContent>
           </>
         )}

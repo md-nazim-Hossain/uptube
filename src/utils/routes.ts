@@ -38,6 +38,8 @@ export const apiRoutes = {
   },
   follows: {
     createFollowAndUnfollow: "/subscriptions/create-subscribe-and-unsubscribe",
+    getAllChannelFollower: "/subscriptions/get-all-channel-subscriber",
+    getAllFollowingChannel: "/subscriptions/get-all-subscribed-channel",
   },
 };
 
