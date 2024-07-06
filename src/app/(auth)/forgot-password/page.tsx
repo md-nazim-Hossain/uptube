@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import ForgotPasswordForm from "./_components/forgot-password-form";
 import { Typography } from "@/components/ui/typography";
+import ForgotPasswordForm from "@/components/auth/forgot-password-form";
 
 function page() {
   return (

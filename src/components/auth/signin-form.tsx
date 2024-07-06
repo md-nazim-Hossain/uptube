@@ -40,9 +40,9 @@ const formSchema = z.object({
 });
 
 type Props = {
-  handleChangePage?: (page: string) => void;
+  handleChangeAuthModalState?: (state: string) => void;
 };
-function SignInForm({ handleChangePage }: Props) {
+function SignInForm({ handleChangeAuthModalState }: Props) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const router = useRouter();
@@ -55,6 +55,7 @@ function SignInForm({ handleChangePage }: Props) {
       identifier: "",
       password: "",
     },
+    mode: "all",
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -106,7 +107,7 @@ function SignInForm({ handleChangePage }: Props) {
               <div>
                 <div className="flex justify-between items-center">
                   <FormLabel>Password</FormLabel>
-                  {!handleChangePage ? (
+                  {!handleChangeAuthModalState ? (
                     <Link
                       href="/forgot-password"
                       className="text-xs hover:underline font-normal text-secondary"
@@ -115,7 +116,9 @@ function SignInForm({ handleChangePage }: Props) {
                     </Link>
                   ) : (
                     <span
-                      onClick={() => handleChangePage("forgot-password")}
+                      onClick={() =>
+                        handleChangeAuthModalState("forgot-password")
+                      }
                       className="text-xs hover:underline font-normal text-secondary cursor-pointer"
                     >
                       Lost your password?

@@ -2,61 +2,89 @@
 
 import React from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
-import SignInForm from "@/app/(auth)/signin/_components/signin-form";
-import SignUpForm from "@/app/(auth)/signup/_components/sign-up-form";
-import ForgotPasswordForm from "@/app/(auth)/forgot-password/_components/forgot-password-form";
+import ForgotPasswordForm from "../auth/forgot-password-form";
 import { useAuthStore } from "@/zustand/useAuthStore";
+import SignInForm from "../auth/signin-form";
+import SignUpForm from "../auth/sign-up-form";
+import VerifyAccount from "../auth/verify-account";
+import { Typography } from "../ui/typography";
 
 function AuthModal() {
   const { open, setOpen } = useAuthStore((state) => state);
-  const [currentAuthPage, setCurrentAuthPage] = React.useState("signin");
-  const handlePageChange = (page: string) => {
-    setCurrentAuthPage(page);
+  const [currentAuthState, setCurrentAuthState] = React.useState("signin");
+  const handleChangeAuthModalState = (val: string) => {
+    setCurrentAuthState(val);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent showClose={false}>
-        {(currentAuthPage === "signup" || currentAuthPage === "signin") && (
+        {(currentAuthState === "signup" || currentAuthState === "signin") && (
           <>
-            <h3>{currentAuthPage === "signup" ? "Sign Up" : "Sign In"}</h3>
-            <h6 className="py-5">
-              {currentAuthPage === "signup"
+            <Typography variant={"h3"}>
+              {currentAuthState === "signup" ? "Sign Up" : "Sign In"}
+            </Typography>
+            <Typography
+              variant={"p"}
+              className="py-5 font-normal [&:not(:first-child)]:mt-0"
+            >
+              {currentAuthState === "signup"
                 ? "Already have an account?"
                 : "Don't have an account"}
 
               <span
                 onClick={() =>
-                  handlePageChange(
-                    currentAuthPage === "signup" ? "signin" : "signup",
+                  handleChangeAuthModalState(
+                    currentAuthState === "signup" ? "signin" : "signup",
                   )
                 }
                 className="text-red-500 cursor-pointer"
               >
-                {currentAuthPage === "signup" ? " Sign In" : " Sign Up"}
+                {currentAuthState === "signup" ? " Sign In" : " Sign Up"}
               </span>
-            </h6>
+            </Typography>
           </>
         )}
-        {currentAuthPage === "forgot-password" && (
+        {currentAuthState === "forgot-password" && (
           <>
-            <h3> Forgot Password</h3>
-            <h6>
+            <Typography variant={"h3"}> Forgot Password</Typography>
+            <Typography variant={"muted"}>
               Please enter your username or email address. You will receive a
               link to create a new password via email.
-            </h6>
+            </Typography>
           </>
         )}
-        {currentAuthPage === "signin" && (
-          <SignInForm handleChangePage={handlePageChange} />
+        {currentAuthState === "verify" && (
+          <>
+            <Typography variant={"h3"}> Verify Account</Typography>
+            <Typography className="py-5 font-normal [&:not(:first-child)]:mt-0">
+              Already Verified{" "}
+              <span
+                onClick={() => handleChangeAuthModalState("signin")}
+                className="text-red-500"
+              >
+                Sign In
+              </span>
+            </Typography>
+          </>
         )}
-        {currentAuthPage === "signup" && <SignUpForm />}
-        {currentAuthPage === "forgot-password" && (
+        {currentAuthState === "signin" && (
+          <SignInForm handleChangeAuthModalState={handleChangeAuthModalState} />
+        )}
+        {currentAuthState === "signup" && (
+          <SignUpForm handleChangeAuthModalState={handleChangeAuthModalState} />
+        )}
+        {currentAuthState === "verify" && (
+          <VerifyAccount
+            handleChangeAuthModalState={handleChangeAuthModalState}
+          />
+        )}
+        {currentAuthState === "forgot-password" && (
           <>
             <ForgotPasswordForm />
             <h6>
               Returns to{" "}
               <span
-                onClick={() => handlePageChange("signin")}
+                onClick={() => handleChangeAuthModalState("signin")}
                 className="text-red-500 cursor-pointer"
               >
                 Sign In

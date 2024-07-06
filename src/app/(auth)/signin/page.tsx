@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { Suspense } from "react";
-import SignInForm from "./_components/signin-form";
 import { Typography } from "@/components/ui/typography";
+import SignInForm from "@/components/auth/signin-form";
 
 function page() {
   return (

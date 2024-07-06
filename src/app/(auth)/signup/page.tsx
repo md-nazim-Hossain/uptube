@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import SignUpForm from "./_components/sign-up-form";
 import { Typography } from "@/components/ui/typography";
+import SignUpForm from "@/components/auth/sign-up-form";
 
 function page() {
   return (

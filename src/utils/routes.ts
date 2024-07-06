@@ -11,6 +11,7 @@ export const apiRoutes = {
   },
   users: {
     register: "/users/register",
+    verifyAccount: "/users/verify-user",
     getCurrentUser: "/users/user",
     getUser: "/users/user",
     getAllChannelFollower: "/users/get-all-channel-subscriber",
