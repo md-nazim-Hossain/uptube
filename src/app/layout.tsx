@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 
 import "@/styles/globals.css";
 import { ProvidersTree } from "@/components/providers/providers-tree";
@@ -32,6 +33,7 @@ export default function RootLayout({
           <ModaProvider />
         </ProvidersTree>
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
