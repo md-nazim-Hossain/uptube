@@ -10,6 +10,7 @@ export const apiRoutes = {
     getVideoByUserId: "/videos/get-video-by-user-id",
   },
   users: {
+    register: "/users/register",
     getCurrentUser: "/users/user",
     getUser: "/users/user",
     getAllChannelFollower: "/users/get-all-channel-subscriber",

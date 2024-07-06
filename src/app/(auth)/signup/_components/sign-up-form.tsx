@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { passwordRegex } from "@/utils/common";
 import { useAuthStore } from "@/zustand/useAuthStore";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 const formSchema = z
   .object({
     username: z.string().min(1, { message: "This field has to be filled." }),
@@ -32,7 +34,7 @@ const formSchema = z
           message: "Invalid email address.",
         },
       ),
-
+    fullName: z.string().min(1, { message: "This field has to be filled." }),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters.")
@@ -53,21 +55,25 @@ const formSchema = z
 
 function SignUpForm() {
   const { open, setOpen } = useAuthStore((state) => state);
-
+  const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
       email: "",
+      fullName: "",
       password: "",
       confirmPassword: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    try {
+      // Do something with the form values.
+      // ✅ This will be type-safe and validated.
+      console.log(values);
+    } catch (error) {}
   }
   return (
     <Form {...form}>
@@ -84,6 +90,22 @@ function SignUpForm() {
                 </FormControl>
               </div>
 
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="fullName"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl className="py-1 h-max">
+                  <Input variant={"destructive"} {...field} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}

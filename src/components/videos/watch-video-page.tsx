@@ -3,9 +3,9 @@ import { IAPIResponse, IVideo } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import React from "react";
-import HomePageSkeleton from "../skeletons/home-page-skeleton";
 import EmptyState from "../empty-state";
 import FullViewVideo from "./full-view-video";
+import WatchPageSkeletons from "../skeletons/watch-page-skeletons";
 
 type IWatchVideoPageProps = {
   videoId: string;
@@ -19,7 +19,7 @@ function WatchVideoPage({ videoId }: IWatchVideoPageProps) {
       enabled: !!videoId,
     },
   );
-  if (isLoading) return <HomePageSkeleton />;
+  if (isLoading) return <WatchPageSkeletons />;
   const video = data?.data as IVideo;
   if (!video)
     return <EmptyState text={"This video isn't available any more"} />;

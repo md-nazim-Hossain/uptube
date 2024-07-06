@@ -3,6 +3,7 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ReactNode } from "react";
 import ReactQueryProvider from "./react-query-provider";
+
 const buildProviders = (componentWithProps: any[]) => {
   const initialComponents = ({ children }: { children: ReactNode }) => (
     <>{children}</>

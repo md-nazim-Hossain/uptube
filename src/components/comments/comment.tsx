@@ -27,7 +27,6 @@ function Comment({ className, comment, contentId }: CommentProps) {
   const { content, owner, createdAt, _id, isEdited, isLiked, likes } = comment;
   const [isReply, setIsReply] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
-  const [isLike, setIsLike] = React.useState(isLiked);
   const isMyComment = user?._id === owner?._id;
   const { mutateAsync: commentDelete } = useDelete<any>(
     apiRoutes.comments.deleteComment,
@@ -75,16 +74,12 @@ function Comment({ className, comment, contentId }: CommentProps) {
   );
 
   const handleLikedAndDisliked = async (id: string) => {
-    const prevLike = isLike;
     try {
-      setIsLike(!isLike);
       await mutateLikeDislike({
         commentId: id,
-        state: isLike ? "dislike" : "like",
+        state: isLiked ? "dislike" : "like",
       });
-    } catch (error) {
-      setIsLike(prevLike);
-    }
+    } catch (error) {}
   };
 
   if (isEdit)
@@ -163,7 +158,7 @@ function Comment({ className, comment, contentId }: CommentProps) {
               variant="icon"
               className="size-8 text-base rounded-full p-0 hover:bg-primary/10"
             >
-              {isLike ? <IoMdHeart /> : <IoIosHeartEmpty />}
+              {isLiked ? <IoMdHeart /> : <IoIosHeartEmpty />}
             </Button>
             <Typography variant="muted">{viewsFormat(likes)}</Typography>
           </div>

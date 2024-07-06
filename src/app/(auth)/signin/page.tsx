@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import SignInForm from "./_components/signin-form";
 import { Typography } from "@/components/ui/typography";
 
@@ -13,7 +13,9 @@ function page() {
           Sign Up
         </Link>
       </Typography>
-      <SignInForm />
+      <Suspense>
+        <SignInForm />
+      </Suspense>
     </div>
   );
 }

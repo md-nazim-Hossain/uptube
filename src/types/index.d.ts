@@ -23,6 +23,7 @@ export type IUser = {
   createdAt: string;
   email: string;
   fullName: string;
+  country: string;
   isVerified: boolean;
   _id: string;
   updatedAt: string;

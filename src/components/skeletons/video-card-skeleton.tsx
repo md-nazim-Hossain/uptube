@@ -49,3 +49,17 @@ export function VideoCardSkeletons({ className, size = 4 }: Props) {
     </div>
   );
 }
+
+export function ColumnViewVideoCardSkeletons({ className, size = 4 }: Props) {
+  return (
+    <div className={cn("space-y-5 w-full md:max-w-md lg:max-w-sm", className)}>
+      {Array.from({ length: size }, (_, i) => (
+        <VideoCardSkeleton
+          showAvatar={false}
+          className="flex gap-5 space-y-0 flex-col sm:flex-row"
+          key={i}
+        />
+      ))}
+    </div>
+  );
+}

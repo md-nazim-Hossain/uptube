@@ -19,9 +19,11 @@ import Link from "next/link";
 import axios from "@/utils/axios";
 import { IAPIResponse, IUser } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useAuthStore } from "@/zustand/useAuthStore";
+import { useQueryClient } from "@tanstack/react-query";
+import { apiRoutes } from "@/utils/routes";
 const formSchema = z.object({
   identifier: z
     .string()
@@ -41,11 +43,12 @@ type Props = {
   handleChangePage?: (page: string) => void;
 };
 function SignInForm({ handleChangePage }: Props) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
   const { open, setOpen } = useAuthStore((state) => state);
-
+  const videoId = useSearchParams()?.get("v");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,6 +66,10 @@ function SignInForm({ handleChangePage }: Props) {
         title: "Login Successful",
         description: "You have successfully logged in.",
       });
+      if (videoId)
+        queryClient.invalidateQueries({
+          queryKey: [apiRoutes.videos.getVideoById + videoId, undefined],
+        });
       open ? setOpen(false) : router.push("/");
     } catch (error: IAPIResponse<any> | any) {
       console.log(error);

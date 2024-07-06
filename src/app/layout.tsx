@@ -6,6 +6,8 @@ import { ProvidersTree } from "@/components/providers/providers-tree";
 import { inter, roboto } from "@/utils/font";
 import ModaProvider from "@/components/modals/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
+import ProgressBarProviders from "@/components/providers/progress-providers";
+
 export const metadata: Metadata = {
   title: "UPTube",
   description:
@@ -34,6 +36,7 @@ export default function RootLayout({
         </ProvidersTree>
         <Toaster />
         <Analytics />
+        <ProgressBarProviders />
       </body>
     </html>
   );
