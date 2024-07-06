@@ -1,21 +1,28 @@
 import React from "react";
 import UpTubeAvatarImage from "./uptube/uptube-avatar-image";
 import { Typography } from "./ui/typography";
-import { Button } from "./ui/button";
 import Link from "next/link";
 import FollowUnfollow from "./channel/follow-unfollow";
-import { IFollower } from "@/types";
 
 type Props = {
   username: string;
   avatar: string;
   fullName: string;
   isFollow: boolean;
+  revalidateQueryKey: string;
+  channelId: string;
 };
-function Follower({ username, avatar, fullName, isFollow }: Props) {
+function Follower({
+  username,
+  avatar,
+  fullName,
+  isFollow,
+  revalidateQueryKey,
+  channelId,
+}: Props) {
   return (
-    <div className="w-full max-w-[230px] md:max-w-[240px] space-y-1.5">
-      <Link href={`/channel/${username}`} className="space-y-2.5">
+    <div className="w-full max-w-[230px] md:max-w-[240px] space-y-1.5 mx-auto">
+      <Link href={`/${username}`} className="space-y-2.5">
         <UpTubeAvatarImage
           src={avatar}
           alt={`Avatar of ${username}`}
@@ -29,10 +36,10 @@ function Follower({ username, avatar, fullName, isFollow }: Props) {
       <div className="flex items-center justify-center">
         <FollowUnfollow
           isFollow={isFollow}
-          revalidateQueryKey=""
+          revalidateQueryKey={revalidateQueryKey}
           className="text-destructive h-max text-xs px-2 py-0.5"
           channelName={fullName}
-          channelId={username}
+          channelId={channelId}
         />
       </div>
     </div>

@@ -58,10 +58,7 @@ function FollowUnfollow({
           trigger={
             <Button
               variant={variant}
-              className={cn(
-                "text-destructive bg-destructive text-white h-7",
-                className,
-              )}
+              className={cn("bg-destructive !text-white h-7", className)}
             >
               Unfollow
             </Button>

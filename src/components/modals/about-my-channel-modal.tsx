@@ -40,7 +40,7 @@ type Props = {
   };
 };
 function AboutMyChannelModal({ trigger, channel }: Props) {
-  const link = `${process.env.NEXT_PUBLIC_BASE_URL}/channel/${channel?.username}`;
+  const link = `${process.env.NEXT_PUBLIC_BASE_URL}/${channel?.username}`;
   return (
     <Dialog>
       <DialogTrigger>{trigger}</DialogTrigger>

@@ -12,6 +12,7 @@ export const apiRoutes = {
   users: {
     getCurrentUser: "/users/user",
     getUser: "/users/user",
+    getAllChannelFollower: "/users/get-all-channel-subscriber",
   },
   posts: {
     getAllUserPosts: "/tweets/get-all-user-tweets",
@@ -38,7 +39,6 @@ export const apiRoutes = {
   },
   follows: {
     createFollowAndUnfollow: "/subscriptions/create-subscribe-and-unsubscribe",
-    getAllChannelFollower: "/subscriptions/get-all-channel-subscriber",
     getAllFollowingChannel: "/subscriptions/get-all-subscribed-channel",
   },
 };

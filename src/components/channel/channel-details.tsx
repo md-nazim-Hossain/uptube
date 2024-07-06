@@ -1,8 +1,7 @@
 "use client";
 
-import Follower from "@/components/follower";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IChannelProfile, IFollower } from "@/types";
+import { IChannelProfile } from "@/types";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -10,7 +9,6 @@ import Videos from "../videos";
 import ChannelShorts from "./channel-shorts";
 import ChannelPlaylists from "./channel-playlists";
 import ChannelUserFavoriteVideos from "./channel-user-favorite-videos";
-import EmptyState from "../empty-state";
 import ChannelFollowers from "./channel-followers";
 import ChannelFollowings from "./channel-followings";
 
