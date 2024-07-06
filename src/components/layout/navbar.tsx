@@ -97,7 +97,7 @@ function Navbar() {
                 {user && (
                   <div className="pt-2 space-y-0.5">
                     <span className="text-xs font-light mb-4">You</span>
-                    {getChannelHistory(user.username, user._id).map(
+                    {getChannelHistory(user.username).map(
                       (item: ISideProps, index: number) => (
                         <Link
                           onClick={() => setOpen(false)}

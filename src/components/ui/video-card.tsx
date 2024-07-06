@@ -308,15 +308,19 @@ interface VideoActionsProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
   show?: boolean;
   children: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-const VideoCardActions = ({
+const VideoActions = ({
   className,
   show = false,
   children,
+  onOpenChange,
+  open,
 }: VideoActionsProps) => {
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger
         className={cn(
           "cursor-pointer h-max",
@@ -334,8 +338,8 @@ const VideoCardActions = ({
   );
 };
 
-VideoCard.Actions = VideoCardActions;
-VideoCardActions.displayName = "VideoCardActions";
+VideoCard.VideoActions = VideoActions;
+VideoActions.displayName = "VideoActions";
 
 export {
   VideoCard,
@@ -345,5 +349,5 @@ export {
   VideoCardVerifiedBadge,
   VideoCardLink,
   VideoDetails,
-  VideoCardActions,
+  VideoActions,
 };

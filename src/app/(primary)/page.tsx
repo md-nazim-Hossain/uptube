@@ -3,7 +3,7 @@ import DiscoverFavorites from "@/components/home/discover-favorites";
 import Shorts from "@/components/home/shorts";
 import TopFans from "@/components/top-fans";
 import { Typography } from "@/components/ui/typography";
-import Videos from "@/components/videos";
+import Videos from "@/components/videos/videos";
 import { useUserStore } from "@/zustand/useUserStore";
 
 function Home() {

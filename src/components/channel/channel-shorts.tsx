@@ -3,8 +3,8 @@ import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import React from "react";
 import { ShortCardSkeletons } from "../skeletons/short-card-skeleton";
-import SingleVideoCard from "../single-video-card";
 import EmptyState from "../empty-state";
+import SingleVideoCard from "../videos/single-video-card";
 
 type Props = {
   className?: string;

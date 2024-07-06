@@ -3,13 +3,11 @@
 import { IVideo } from "@/types";
 import React from "react";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
-import { Button } from "./ui/button";
-import ShareModal from "./modals/share-modal";
-import { Separator } from "./ui/separator";
 import ReactPlayer from "react-player";
 import { addHTTPPrefix } from "@/utils/common";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import VideoCardActions from "./video-card-actions";
 
 type Props = IVideo & {
   className?: string;
@@ -86,23 +84,7 @@ function SingleVideoCard({
             <VideoCard.Details createdAt={new Date(createdAt)} views={views} />
           </div>
         </div>
-        <VideoCard.Actions>
-          <Button variant={"flat"}>Add to playlist</Button>
-          <Button variant={"flat"}>Next to play</Button>
-          <Button variant={"flat"}>Add to queue</Button>
-          <ShareModal
-            trigger={<Button variant={"flat"}>Share</Button>}
-            user={{
-              subscriber: subscribersCount ?? 0,
-              avatar,
-              fullName,
-            }}
-            shareLink={`/${username}`}
-          />
-
-          <Separator />
-          <Button variant={"flat"}>Play</Button>
-        </VideoCard.Actions>
+        <VideoCardActions user={owner} />
       </VideoCard.Footer>
     </VideoCard>
   );

@@ -2,20 +2,20 @@
 import React, { useEffect } from "react";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { IVideo } from "@/types";
-import { Button } from "./ui/button";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { RiChat1Line } from "react-icons/ri";
 import { useAuthStore } from "@/zustand/useAuthStore";
-import { Typography } from "./ui/typography";
 import dynamic from "next/dynamic";
-import { VideoCard, VideoCardAvatar } from "./ui/video-card";
 import { useInView } from "react-intersection-observer";
 import { Pause, Play } from "lucide-react";
-import ShareModal from "./modals/share-modal";
 import { addHTTPPrefix } from "@/utils/common";
+import { Button } from "../ui/button";
+import { Typography } from "../ui/typography";
+import { VideoCard, VideoCardAvatar } from "../ui/video-card";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import ShareModal from "../modals/share-modal";
 
 type Props = IVideo & {
   className?: string;

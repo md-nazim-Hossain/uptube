@@ -1,12 +1,12 @@
 "use client";
 import { IAPIResponse, IVideo } from "@/types";
 import React from "react";
-import SingleVideoCard from "./single-video-card";
 import { cn } from "@/lib/utils";
 import { useFetch, useLoadMore } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
-import { VideoCardSkeletons } from "./skeletons/video-card-skeleton";
-import EmptyState from "./empty-state";
+import { VideoCardSkeletons } from "../skeletons/video-card-skeleton";
+import EmptyState from "../empty-state";
+import SingleVideoCard from "./single-video-card";
 
 type Props = {
   isFeed?: boolean;

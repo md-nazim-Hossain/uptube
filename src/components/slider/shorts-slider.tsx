@@ -10,8 +10,8 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { IVideo } from "@/types";
-import SingleVideoCard from "../single-video-card";
 import { cn } from "@/lib/utils";
+import SingleVideoCard from "../videos/single-video-card";
 
 type Props = {
   shorts: IVideo[];

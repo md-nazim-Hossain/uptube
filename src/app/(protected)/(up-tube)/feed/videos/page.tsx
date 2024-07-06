@@ -1,7 +1,7 @@
-import Videos from "@/components/videos";
+import Videos from "@/components/videos/videos";
 import React from "react";
-function page() {
+function FeedVideosPage() {
   return <Videos />;
 }
 
-export default page;
+export default FeedVideosPage;

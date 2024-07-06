@@ -126,7 +126,7 @@ function Comment({ className, comment, contentId }: CommentProps) {
             </Typography>
             <Typography variant={"muted"}>{content}</Typography>
           </div>
-          <VideoCard.Actions show={!!user}>
+          <VideoCard.VideoActions show={!!user}>
             {isMyComment ? (
               <>
                 <Button onClick={() => setIsEdit(true)} variant={"flat"}>
@@ -152,7 +152,7 @@ function Comment({ className, comment, contentId }: CommentProps) {
             ) : (
               <Button variant={"flat"}>Report</Button>
             )}
-          </VideoCard.Actions>
+          </VideoCard.VideoActions>
         </div>
         <div className="flex gap-2">
           <div className="flex gap-0.5 items-center">

@@ -1,13 +1,12 @@
 "use client";
 
 import FollowUnfollow from "@/components/channel/follow-unfollow";
-import ColumnViewVideoCard from "@/components/column-view-video-card";
 import Comments from "@/components/comments/comments";
-import ShareModal from "@/components/modals/share-modal";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Typography } from "@/components/ui/typography";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
+import ColumnViewVideoCard from "@/components/videos/column-view-video-card";
+import VideoCardActions from "@/components/videos/video-card-actions";
 import { cn } from "@/lib/utils";
 import { IVideo } from "@/types";
 import { usePost } from "@/utils/reactQuery";
@@ -56,7 +55,7 @@ function FullViewVideo({ video }: Props) {
     } catch (error) {}
   };
   return (
-    <>
+    <div>
       <VideoCard className="sm:max-w-full rounded-none">
         <VideoCard.Player
           fullPreview={true}
@@ -121,23 +120,7 @@ function FullViewVideo({ video }: Props) {
                   {viewsFormat(likes)}
                 </span>
               </div>
-              <VideoCard.Actions show={!!user}>
-                <Button variant={"flat"}>Add to playlist</Button>
-                <Button variant={"flat"}>Next to play</Button>
-                <Button variant={"flat"}>Add to queue</Button>
-                <ShareModal
-                  trigger={<Button variant={"flat"}>Share</Button>}
-                  user={{
-                    subscriber: owner?.subscribersCount ?? 0,
-                    avatar: owner?.avatar ?? "",
-                    fullName: owner?.fullName ?? "",
-                  }}
-                  shareLink={`/${owner?.username}`}
-                />
-
-                <Separator />
-                <Button variant={"flat"}>Play</Button>
-              </VideoCard.Actions>
+              <VideoCardActions user={owner} show={!!user} />
             </div>
           </div>
           <div className="mb-4 p-3 rounded-md bg-primary/10">
@@ -158,7 +141,7 @@ function FullViewVideo({ video }: Props) {
         </VideoCard.Footer>
         <ColumnViewVideoCard currentVideoId={video._id} />
       </div>
-    </>
+    </div>
   );
 }
 

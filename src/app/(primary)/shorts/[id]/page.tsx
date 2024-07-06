@@ -1,6 +1,3 @@
-import ShortVideo from "@/components/short-video";
-import { youtubeVideos } from "@/data";
-import { IYoutubeVideo } from "@/types";
 import React from "react";
 
 function ShortsVideoPage() {

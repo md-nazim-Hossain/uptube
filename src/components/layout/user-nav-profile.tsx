@@ -115,7 +115,7 @@ function UserNavProfile({ className }: Props) {
 
         <DropdownMenuItem
           onClick={() =>
-            router.push(`/channel/${data?.data?._id}?tab=stations`)
+            router.push(`/channel/${data?.data?.username}?tab=stations`)
           }
         >
           <div className="relative w-6 h-5 mr-2">

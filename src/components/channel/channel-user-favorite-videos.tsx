@@ -6,7 +6,7 @@ import { apiRoutes } from "@/utils/routes";
 import React from "react";
 import { VideoCardSkeletons } from "../skeletons/video-card-skeleton";
 import EmptyState from "../empty-state";
-import SingleVideoCard from "../single-video-card";
+import SingleVideoCard from "../videos/single-video-card";
 
 function ChannelUserFavoriteVideos() {
   const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(

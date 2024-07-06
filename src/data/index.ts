@@ -47,30 +47,27 @@ export const studioSidebarData = [
   },
 ];
 
-export const getChannelHistory = (
-  username: string,
-  id: string,
-): ISideProps[] => {
+export const getChannelHistory = (username: string): ISideProps[] => {
   return [
     {
       label: "Your Channel",
       Icon: "/assets/images/icons/channel.svg",
-      href: `/channel/${id}?tab=stations`,
+      href: `/channel/${username}?tab=stations`,
     },
     {
-      label: "History",
+      label: "Watch History",
       Icon: "/assets/images/icons/history.svg",
       href: "/feed/history",
     },
     {
       label: "Your Videos",
       Icon: "/assets/images/icons/videos.svg",
-      href: `/studio/${username}/content`,
+      href: `/studio/content/videos`,
     },
     {
       label: "Likes",
       Icon: "/assets/images/icons/like.svg",
-      href: `/channel/${id}?tab=likes`,
+      href: `/channel/${username}?tab=likes`,
     },
   ];
 };

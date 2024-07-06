@@ -1,17 +1,12 @@
 "use client";
 
-import { youtubeVideos } from "@/data";
-import { IAPIResponse, IVideo, IYoutubeVideo } from "@/types";
-import { VideoCard } from "./ui/video-card";
-import { Button } from "./ui/button";
-import ShareModal from "./modals/share-modal";
-import { Separator } from "./ui/separator";
+import { IAPIResponse, IVideo } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
-import {
-  VideoCardSkeleton,
-  VideoCardSkeletons,
-} from "./skeletons/video-card-skeleton";
+
+import VideoCardActions from "./video-card-actions";
+import { VideoCardSkeleton } from "../skeletons/video-card-skeleton";
+import { VideoCard } from "../ui/video-card";
 
 const ColumnViewVideoCard = ({
   currentVideoId,
@@ -66,23 +61,7 @@ const ColumnViewVideoCard = ({
                 views={video?.views}
               />
             </VideoCard.Footer>
-            <VideoCard.Actions show={true}>
-              <Button variant={"flat"}>Add to playlist</Button>
-              <Button variant={"flat"}>Next to play</Button>
-              <Button variant={"flat"}>Add to queue</Button>
-              <ShareModal
-                trigger={<Button variant={"flat"}>Share</Button>}
-                user={{
-                  subscriber: video?.owner?.subscribersCount || 0,
-                  avatar: video?.owner?.avatar || "",
-                  fullName: video?.owner?.fullName || "",
-                }}
-                shareLink={`/${video?.owner?.username}`}
-              />
-
-              <Separator />
-              <Button variant={"flat"}>Play</Button>
-            </VideoCard.Actions>
+            <VideoCardActions user={video?.owner} show />
           </VideoCard>
         );
       })}
