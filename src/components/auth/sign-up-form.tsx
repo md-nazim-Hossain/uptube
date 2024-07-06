@@ -237,6 +237,7 @@ function SignUpForm({ handleChangeAuthModalState }: Props) {
         <FormSubmitButton
           loadingText="Creating..."
           loading={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting}
           variant={"outline"}
           className="sm:max-w-[15rem] w-full text-destructive"
         >

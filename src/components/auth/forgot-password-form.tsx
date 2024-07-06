@@ -65,6 +65,7 @@ function ForgotPasswordForm() {
         <FormSubmitButton
           loadingText="Getting..."
           loading={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting}
           variant={"outline"}
           className="px-6 w-full sm:w-max text-destructive"
         >
