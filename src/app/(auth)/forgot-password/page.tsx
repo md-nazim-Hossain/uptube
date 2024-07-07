@@ -8,13 +8,13 @@ function page() {
     <div className="space-y-5">
       <Typography variant={"h2"}> Forgot Password</Typography>
       <Typography>
-        Please enter your username or email address. You will receive a link to
+        Please enter your registered email address. You will receive a link to
         create a new password via email.
       </Typography>
       <ForgotPasswordForm />
       <Typography>
         Returns to{" "}
-        <Link href="/signin" className="text-red-500">
+        <Link href="/signin" className="text-red-500 hover:underline">
           Sign In
         </Link>
       </Typography>

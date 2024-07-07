@@ -3,32 +3,43 @@
 import React from "react";
 import UpTubeAvatarImage from "./uptube/uptube-avatar-image";
 import { Typography, typographyVariants } from "./ui/typography";
-import { Button } from "./ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { apiRoutes } from "@/utils/routes";
+import { useFetch } from "@/utils/reactQuery";
+import { IAPIResponse, IFollower } from "@/types";
+import { TopFansSkeletons } from "./skeletons/top-fans-skeleton";
+import FollowUnfollow from "./channel/follow-unfollow";
 
 function TopFans() {
-  const fans = ["shadcn", "shadcn", "shadcn", "shadcn", "shadcn", "shadcn"];
+  const { data, isLoading } = useFetch<IAPIResponse<IFollower[]>>(
+    apiRoutes.users.getAllChannelFollower,
+  );
+
+  if (isLoading) return <TopFansSkeletons size={6} />;
+
+  const followers = data?.data || [];
+  if (!followers.length) return null;
   return (
     <div className="space-y-5">
       <Typography variant={"h3"}>Top Fans</Typography>
       <div className="flex flex-row lg:flex-col gap-5 flex-wrap">
-        {fans.map((fan, index) => (
+        {followers.map((follower, index) => (
           <div
             key={index}
             className="flex flex-col lg:flex-row items-center gap-3"
           >
-            <Link href={`/@${fan}`}>
+            <Link href={`/${follower?.subscriber?.username}`}>
               <UpTubeAvatarImage
                 className="size-12"
-                name="Shadcn"
-                src="https://github.com/shadcn.png"
-                alt="Shadcn"
+                name={follower?.subscriber?.fullName}
+                src={follower?.subscriber?.avatar}
+                alt={`Avatar of ${follower?.subscriber?.username}`}
               />
             </Link>
             <div className="flex flex-col gap-1 items-center">
               <Link
-                href={`/@${fan}`}
+                href={`/${follower?.subscriber?.username}`}
                 className={cn(
                   typographyVariants({
                     variant: "small",
@@ -36,14 +47,15 @@ function TopFans() {
                   }),
                 )}
               >
-                {fan}
+                {follower?.subscriber?.fullName}
               </Link>
-              <Button
-                className="text-destructive h-max text-xs px-2 py-0.5"
-                variant={"outline"}
-              >
-                Follow
-              </Button>
+              <FollowUnfollow
+                className="h-max text-xs px-2 py-0.5"
+                isFollow={follower?.subscriber?.isSubscribed}
+                revalidateQueryKey={apiRoutes.users.getAllChannelFollower}
+                channelName={follower?.subscriber?.fullName}
+                channelId={follower?.subscriber?._id}
+              />
             </div>
           </div>
         ))}

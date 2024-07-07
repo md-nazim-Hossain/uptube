@@ -4,7 +4,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { passwordRegex } from "@/utils/common";
 import {
   Form,
   FormControl,
@@ -15,7 +14,6 @@ import {
   FormSubmitButton,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 const formSchema = z.object({
   email: z
     .string()

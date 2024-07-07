@@ -9,7 +9,7 @@ function page() {
       <Typography variant={"h2"}> Sign In</Typography>
       <Typography className="py-5 font-normal [&:not(:first-child)]:mt-0">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-red-500">
+        <Link href="/signup" className="text-red-500 hover:underline">
           Sign Up
         </Link>
       </Typography>
