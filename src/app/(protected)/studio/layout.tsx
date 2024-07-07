@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import Sidebar from "@/components/studio/sidebar";
-import StudioNavbar from "@/components/studio/studio-navbar";
+import Sidebar from "@/components/studio/layout/sidebar";
+import StudioNavbar from "@/components/studio/layout/studio-navbar";
 
 function StudioRootLayout({ children }: { children: React.ReactNode }) {
   return (

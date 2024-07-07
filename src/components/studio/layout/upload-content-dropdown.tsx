@@ -1,4 +1,7 @@
 "use client";
+import PlaylistFormModal from "@/components/modals/playlist-form-modal";
+import PostFormModal from "@/components/modals/post-form-modal";
+import UploadVideoModal from "@/components/modals/upload-video-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,9 +17,6 @@ import {
   PiUploadThin,
   PiVideoLight,
 } from "react-icons/pi";
-import UploadVideoModal from "../modals/upload-video-modal";
-import PostFormModal from "../modals/post-form-modal";
-import PlaylistFormModal from "../modals/playlist-form-modal";
 
 function UploadContentDropdown() {
   const router = useRouter();

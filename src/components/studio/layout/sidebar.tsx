@@ -1,17 +1,17 @@
 "use client";
 import React from "react";
-import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
+import UpTubeAvatarImage from "../../uptube/uptube-avatar-image";
 import { useUserStore } from "@/zustand/useUserStore";
-import { Typography } from "../ui/typography";
+import { Typography } from "../../ui/typography";
 import { CiLocationArrow1 } from "react-icons/ci";
 import Link from "next/link";
 import { studioSidebarData } from "@/data";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Switch } from "../ui/switch";
+import { Switch } from "../../ui/switch";
 import { useTheme } from "next-themes";
-import { Label } from "../ui/label";
+import { Label } from "../../ui/label";
 
 function Sidebar() {
   const user = useUserStore((state) => state.user);

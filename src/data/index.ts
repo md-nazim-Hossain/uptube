@@ -5,6 +5,7 @@ import {
   FaInstagram,
   FaFacebook,
   FaTwitter,
+  FaWandMagicSparkles,
 } from "react-icons/fa6";
 import { FiFacebook } from "react-icons/fi";
 import { IoGridSharp } from "react-icons/io5";
@@ -44,6 +45,11 @@ export const studioSidebarData = [
     label: "Comments",
     Icon: BiCommentDetail,
     href: "/studio/comments",
+  },
+  {
+    label: "Customisation",
+    Icon: FaWandMagicSparkles,
+    href: "/studio/editing",
   },
 ];
 

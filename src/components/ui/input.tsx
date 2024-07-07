@@ -42,8 +42,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {type === "password" ? (
           <div
             className={cn(
-              "flex items-center border-input border-b focus-within:border-b-2 justify-between gap-2 focus-within:border-b-red-500",
-              className,
+              inputVariants({
+                variant,
+                inputSize,
+                className:
+                  variant === "destructive"
+                    ? cn(
+                        "flex items-center border-input border-b focus-within:border-b-2 justify-between gap-2 focus-within:border-b-red-500",
+                        className,
+                      )
+                    : cn(
+                        "focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+                        className,
+                      ),
+              }),
             )}
           >
             <input

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
-import { Input } from "../ui/input";
-import UpTubeImage from "../uptube/uptube-image";
+import { Input } from "../../ui/input";
+import UpTubeImage from "../../uptube/uptube-image";
 import { cn } from "@/lib/utils";
 import { PiImageThin } from "react-icons/pi";
 

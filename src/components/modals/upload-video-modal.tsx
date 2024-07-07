@@ -23,8 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
-import Thumbnail from "../studio/thumbnail";
-import UploadContent from "../studio/upload-content";
+import Thumbnail from "../studio/layout/thumbnail";
 import axios from "@/utils/axios";
 import { useToast } from "../ui/use-toast";
 import { AxiosError } from "axios";
@@ -32,6 +31,7 @@ import { IAPIResponse } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
+import UploadContent from "../studio/layout/upload-content";
 
 type Props = {
   trigger: React.ReactNode;

@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
-import { Input } from "../ui/input";
+
 import { cn } from "@/lib/utils";
 import { PiTrashSimpleThin, PiUploadThin } from "react-icons/pi";
 import ReactPlayer from "react-player";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   getFile: (file: File | null) => void;
