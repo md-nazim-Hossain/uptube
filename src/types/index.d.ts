@@ -120,3 +120,11 @@ export interface IFollowing extends IBaseOfFollower {
   channel: IUser;
   subscriber: string;
 }
+
+export interface IEditBrandingField {
+  name: string;
+  label: string;
+  description: string;
+  recommendedText: string;
+  handleChange: (File: File) => any;
+}

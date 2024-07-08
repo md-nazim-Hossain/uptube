@@ -9,20 +9,17 @@ import Image from "next/image";
 import { ISideProps } from "@/types";
 import { cn } from "@/lib/utils";
 import { Separator } from "../ui/separator";
-import { Switch } from "../ui/switch";
-import { Label } from "../ui/label";
-import { useTheme } from "next-themes";
 import { SearchBoxDesktop, SearchBoxMobile } from "../search-box";
 import { FiSearch } from "react-icons/fi";
 import UpTubeImage from "../uptube/uptube-image";
 import { useUserStore } from "@/zustand/useUserStore";
 import UserNavProfile from "./user-nav-profile";
 import Logo from "./logo";
+import Theme from "./theme";
 
 function Navbar() {
   const user = useUserStore((state) => state.user);
   const [open, setOpen] = React.useState(false);
-  const { setTheme, theme } = useTheme();
   const [openMobileSearch, setOpenMobileSearch] = React.useState(false);
   return (
     <>
@@ -168,19 +165,7 @@ function Navbar() {
                       />
                       <span className="text-sm text-secondary">Settings</span>
                     </Link>
-                    <div className="flex items-center space-x-3">
-                      <Switch
-                        onCheckedChange={(e) => setTheme(e ? "dark" : "light")}
-                        checked={theme === "dark"}
-                        id="dark-mode"
-                      />
-                      <Label
-                        className="text-sm text-secondary font-normal"
-                        htmlFor="dark-mode"
-                      >
-                        Dark Mode
-                      </Label>
-                    </div>
+                    <Theme showLabel className="text-secondary" />
                   </div>
                 </div>
 

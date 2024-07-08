@@ -40,7 +40,7 @@ export function PlaylistTableRowActions<TData>({
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex h-8 w-8 p-0 hover:bg-primary/10 data-[state=open]:bg-primary/10"
+          className="flex h-8 w-8 p-0 bg-transparent dark:bg-primary/10 hover:dark:bg-primary/10 hover:bg-transparent data-[state=open]:dark:bg-primary/10"
         >
           <HiOutlineDotsVertical className="h-4 w-4" />
           <span className="sr-only">Open menu</span>

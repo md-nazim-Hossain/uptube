@@ -9,37 +9,68 @@ import { studioSidebarData } from "@/data";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Switch } from "../../ui/switch";
-import { useTheme } from "next-themes";
-import { Label } from "../../ui/label";
+import { useLayoutStore } from "@/zustand/useLayoutStore";
+import Theme from "@/components/layout/theme";
 
 function Sidebar() {
   const user = useUserStore((state) => state.user);
+  const openStudioSidebar = useLayoutStore((state) => state.openStudioSidebar);
   const pathname = usePathname();
-  const { setTheme, theme } = useTheme();
   return (
-    <div className="w-[255px] border-r">
-      <div className="w-full h-[208px] flex flex-col justify-center items-center">
-        <div className="size-[112px] rounded-full relative mb-4 group">
+    <div
+      className={cn(
+        "border-r fixed sm:static left-0 duration-300 sm:duration-0 top-[56px] h-full z-50 shadow-xl sm:shadow-none bg-background",
+        openStudioSidebar ? "w-[255px] " : "w-[71px]",
+        openStudioSidebar
+          ? "-translate-x-0 sm:translate-x-0"
+          : "-translate-x-full sm:translate-x-0",
+      )}
+    >
+      <div
+        className={cn(
+          "w-full flex flex-col justify-center items-center",
+          openStudioSidebar ? "h-[208px] " : "h-[208px] sm:h-auto pt-4",
+        )}
+      >
+        <div
+          className={cn(
+            "rounded-full relative mb-4 group",
+            openStudioSidebar ? "size-[112px] " : "size-[32px]",
+          )}
+        >
           <Link
-            href={`/channel/${user?._id}`}
+            href={`/channel/${user?.username}`}
             className="w-full h-full flex justify-center items-center cursor-pointer duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible inset-0 bg-black/50 z-10 absolute rounded-full"
           >
-            <CiLocationArrow1 size={28} className="text-white" />
+            <CiLocationArrow1
+              size={!openStudioSidebar ? 20 : 28}
+              className="text-white"
+            />
           </Link>
           <UpTubeAvatarImage
             src={user?.avatar!}
             alt={`Avatar of ${user?.username}`}
             name={user?.username}
-            className="size-[112px] rounded-full"
+            className="w-full h-full rounded-full"
           />
         </div>
-        <Typography variant={"muted"} className="text-primary">
-          {user?.fullName}
-        </Typography>
-        <Typography variant={"muted"}>{user?.username}</Typography>
+        {openStudioSidebar && (
+          <>
+            <Typography variant={"muted"} className="text-primary">
+              {user?.fullName}
+            </Typography>
+            <Typography variant={"muted"}>{user?.username}</Typography>
+          </>
+        )}
       </div>
-      <div className="flex h-[calc(100%-228px)] flex-col gap-5 justify-between">
+      <div
+        className={cn(
+          "flex flex-col gap-5 justify-between",
+          openStudioSidebar
+            ? "h-[calc(100%-285px)] sm:h-[calc(100%-228px)]"
+            : "h-[calc(100%-84px)]",
+        )}
+      >
         <div>
           {studioSidebarData.map((item, index) => {
             const isActive =
@@ -51,20 +82,26 @@ function Sidebar() {
                 href={item.href}
                 key={index}
                 className={cn(
-                  "flex studio-container relative py-4 items-center gap-4 hover:bg-primary/10",
+                  "flex studio-container relative h-[50px] w-full items-center gap-4 hover:bg-primary/10",
                   isActive ? "bg-primary/10" : "bg-transparent",
+                  openStudioSidebar ? "" : "justify-center px-0",
                 )}
               >
                 <item.Icon
                   className={cn(isActive ? "text-red-500" : "")}
                   size={20}
                 />
-                <Typography
-                  variant={"small"}
-                  className={cn("font-normal", isActive ? "text-red-500" : "")}
-                >
-                  {item.label}
-                </Typography>
+                {openStudioSidebar && (
+                  <Typography
+                    variant={"small"}
+                    className={cn(
+                      "font-normal",
+                      isActive ? "text-red-500" : "",
+                    )}
+                  >
+                    {item.label}
+                  </Typography>
+                )}
                 {isActive ? (
                   <motion.div
                     className="absolute left-0 bg-red-500 top-0 w-1 h-full"
@@ -75,17 +112,15 @@ function Sidebar() {
             );
           })}
         </div>
-        <div className="studio-container">
-          <div className="flex items-center space-x-3 ">
-            <Switch
-              onCheckedChange={(e) => setTheme(e ? "dark" : "light")}
-              checked={theme === "dark"}
-              id="dark-mode"
-            />
-            <Label className="text-sm font-normal" htmlFor="dark-mode">
-              Dark Mode
-            </Label>
-          </div>
+        <div
+          className={cn(
+            "",
+            openStudioSidebar
+              ? "studio-container"
+              : "studio-container sm:flex sm:justify-center sm:items-center",
+          )}
+        >
+          <Theme />
         </div>
       </div>
     </div>

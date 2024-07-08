@@ -25,10 +25,10 @@ function UploadContentDropdown() {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"flat"}
-          className="border hover:border hover:bg-transparent"
+          className="border hover:border hover:bg-transparent flex justify-center items-center sm:gap-2 p-0 w-[40px] h-[35px] sm:h-9 sm:w-[120px]"
         >
-          <PiVideoLight className="w-6 h-5 mr-2 text-destructive" />
-          CREATE
+          <PiVideoLight className="text-xl text-destructive" />
+          <span className="hidden sm:inline">CREATE</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

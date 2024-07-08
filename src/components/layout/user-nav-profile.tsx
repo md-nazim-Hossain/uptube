@@ -64,9 +64,19 @@ function UserNavProfile({ className }: Props) {
       <>
         <Link
           href={"/signin"}
+          className="block sm:hidden relative w-6 h-5 mr-2"
+        >
+          <UpTubeImage
+            className="-rotate-180"
+            alt="Your channel"
+            src={"/assets/images/icons/sign-out.svg"}
+          />
+        </Link>
+        <Link
+          href={"/signin"}
           className={buttonVariants({
             className:
-              "border-none px-2 py-0 hover:!bg-transparent hover:!text-primary",
+              "border-none hidden sm:block px-2 py-0 hover:!bg-transparent hover:!text-primary",
             variant: "outline",
           })}
         >
@@ -76,7 +86,7 @@ function UserNavProfile({ className }: Props) {
           href={"/signup"}
           className={buttonVariants({
             variant: "destructive",
-            className: "h-8",
+            className: "h-8 hidden sm:block",
           })}
         >
           Sign Up

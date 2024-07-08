@@ -24,7 +24,6 @@ function EditingTabs() {
       <div className="container py-3">
         <div className="max-w-2xl">
           <TabsContent className="space-y-5" value="branding">
-            <Branding isAvatar showButton={false} />
             <Branding />
           </TabsContent>
           <TabsContent value="details">

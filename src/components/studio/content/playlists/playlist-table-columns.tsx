@@ -33,7 +33,7 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
               trigger={
                 <>
                   <div className="absolute flex justify-center items-center top-0 right-0 z-10 w-1/2 h-full bg-black/70">
-                    <span className="text-center">
+                    <span className="text-center text-white">
                       {row?.original?.videos?.length}
                       <PiPlaylistLight size={18} />
                     </span>
