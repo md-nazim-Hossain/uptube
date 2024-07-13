@@ -86,14 +86,14 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader isShown column={column} title="Date" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex w-[100px] items-center">
-          {format(new Date(row.getValue("updatedAt")), "dd MMM yyyy")}
+          {format(new Date(row.getValue("createdAt")), "dd MMM yyyy")}
         </div>
       );
     },

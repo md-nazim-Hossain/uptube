@@ -127,4 +127,6 @@ export interface IEditBrandingField {
   description: string;
   recommendedText: string;
   handleChange: (File: File) => any;
+  avatar: File | null;
+  coverImage: File | null;
 }

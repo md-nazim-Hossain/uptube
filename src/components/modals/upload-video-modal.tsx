@@ -134,7 +134,9 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="block w-full">{trigger}</DialogTrigger>
-      <DialogContent className={cn("", className)}>
+      <DialogContent
+        className={cn("max-h-[90vh] overflow-y-auto scroll", className)}
+      >
         <DialogHeader>
           <DialogTitle>{isEdit ? "Update" : "Upload"} Video</DialogTitle>
         </DialogHeader>
@@ -166,7 +168,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                 </FormItem>
               )}
             />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="thumbnail"

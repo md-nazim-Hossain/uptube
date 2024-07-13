@@ -39,7 +39,7 @@ export function VideoCardSkeletons({ className, size = 4 }: Props) {
   return (
     <div
       className={cn(
-        "container py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+        "py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
         className,
       )}
     >

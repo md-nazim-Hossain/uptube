@@ -15,6 +15,7 @@ import UpTubeImage from "../uptube/uptube-image";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { Typography } from "../ui/typography";
+import { addHTTPPrefix } from "@/utils/common";
 
 type Props = {
   trigger: React.ReactNode;
@@ -34,7 +35,7 @@ function SelectMultipleVideoModal({ trigger, className, name }: Props) {
       <DialogTrigger className="w-max">{trigger}</DialogTrigger>
       <DialogContent
         className={cn(
-          "p-0 max-h-[90vh] rounded-none sm:rounded-none scroll overflow-y-auto",
+          "p-0 sm:p-0 max-h-[90vh] rounded-none sm:rounded-none scroll overflow-y-auto overflow-x-hidden",
           className,
         )}
       >
@@ -58,7 +59,7 @@ function SelectMultipleVideoModal({ trigger, className, name }: Props) {
                       return (
                         <FormItem
                           key={item._id}
-                          className="px-6  py-4 flex flex-row items-center space-x-4 space-y-0 border-y last:border-b-0"
+                          className="px-6 py-3 flex flex-row items-center space-x-4 space-y-0 border-y last:border-b-0"
                         >
                           <FormControl>
                             <Checkbox
@@ -75,9 +76,9 @@ function SelectMultipleVideoModal({ trigger, className, name }: Props) {
                             />
                           </FormControl>
                           <div className="flex gap-3 items-center">
-                            <div className="w-10 aspect-video relative overflow-hidden">
+                            <div className="w-14 aspect-video relative overflow-hidden">
                               <UpTubeImage
-                                src={item.thumbnail}
+                                src={addHTTPPrefix(item.thumbnail)}
                                 alt={item.title}
                               />
                             </div>

@@ -21,7 +21,7 @@ function EditingTabs() {
           </TabsTrigger>
         </div>
       </TabsList>
-      <div className="container py-3">
+      <div className="container py-3 h-[calc(100vh-164px)] overflow-y-auto scroll">
         <div className="max-w-2xl">
           <TabsContent className="space-y-5" value="branding">
             <Branding />

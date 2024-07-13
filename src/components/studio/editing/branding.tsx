@@ -21,6 +21,8 @@ const fields: IEditBrandingField[] = [
     recommendedText:
       "It's recommended that you use a picture that's at least 96 x 96 pixels and 4 MB or less. Use a PNG or JPG file. Make sure that your picture follows the YouTube Community Guidelines.",
     handleChange: (file) => {},
+    avatar: null,
+    coverImage: null,
   },
   {
     name: "coverImage",
@@ -29,6 +31,8 @@ const fields: IEditBrandingField[] = [
     recommendedText:
       "For the best results on all devices, use an image that's at least 2048 x 1152 pixels and 6 MB or less.",
     handleChange: (file) => {},
+    avatar: null,
+    coverImage: null,
   },
 ];
 function Branding() {
@@ -42,6 +46,8 @@ function Branding() {
         <EditImageComponent
           key={field.name}
           {...field}
+          avatar={avatar}
+          coverImage={coverImage}
           handleChange={(file) => {
             if (field.name === "avatar") {
               setAvatar(file);
@@ -82,7 +88,6 @@ function Branding() {
                   .then((res) => res.data);
                 setAvatar(null);
               }
-
               queryClient.invalidateQueries({
                 queryKey: [apiRoutes.users.getUser],
               });
@@ -117,10 +122,11 @@ const EditImageComponent = ({
   label,
   recommendedText,
   handleChange,
+  avatar,
+  coverImage,
 }: IEditBrandingField) => {
   const ref = React.useRef<HTMLInputElement>(null);
   const user = useUserStore((state) => state.user);
-  const [avatar, setAvatar] = React.useState<File | null>(null);
   return (
     <div className="space-y-3">
       <div>
@@ -132,16 +138,26 @@ const EditImageComponent = ({
       <div className="flex flex-col sm:flex-row gap-5">
         {user && (
           <div className="w-[290px] h-[160px] rounded-lg overflow-hidden relative">
-            <UpTubeImage
-              src={
-                avatar
-                  ? URL.createObjectURL(avatar)
-                  : addHTTPPrefix(
-                      user[name === "avatar" ? "avatar" : "coverImage"],
-                    )
-              }
-              alt={user?.username + "'s avatar"}
-            />
+            {name === "avatar" && (
+              <UpTubeImage
+                src={
+                  avatar
+                    ? URL.createObjectURL(avatar)
+                    : addHTTPPrefix(user.avatar)
+                }
+                alt={user?.username + "'s avatar"}
+              />
+            )}
+            {name === "coverImage" && (
+              <UpTubeImage
+                src={
+                  coverImage
+                    ? URL.createObjectURL(coverImage)
+                    : addHTTPPrefix(user.coverImage)
+                }
+                alt={user?.username + "'s cover image"}
+              />
+            )}
           </div>
         )}
         <div className="flex-1 space-y-3">
@@ -157,7 +173,6 @@ const EditImageComponent = ({
                 const file = e.target.files?.[0];
                 if (!file) return;
                 handleChange(file);
-                setAvatar(file);
               }}
               accept="image/*"
             />
