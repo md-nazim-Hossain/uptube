@@ -118,9 +118,8 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       setOpen(false);
       queryClient.invalidateQueries({
         queryKey: [
-          apiRoutes.videos.getAllUserContentByType + isShort
-            ? "?type=short"
-            : "?type=video",
+          apiRoutes.videos.getAllUserContentByType +
+            (isShort ? "?type=short" : "?type=video"),
         ],
       });
     } catch (error: AxiosError<IAPIResponse<any>> | any) {
@@ -131,6 +130,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       });
     }
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="block w-full">{trigger}</DialogTrigger>

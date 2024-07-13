@@ -7,15 +7,17 @@ import { Typography } from "@/components/ui/typography";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import ColumnViewVideoCard from "@/components/videos/column-view-video-card";
 import VideoCardActions from "@/components/videos/video-card-actions";
-import { cn } from "@/lib/utils";
 import { IVideo } from "@/types";
 import { usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { viewsFormat } from "@/utils/video";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useUserStore } from "@/zustand/useUserStore";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
+import { Tagify } from "react-tagify";
+
 type Props = {
   video: IVideo;
 };
@@ -23,6 +25,7 @@ function FullViewVideo({ video }: Props) {
   const [showMore, setShowMore] = React.useState(false);
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
+  const router = useRouter();
   const { _id, comments, likes, views, title, owner, videoFile, isLiked } =
     video;
 
@@ -73,7 +76,7 @@ function FullViewVideo({ video }: Props) {
             {title}
           </Typography>
           <div className="flex mb-6 flex-col sm:flex-row justify-between sm:items-center gap-5 sm:gap-2">
-            <div className="flex justify-between items-center gap-20">
+            <div className="flex justify-between items-center gap-5 sm:gap-20">
               <div className="flex-1 flex gap-5 items-center">
                 <VideoCardAvatar.Avatar
                   src={owner?.avatar!}
@@ -85,6 +88,7 @@ function FullViewVideo({ video }: Props) {
                     fullName={owner?.fullName}
                     channelName={owner?.username}
                     isVerified={owner?.isVerified}
+                    className="max-w-[200px] truncate"
                   />
 
                   <Typography className="text-xs [&:not(:first-child)]:mt-0 flex items-center gap-2">
@@ -123,8 +127,17 @@ function FullViewVideo({ video }: Props) {
               <VideoCardActions user={owner} show={!!user} />
             </div>
           </div>
-          <div className="mb-4 p-3 rounded-md bg-primary/10">
-            <Typography className={cn("text-primary")} variant={"muted"}>
+          <div className="mb-4 p-3 rounded-md bg-primary/10 text-primary text-sm">
+            <Tagify
+              mentionStyle={{ cursor: "pointer", color: "#154eea" }}
+              tagStyle={{ cursor: "pointer", color: "#154eea" }}
+              onClick={(text: string, type: "mention" | "tag") => {
+                if (type === "mention") {
+                  const username = text.startsWith("@") ? text : "@" + text;
+                  router.push("/" + username);
+                }
+              }}
+            >
               <span>
                 {showMore
                   ? video?.description
@@ -135,7 +148,7 @@ function FullViewVideo({ video }: Props) {
                   {showMore ? " Show Less" : "...more"}
                 </span>
               )}
-            </Typography>
+            </Tagify>
           </div>
           <Comments comments={comments} contentId={_id} />
         </VideoCard.Footer>

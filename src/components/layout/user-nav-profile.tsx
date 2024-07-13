@@ -28,7 +28,7 @@ type Props = {
 function UserNavProfile({ className }: Props) {
   const [loading, setLoading] = React.useState(true);
   const router = useRouter();
-  const { setUser, removeUser } = useUserStore((state) => state);
+  const { setUser, removeUser, user } = useUserStore((state) => state);
   const {
     data,
     isLoading: isLoadingUser,
@@ -40,6 +40,7 @@ function UserNavProfile({ className }: Props) {
   useEffect(() => {
     if (!getCookie("accessToken")) {
       setLoading(false);
+      removeUser();
       return;
     }
     if (data && !isLoadingUser) {
@@ -59,7 +60,7 @@ function UserNavProfile({ className }: Props) {
   const isStudioPage = pathname.startsWith("/studio");
   if (loading)
     return <Skeleton className="size-10 flex-shrink-0 rounded-full" />;
-  if (!data || !data?.data)
+  if (!user || !data?.data)
     return (
       <>
         <Link
@@ -67,7 +68,6 @@ function UserNavProfile({ className }: Props) {
           className="block sm:hidden relative w-6 h-5 mr-2"
         >
           <UpTubeImage
-            className="-rotate-180"
             alt="Your channel"
             src={"/assets/images/icons/sign-out.svg"}
           />
@@ -86,7 +86,7 @@ function UserNavProfile({ className }: Props) {
           href={"/signup"}
           className={buttonVariants({
             variant: "destructive",
-            className: "h-8 hidden sm:block",
+            className: "h-8 hidden sm:flex justify-center items-center",
           })}
         >
           Sign Up

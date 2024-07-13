@@ -4,6 +4,7 @@ import { Input } from "../../ui/input";
 import UpTubeImage from "../../uptube/uptube-image";
 import { cn } from "@/lib/utils";
 import { PiImageThin } from "react-icons/pi";
+import { addHTTPPrefix } from "@/utils/common";
 
 type Props = {
   getFile: (file: File | null) => void;
@@ -18,7 +19,7 @@ function Thumbnail({ getFile, className, defaultFile }: Props) {
       setPreview(
         defaultFile instanceof File
           ? URL.createObjectURL(defaultFile)
-          : defaultFile,
+          : addHTTPPrefix(defaultFile),
       );
     }
   }, [defaultFile]);

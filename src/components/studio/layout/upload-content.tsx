@@ -6,6 +6,7 @@ import { PiTrashSimpleThin, PiUploadThin } from "react-icons/pi";
 import ReactPlayer from "react-player";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { addHTTPPrefix } from "@/utils/common";
 
 type Props = {
   getFile: (file: File | null) => void;
@@ -30,7 +31,7 @@ function UploadContent({
       setPreview(
         defaultFile instanceof File
           ? URL.createObjectURL(defaultFile)
-          : defaultFile,
+          : addHTTPPrefix(defaultFile),
       );
     }
   }, [defaultFile]);
@@ -75,7 +76,7 @@ function UploadContent({
               thumbnail
                 ? thumbnail instanceof File
                   ? URL.createObjectURL(thumbnail)
-                  : thumbnail
+                  : addHTTPPrefix(thumbnail)
                 : false
             }
             className="w-full h-full"
