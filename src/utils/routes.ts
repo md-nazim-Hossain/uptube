@@ -10,6 +10,7 @@ export const apiRoutes = {
     getVideoByUserId: "/videos/get-video-by-user-id",
     getAllShorts: "/videos/get-all-shorts",
     getAllSearchContent: "/videos/get-all-search-content",
+    updateViewCount: "/videos/update-view-count/",
   },
   users: {
     register: "/users/register",

@@ -30,6 +30,7 @@ function Videos({
   const sliceVideos = isFeed ? videos : videos?.slice(0, 8);
   if (!sliceVideos.length && isChannelProfile)
     return <EmptyState text={"No videos found"} />;
+
   return (
     <div
       className={cn(

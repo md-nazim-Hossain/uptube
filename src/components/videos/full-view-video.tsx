@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import { Tagify } from "react-tagify";
+import ViewCount from "./view-count";
 
 type Props = {
   video: IVideo;
@@ -59,6 +60,12 @@ function FullViewVideo({ video }: Props) {
   };
   return (
     <div>
+      {_id && (
+        <ViewCount
+          revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
+          videoId={_id}
+        />
+      )}
       <VideoCard className="sm:max-w-full rounded-none">
         <VideoCard.Player
           fullPreview={true}

@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import DeleteAlertModal from "../modals/delete-alert-modal";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useUserStore } from "@/zustand/useUserStore";
+import ViewCount from "./view-count";
 
 type Props = IVideo & {
   className?: string;
@@ -155,6 +156,12 @@ function ShortVideo({
         </div>
       </div>
       <ShortVideoActions owner={owner} isLiked={isLiked} _id={_id} />
+      {inView && (
+        <ViewCount
+          revalidateQueryKey={apiRoutes.videos.getAllShorts}
+          videoId={_id}
+        />
+      )}
     </div>
   );
 }
