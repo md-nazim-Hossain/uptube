@@ -9,6 +9,7 @@ export const apiRoutes = {
     makeACopy: "/videos/make-copy",
     getVideoByUserId: "/videos/get-video-by-user-id",
     getAllShorts: "/videos/get-all-shorts",
+    getAllSearchContent: "/videos/get-all-search-content",
   },
   users: {
     register: "/users/register",

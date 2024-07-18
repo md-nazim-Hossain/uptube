@@ -9,7 +9,7 @@ import Image from "next/image";
 import { ISideProps } from "@/types";
 import { cn } from "@/lib/utils";
 import { Separator } from "../ui/separator";
-import { SearchBoxDesktop, SearchBoxMobile } from "../search-box";
+import { SearchBoxDesktop, SearchBoxMobile } from "./search-box";
 import { FiSearch } from "react-icons/fi";
 import UpTubeImage from "../uptube/uptube-image";
 import { useUserStore } from "@/zustand/useUserStore";
