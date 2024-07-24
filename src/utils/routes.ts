@@ -37,6 +37,7 @@ export const apiRoutes = {
     createComment: "/comments/create-comment",
     updateComment: "/comments/update-comment",
     deleteComment: "/comments/delete-comment",
+    getAllCommentById: "/comments/get-all-comment-by-id/",
   },
   playlists: {
     getAllPlaylists: "/playlists/get-all-playlists",

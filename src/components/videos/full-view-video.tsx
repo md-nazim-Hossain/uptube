@@ -27,8 +27,7 @@ function FullViewVideo({ video }: Props) {
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
   const router = useRouter();
-  const { _id, comments, likes, views, title, owner, videoFile, isLiked } =
-    video;
+  const { _id, likes, views, title, owner, videoFile, isLiked } = video;
 
   const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
     apiRoutes.likes.likeDislike,
@@ -157,7 +156,7 @@ function FullViewVideo({ video }: Props) {
               )}
             </Tagify>
           </div>
-          <Comments comments={comments} contentId={_id} />
+          <Comments contentId={_id} />
         </VideoCard.Footer>
         <ColumnViewVideoCard currentVideoId={video._id} />
       </div>

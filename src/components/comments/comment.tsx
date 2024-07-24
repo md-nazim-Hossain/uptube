@@ -19,56 +19,61 @@ type CommentProps = {
   className?: string;
   comment: IComment;
   contentId: string;
+  isReplayComment?: boolean;
 };
-function Comment({ className, comment, contentId }: CommentProps) {
+function Comment({
+  className,
+  comment,
+  contentId,
+  isReplayComment = false,
+}: CommentProps) {
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
   const { toast } = useToast();
   const { content, owner, createdAt, _id, isEdited, isLiked, likes } = comment;
-  const [isReply, setIsReply] = React.useState(false);
+  const [isReplay, setIsReplay] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
   const isMyComment = user?._id === owner?._id;
   const { mutateAsync: commentDelete } = useDelete<any>(
     apiRoutes.comments.deleteComment,
-    apiRoutes.videos.getVideoById + contentId,
+    apiRoutes.comments.getAllCommentById + contentId,
     undefined,
     (oldData, id) => {
       if (!oldData) return;
       return {
-        data: {
-          ...oldData?.data,
-          comment: oldData?.data?.comment?.filter(
-            (comment: IComment) => comment._id !== id,
-          ),
-        },
+        ...oldData,
+        data: isReplayComment
+          ? oldData?.data?.map((c: IComment) => ({
+              ...c,
+              replies: c?.replies?.filter((replay) => replay._id !== id),
+            }))
+          : oldData?.data?.filter((c: IComment) => c._id !== id),
       };
     },
   );
 
   const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
     apiRoutes.likes.likeDislike,
-    apiRoutes.videos.getVideoById + contentId,
+    apiRoutes.comments.getAllCommentById + contentId,
     undefined,
     (oldData, data: { commentId: string; state: "like" | "dislike" }) => {
       if (!oldData) return;
       return {
-        data: {
-          ...oldData?.data,
-          comment: oldData?.data?.comment?.map((comment: IComment) => {
-            const { likes: totalLikes } = comment;
-            if (comment._id === data.commentId) {
-              return {
-                ...comment,
-                likes:
-                  data?.state === "dislike"
-                    ? totalLikes - (totalLikes > 0 ? 1 : 0)
-                    : totalLikes + 1,
-                isLiked: data?.state === "dislike" ? false : true,
-              };
-            }
-            return comment;
-          }),
-        },
+        ...oldData,
+        data: oldData?.data?.map((comment: IComment) => {
+          const { likes: totalLikes } = comment;
+          if (comment._id === data.commentId) {
+            return {
+              ...comment,
+              likes:
+                data?.state === "dislike"
+                  ? totalLikes - (totalLikes > 0 ? 1 : 0)
+                  : totalLikes + 1,
+              isLiked: data?.state === "dislike" ? false : true,
+            };
+          }
+          return comment;
+        }),
       };
     },
   );
@@ -96,7 +101,7 @@ function Comment({ className, comment, contentId }: CommentProps) {
   return (
     <div className={cn("flex gap-3", className)}>
       <UpTubeAvatarImage
-        className="size-9"
+        className={cn(isReplayComment ? "size-7" : "size-9")}
         alt={owner?.fullName + ""}
         src={owner?.avatar!}
         name={owner?.fullName}
@@ -105,21 +110,33 @@ function Comment({ className, comment, contentId }: CommentProps) {
       <div className="flex-1 space-y-3">
         <div className="w-full flex justify-between gap-3">
           <div className="space-y-1">
-            <Typography variant={"h6"} className="text-sm space-x-1.5">
+            <Typography
+              variant={"h6"}
+              className={cn(
+                "space-x-1.5",
+                isReplayComment ? "text-xs" : "text-sm",
+              )}
+            >
               <span>{owner?.username}</span>
               <span
                 className={cn(
                   typographyVariants({
                     variant: "muted",
-                    className: "font-normal text-xs",
+                    className: "font-normal",
                   }),
+                  isReplayComment ? "text-[10px]" : "text-xs",
                 )}
               >
                 {getCreationDateDifference(new Date(createdAt))}
                 {isEdited ? " (edited)" : ""}
               </span>
             </Typography>
-            <Typography variant={"muted"}>{content}</Typography>
+            <Typography
+              variant={"muted"}
+              className={cn(isReplayComment ? "text-sm" : "text-base")}
+            >
+              {content}
+            </Typography>
           </div>
           <VideoCard.VideoActions show={!!user}>
             {isMyComment ? (
@@ -163,19 +180,20 @@ function Comment({ className, comment, contentId }: CommentProps) {
             <Typography variant="muted">{viewsFormat(likes)}</Typography>
           </div>
           <Button
-            onClick={() => (user ? setIsReply(true) : setOpen(true))}
+            onClick={() => (user ? setIsReplay(true) : setOpen(true))}
             variant={"flat"}
             className="w-max rounded-[100vw] h-8"
           >
             Replay
           </Button>
         </div>
-        {isReply && (
+        {isReplay && (
           <CommentInput
-            isReply
+            isReplay={isReplay}
             contentId={_id}
             avatarClassName="size-6"
-            onClose={() => setIsReply(false)}
+            onClose={() => setIsReplay(false)}
+            defaultValue={{ comment: content, _id }}
           />
         )}
       </div>

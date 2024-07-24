@@ -28,7 +28,7 @@ interface CommentInputProps {
   className?: string;
   contentId: string;
   avatarClassName?: string;
-  isReply?: boolean;
+  isReplay?: boolean;
   onSuccess?: () => void;
   onClose?: () => void;
   isEdit?: boolean;
@@ -46,7 +46,7 @@ function CommentInput({
   totalComments,
   contentId,
   avatarClassName,
-  isReply = false,
+  isReplay = false,
   onSuccess,
   onClose,
   defaultValue,
@@ -56,7 +56,7 @@ function CommentInput({
   const setOpen = useAuthStore((state) => state.setOpen);
   const queryClient = useQueryClient();
   const [showSubmitButton, setShowSubmitButton] = React.useState(
-    isReply || isEdit,
+    isReplay || isEdit,
   );
   const form = useForm({
     resolver: zodResolver(CommentFormSchema),
@@ -74,14 +74,19 @@ function CommentInput({
           },
         );
       } else {
-        await axios.post(apiRoutes.comments.createComment, {
+        const newComment: any = {
           videoId: contentId,
           content: values.comment,
-        });
+        };
+        if (isReplay) {
+          newComment.commentId = defaultValue!._id;
+          newComment.isReplay = true;
+        }
+        await axios.post(apiRoutes.comments.createComment, newComment);
       }
       form.reset();
       queryClient.invalidateQueries({
-        queryKey: [apiRoutes.videos.getVideoById + contentId, undefined],
+        queryKey: [apiRoutes.comments.getAllCommentById + contentId, undefined],
       });
       setShowSubmitButton(false);
       onSuccess && onSuccess();
@@ -95,7 +100,7 @@ function CommentInput({
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn("flex flex-col gap-4", className)}
       >
-        {!isReply && !isEdit && (
+        {!isReplay && !isEdit && (
           <h4 className="font-medium">
             {viewsFormat(totalComments ?? 0)} Comment
           </h4>
@@ -118,7 +123,7 @@ function CommentInput({
               <FormItem className="w-full">
                 <FormControl>
                   <Input
-                    placeholder={`Add a ${isReply ? "reply" : "comment"}...`}
+                    placeholder={`Add a ${isReplay ? "reply" : "comment"}...`}
                     className="focus-visible:border-b-secondary/40"
                     variant={"destructive"}
                     {...field}

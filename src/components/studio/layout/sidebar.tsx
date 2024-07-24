@@ -50,7 +50,7 @@ function Sidebar() {
           <UpTubeAvatarImage
             src={user?.avatar!}
             alt={`Avatar of ${user?.username}`}
-            name={user?.username}
+            name={user?.fullName}
             className="w-full h-full rounded-full"
           />
         </div>

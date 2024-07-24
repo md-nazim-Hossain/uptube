@@ -88,7 +88,9 @@ const useGenericMutation = <T, S>(
 ) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const queryKey = updaterQueryKey ? [updaterQueryKey, params] : [url, params];
+  const queryKey = updaterQueryKey
+    ? [updaterQueryKey, undefined]
+    : [url, params];
   return useMutation<AxiosResponse, AxiosError, T | S>({
     mutationFn: func,
     onMutate: async (data: T | S) => {
@@ -125,8 +127,10 @@ export const useDelete = <T>(
   params?: object,
   updater?: (oldData: T, id: string | number) => T,
 ) => {
+  const queryKey = params ? makeQueryKey(params) : "";
+
   return useGenericMutation<T, string | number>(
-    (id) => api.delete(`${url}/${id}`),
+    (id) => api.delete(`${url}/${id}${queryKey}`),
     url,
     updaterQueryKey,
     params,
@@ -162,4 +166,16 @@ export const useUpdate = <T, S>(
     params,
     updater,
   );
+};
+
+const makeQueryKey = (params: object) => {
+  let queryKey = "";
+  Object.keys(params).forEach((key) => {
+    if (queryKey) {
+      queryKey += `&${key}=${(params as any)[key]}`;
+    } else {
+      queryKey += `?${key}=${(params as any)[key]}`;
+    }
+  });
+  return queryKey;
 };

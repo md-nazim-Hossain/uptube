@@ -71,11 +71,14 @@ export interface IComment {
   createdAt: string;
   updatedAt: string;
   owner: IUser;
-  video: string;
+  video?: string;
+  tweet?: string;
   isEdited: boolean;
   lastEditedAt: string;
   likes: number;
   isLiked: boolean;
+  parentComment: null | string;
+  replies: IComment[];
 }
 
 export interface IVideo {
@@ -90,7 +93,6 @@ export interface IVideo {
   owner: IUser;
   createdAt: string;
   updatedAt: string;
-  comments: IComment[];
   likes: number;
   isLiked: boolean;
   playLists: IPlayList[];
