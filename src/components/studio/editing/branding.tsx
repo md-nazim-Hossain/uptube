@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Typography } from "@/components/ui/typography";
 import UpTubeImage from "@/components/uptube/uptube-image";
 import { IEditBrandingField } from "@/types";
@@ -136,7 +137,7 @@ const EditImageComponent = ({
         </Typography>
       </div>
       <div className="flex flex-col sm:flex-row gap-5">
-        {user && (
+        {user ? (
           <div className="w-[290px] h-[160px] rounded-lg overflow-hidden relative">
             {name === "avatar" && (
               <UpTubeImage
@@ -159,6 +160,8 @@ const EditImageComponent = ({
               />
             )}
           </div>
+        ) : (
+          <Skeleton className="w-[290px] h-[160px] rounded-lg" />
         )}
         <div className="flex-1 space-y-3">
           <Typography variant={"muted"} className="text-xs">
@@ -177,13 +180,14 @@ const EditImageComponent = ({
               accept="image/*"
             />
             <Button
+              disabled={!user}
               onClick={() => ref.current?.click()}
               variant={"ghost"}
               className="h-8"
             >
               Change
             </Button>
-            <Button variant={"ghost"} className="h-8">
+            <Button disabled={!user} variant={"ghost"} className="h-8">
               Remove
             </Button>
           </div>

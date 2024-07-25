@@ -1,7 +1,6 @@
 "use client";
 import Logo from "@/components/layout/logo";
 import UserNavProfile from "@/components/layout/user-nav-profile";
-import { SearchBoxDesktop } from "@/components/layout/search-box";
 import React from "react";
 import UploadContentDropdown from "./upload-content-dropdown";
 import { useLayoutStore } from "@/zustand/useLayoutStore";
@@ -17,7 +16,6 @@ function StudioNavbar() {
         href={`/studio`}
         onClick={() => setOpenStudioSidebar(!openStudioSidebar)}
       />
-      <SearchBoxDesktop />
       <div className="flex gap-5 items-center">
         <UploadContentDropdown />
         <UserNavProfile />

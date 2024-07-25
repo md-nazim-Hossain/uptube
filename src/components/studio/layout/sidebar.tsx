@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLayoutStore } from "@/zustand/useLayoutStore";
 import Theme from "@/components/layout/theme";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Sidebar() {
   const user = useUserStore((state) => state.user);
@@ -47,12 +48,16 @@ function Sidebar() {
               className="text-white"
             />
           </Link>
-          <UpTubeAvatarImage
-            src={user?.avatar!}
-            alt={`Avatar of ${user?.username}`}
-            name={user?.fullName}
-            className="w-full h-full rounded-full"
-          />
+          {user ? (
+            <UpTubeAvatarImage
+              src={user?.avatar!}
+              alt={`Avatar of ${user?.username}`}
+              name={user?.fullName}
+              className="w-full h-full rounded-full"
+            />
+          ) : (
+            <Skeleton className="w-full h-full rounded-full" />
+          )}
         </div>
         {openStudioSidebar && (
           <>

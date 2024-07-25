@@ -10,7 +10,7 @@ import { PiNotePencilThin, PiPlaylistThin, PiUploadThin } from "react-icons/pi";
 
 async function DashboardPage() {
   return (
-    <div className="max-w-4xl studio-container">
+    <div className="max-w-4xl studio-container h-[calc(100vh-56px)] pb-5 overflow-y-auto scroll">
       <div className="py-5 flex justify-between items-center">
         <Typography variant={"h3"}>Channel Dashboard</Typography>
         <div className="flex items-center gap-3">
@@ -38,7 +38,7 @@ async function DashboardPage() {
           />
         </div>
       </div>
-      <div className="grid sm:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-2 gap-5">
         <div className="border rounded-2xl w-full h-[500px] p-5">
           <div className="border px-3 border-dashed rounded-2xl w-full h-full flex flex-col justify-center items-center">
             <div className="size-[152px] relative overflow-hidden">
