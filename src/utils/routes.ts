@@ -26,6 +26,7 @@ export const apiRoutes = {
     logout: "/users/logout",
     getUser: "/users/user",
     getAllChannelFollower: "/users/get-all-channel-subscriber",
+    getChannelAnalytics: "/users/get-channel-analytics",
   },
   posts: {
     getAllUserPosts: "/tweets/get-all-user-tweets",

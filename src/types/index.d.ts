@@ -132,3 +132,11 @@ export interface IEditBrandingField {
   avatar: File | null;
   coverImage: File | null;
 }
+export interface IChannelAnalytics {
+  _id: string;
+  subscribers: number;
+  totalViews: number;
+  topVideo: IVideo & { comments: number };
+  totalLikes: number;
+  totalComments: number;
+}
