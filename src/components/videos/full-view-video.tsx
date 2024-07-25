@@ -5,7 +5,6 @@ import Comments from "@/components/comments/comments";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
-import ColumnViewVideoCard from "@/components/videos/column-view-video-card";
 import VideoCardActions from "@/components/videos/video-card-actions";
 import { IVideo } from "@/types";
 import { usePost } from "@/utils/reactQuery";
@@ -18,6 +17,8 @@ import React from "react";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import { Tagify } from "react-tagify";
 import ViewCount from "./view-count";
+import AddWatchHistory from "./AddWatchHistory";
+import RelatedVideos from "./related-videos";
 
 type Props = {
   video: IVideo;
@@ -60,10 +61,13 @@ function FullViewVideo({ video }: Props) {
   return (
     <div>
       {_id && (
-        <ViewCount
-          revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
-          videoId={_id}
-        />
+        <>
+          <ViewCount
+            revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
+            videoId={_id}
+          />
+          <AddWatchHistory videoId={_id} />
+        </>
       )}
       <VideoCard className="sm:max-w-full rounded-none">
         <VideoCard.Player
@@ -158,7 +162,7 @@ function FullViewVideo({ video }: Props) {
           </div>
           <Comments contentId={_id} />
         </VideoCard.Footer>
-        <ColumnViewVideoCard currentVideoId={video._id} />
+        <RelatedVideos currentVideoId={video._id} />
       </div>
     </div>
   );

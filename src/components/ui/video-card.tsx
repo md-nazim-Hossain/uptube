@@ -5,6 +5,7 @@ import { IoPlay } from "react-icons/io5";
 import * as React from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
+  MyTooltip,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -205,35 +206,33 @@ const VideoCardVerifiedBadge = ({
   isLink = true,
 }: VideoCardVerifiedBadgeProps) => {
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <div className="flex items-center gap-1">
-          {isLink ? (
-            <Link
-              href={`/${channelName}`}
-              className={cn("text-sm cursor-pointer font-light", className)}
-            >
-              {fullName}
-            </Link>
-          ) : (
-            <Typography className={cn("text-sm font-light", className)}>
-              {fullName}
-            </Typography>
-          )}
-          <TooltipTrigger>
-            <VscVerifiedFilled
-              className={cn(isVerified ? "text-blue-600" : "text-secondary")}
-              size={size}
-            />
-          </TooltipTrigger>
-        </div>
-        <TooltipContent className="w-max">
-          <p className="capitalize text-sm">
-            {isVerified ? "verified" : "unverified"}
-          </p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <div className="flex items-center gap-1">
+      <MyTooltip content={fullName}>
+        {isLink ? (
+          <Link
+            href={`/${channelName}`}
+            className={cn(
+              "text-sm cursor-pointer line-clamp-1 font-light",
+              className,
+            )}
+          >
+            {fullName}
+          </Link>
+        ) : (
+          <Typography
+            className={cn("text-sm font-light line-clamp-1", className)}
+          >
+            {fullName}
+          </Typography>
+        )}
+      </MyTooltip>
+      <MyTooltip content={isVerified ? "verified" : "unverified"}>
+        <VscVerifiedFilled
+          className={cn(isVerified ? "text-blue-600" : "text-secondary")}
+          size={size}
+        />
+      </MyTooltip>
+    </div>
   );
 };
 

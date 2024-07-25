@@ -35,7 +35,7 @@ function DeleteAlertModal({
           <AlertDialogDescription>
             {isFollow
               ? `Unfollow from ${text}`
-              : ` This action cannot be undone. This will permanently delete your{" "}
+              : ` This action cannot be undone. This will permanently delete your
             ${text} and remove your data from our servers.`}
           </AlertDialogDescription>
         </AlertDialogHeader>

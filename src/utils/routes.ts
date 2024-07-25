@@ -27,6 +27,9 @@ export const apiRoutes = {
     getUser: "/users/user",
     getAllChannelFollower: "/users/get-all-channel-subscriber",
     getChannelAnalytics: "/users/get-channel-analytics",
+    addedWatchHistory: "/users/added-watch-history",
+    watchHistory: "/users/watch-history",
+    deleteWatchHistory: "/users/delete-watch-history",
   },
   posts: {
     getAllUserPosts: "/tweets/get-all-user-tweets",

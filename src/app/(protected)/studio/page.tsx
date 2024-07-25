@@ -1,14 +1,20 @@
+"use client";
+
 import PlaylistFormModal from "@/components/modals/playlist-form-modal";
 import PostFormModal from "@/components/modals/post-form-modal";
 import UploadVideoModal from "@/components/modals/upload-video-modal";
+import DashboardPageSkeletons from "@/components/skeletons/dashboard-page-skeletons";
 import ChannelAnalytics from "@/components/studio/dashboard/channel-analytics";
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import UpTubeImage from "@/components/uptube/uptube-image";
+import { useUserStore } from "@/zustand/useUserStore";
 import React from "react";
 import { PiNotePencilThin, PiPlaylistThin, PiUploadThin } from "react-icons/pi";
 
-async function DashboardPage() {
+function DashboardPage() {
+  const user = useUserStore((state) => state.user);
+  if (!user) return <DashboardPageSkeletons />;
   return (
     <div className="max-w-4xl studio-container h-[calc(100vh-56px)] pb-5 overflow-y-auto scroll">
       <div className="py-5 flex justify-between items-center">

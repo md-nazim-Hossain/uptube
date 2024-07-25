@@ -15,7 +15,7 @@ export function VideoCardSkeleton({
   return (
     <div className={cn("w-full space-y-2", className)}>
       <Skeleton className="w-full aspect-video rounded-2xl" />
-      <div className="flex gap-3">
+      <div className="flex justify-between gap-3">
         {showAvatar && <Skeleton className="size-9 rounded-full" />}
         <div className="flex-1 space-y-1.5">
           <Skeleton className={cn("h-4", !showAvatar ? "w-full" : "w-11/12")} />

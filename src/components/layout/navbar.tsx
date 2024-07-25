@@ -22,12 +22,12 @@ function Navbar() {
   const [open, setOpen] = React.useState(false);
   const [openMobileSearch, setOpenMobileSearch] = React.useState(false);
   return (
-    <>
+    <div className="bg-background">
       {/* Mobile Search */}
       {openMobileSearch ? (
         <SearchBoxMobile onClose={() => setOpenMobileSearch(false)} />
       ) : (
-        <div className=" items-center justify-between flex gap-5 sticky top-0 z-50 bg-background h-[56px] container">
+        <div className="items-center justify-between flex gap-5 sticky top-0 z-50 bg-background h-[56px] container">
           <div className="flex gap-x-1 md:gap-x-2 items-center">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -214,7 +214,7 @@ function Navbar() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
