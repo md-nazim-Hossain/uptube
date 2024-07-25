@@ -8,6 +8,7 @@ import { addHTTPPrefix } from "@/utils/common";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import VideoCardActions from "./video-card-actions";
+import UpTubeImage from "../uptube/uptube-image";
 
 type Props = IVideo & {
   className?: string;
@@ -37,12 +38,16 @@ function SingleVideoCard({
         <Link
           href={`/shorts/${_id}`}
           className={cn(
-            "h-[450px] w-[300px] block rounded-2xl overflow-hidden",
+            "h-[450px] w-[300px] relative block rounded-2xl overflow-hidden",
             playerClassName,
           )}
         >
+          <UpTubeImage
+            className="z-10"
+            alt={`thumbnail of ${title}`}
+            src={addHTTPPrefix(thumbnail)}
+          />
           <ReactPlayer
-            light={addHTTPPrefix(thumbnail) ?? true}
             width="100%"
             height="100%"
             url={addHTTPPrefix(videoFile)}

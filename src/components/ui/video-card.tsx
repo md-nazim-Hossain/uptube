@@ -22,6 +22,7 @@ import dynamic from "next/dynamic";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { Typography } from "./typography";
 import { addHTTPPrefix } from "@/utils/common";
+import UpTubeImage from "../uptube/uptube-image";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -105,8 +106,12 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
                 {convertMillisecondsToTime(duration ?? 0)}
               </span>
             )}
+            <UpTubeImage
+              className={"z-10"}
+              alt=""
+              src={addHTTPPrefix(thumbnail!)}
+            />
             <ReactPlayer
-              light={(thumbnail && addHTTPPrefix(thumbnail)) || true}
               width="100%"
               height="100%"
               url={url}
