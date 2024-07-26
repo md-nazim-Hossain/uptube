@@ -43,7 +43,7 @@ const ColumnViewVideoCard = ({
   return (
     <VideoCard
       className={cn(
-        "sm:max-w-full h-max flex flex-col sm:flex-row gap-3 rounded-md",
+        "sm:max-w-full h-max flex flex-col xs:flex-row gap-3 rounded-md",
         className,
       )}
     >
@@ -52,18 +52,15 @@ const ColumnViewVideoCard = ({
         showDuration={video.type === "video"}
         showType={video.type === "short"}
         thumbnail={video?.thumbnail}
-        className={cn(
-          "sm:max-w-xs lg:max-w-[160px] rounded-md",
-          playerClassName,
-        )}
+        className={cn("rounded-md", playerClassName)}
         url={video?.videoFile}
         videoDuration={video?.duration}
         durationClassName="bottom-1 right-1"
         _id={video?._id}
       />
-      <div className="flex-1 space-y-3">
+      <div className="flex-1 space-y-1.5 xs:space-y-3">
         <VideoCard.Footer className="py-0">
-          <div className={cn(isWatchedVideo && "pt-1.5")}>
+          <div className={cn(isWatchedVideo && "xs:pt-1.5")}>
             <VideoCard.Link
               className={cn(isWatchedVideo && "text-lg")}
               href={

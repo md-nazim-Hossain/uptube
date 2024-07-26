@@ -17,7 +17,7 @@ function TrendingNow() {
     <div className="space-y-5">
       {trendingNow.map((history: IVideo, index: number) => (
         <ColumnViewVideoCard
-          playerClassName="sm:max-w-md lg:max-w-[246px]"
+          playerClassName="xs:max-w-[246px]"
           video={history}
           key={index}
         />

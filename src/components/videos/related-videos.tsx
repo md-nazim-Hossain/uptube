@@ -18,7 +18,7 @@ function RelatedVideos({ currentVideoId }: Props) {
     return (
       <ColumnViewVideoCardSkeletons
         showDescriptions={false}
-        className="md:max-w-md lg:max-w-sm"
+        className="w-full lg:max-w-sm"
       />
     );
   const videos = data?.data?.data || [];
@@ -29,6 +29,7 @@ function RelatedVideos({ currentVideoId }: Props) {
         if (video?._id === currentVideoId) return null;
         return (
           <ColumnViewVideoCard
+            playerClassName="xs:max-w-[160px]"
             showDescriptions={false}
             video={video}
             key={index}

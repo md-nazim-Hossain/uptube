@@ -31,7 +31,7 @@ function LikeVideos() {
         {likeVideos.map((like: IUserFavoriteVideo, index: number) => (
           <ColumnViewVideoCard
             className="hover:bg-primary/10 p-1.5"
-            playerClassName="sm:max-w-md lg:max-w-[246px]"
+            playerClassName="xs:max-w-[246px]"
             video={like.video}
             showDescriptions={false}
             key={index}

@@ -18,7 +18,7 @@ function WatchHistory() {
     return (
       <div className="space-y-10 py-5 max-w-4xl mx-auto">
         <Skeleton className="w-[300px] h-5" />
-        <ColumnViewVideoCardSkeletons className="md:max-w-md !lg:max-w-[350px]" />
+        <ColumnViewVideoCardSkeletons />
       </div>
     );
   const watchHistory = data?.data || [];
@@ -30,7 +30,7 @@ function WatchHistory() {
       <div className="space-y-5">
         {watchHistory.map((history: IVideo, index: number) => (
           <ColumnViewVideoCard
-            playerClassName="sm:max-w-md lg:max-w-[246px]"
+            playerClassName="xs:max-w-[246px]"
             isWatchedVideo
             video={history}
             key={index}

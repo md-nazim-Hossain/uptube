@@ -82,7 +82,7 @@
     @apply border border-red-500;
   }
   .studio-container {
-    @apply px-5 lg:px-8;
+    @apply px-2 xs:px-3 sm:px-5;
   }
   .scroll::-webkit-scrollbar-thumb {
     @apply bg-primary/20 rounded-sm;
@@ -95,7 +95,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[1840px] mx-auto w-full px-5 lg:px-8;
+    @apply max-w-[1840px] mx-auto w-full px-2 xs:px-3 sm:px-5;
   }
 }
 
