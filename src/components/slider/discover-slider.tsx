@@ -13,7 +13,6 @@ import { IUserFavoriteVideo, IVideo } from "@/types";
 import { cn } from "@/lib/utils";
 import { VideoCardPlayer, VideoDetails } from "../ui/video-card";
 import { Typography } from "../ui/typography";
-import Link from "next/link";
 
 type Props = {
   favorites: IUserFavoriteVideo[];
@@ -63,7 +62,7 @@ function DiscoverSlider({ favorites, className }: Props) {
                 videoDuration={video?.duration}
                 _id={video?._id}
               />
-              <div className="absolute bottom-10 left-10 space-y-5">
+              <div className="absolute z-10 bottom-10 left-10 space-y-5">
                 <Typography variant={"h1"} className="text-white">
                   {video?.title}
                 </Typography>

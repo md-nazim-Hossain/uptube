@@ -4,13 +4,7 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { IoPlay } from "react-icons/io5";
 import * as React from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import {
-  MyTooltip,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./tooltip";
+import { MyTooltip } from "./tooltip";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import Link from "next/link";
 import {
@@ -24,6 +18,7 @@ import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { Typography } from "./typography";
 import { addHTTPPrefix } from "@/utils/common";
 import UpTubeImage from "../uptube/uptube-image";
+import { SiYoutubeshorts } from "react-icons/si";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -52,6 +47,9 @@ interface VideoCardVideoProps {
   fullPreview?: boolean;
   showDuration?: boolean;
   _id?: string;
+  showType?: boolean;
+  type?: "short" | "video";
+  durationClassName?: string;
 }
 const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
   (
@@ -64,6 +62,9 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
       thumbnail,
       fullPreview = false,
       showDuration = true,
+      showType = false,
+      type = "video",
+      durationClassName,
     },
     ref,
   ) => {
@@ -91,7 +92,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
           </div>
         ) : (
           <Link
-            href={"/watch?v=" + _id}
+            href={(type === "short" ? "/short/" : "/watch?v=") + _id}
             className={cn(
               "w-full aspect-video block cursor-pointer rounded-2xl relative overflow-hidden",
               className,
@@ -100,11 +101,18 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
             {showDuration && (
               <span
                 className={cn(
-                  "absolute text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
+                  "absolute z-20 text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
                   autoPlayState ? "hidden" : "block",
+                  durationClassName,
                 )}
               >
                 {convertMillisecondsToTime(duration ?? 0)}
+              </span>
+            )}
+            {showType && (
+              <span className="absolute bottom-1 text-xs z-20 capitalize flex items-center gap-1 right-1 bg-black/80 p-1 rounded">
+                <SiYoutubeshorts />
+                SHORTS
               </span>
             )}
             <UpTubeImage

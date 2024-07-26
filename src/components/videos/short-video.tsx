@@ -11,7 +11,6 @@ import { Typography } from "../ui/typography";
 import { VideoCard, VideoCardAvatar } from "../ui/video-card";
 
 import ShortVideoActions from "./short-video-actions";
-import FollowUnfollow from "../channel/follow-unfollow";
 import { apiRoutes } from "@/utils/routes";
 import { usePost } from "@/utils/reactQuery";
 import { useQueryClient } from "@tanstack/react-query";
@@ -159,7 +158,7 @@ function ShortVideo({
       <ShortVideoActions owner={owner} isLiked={isLiked} _id={_id} />
       {inView && (
         <>
-          <AddWatchHistory videoId={_id} />
+          {user && <AddWatchHistory videoId={_id} />}
           <ViewCount
             revalidateQueryKey={apiRoutes.videos.getAllShorts}
             videoId={_id}

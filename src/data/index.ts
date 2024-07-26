@@ -73,7 +73,7 @@ export const getChannelHistory = (username: string): ISideProps[] => {
     {
       label: "Likes",
       Icon: "/assets/images/icons/like.svg",
-      href: `/channel/${username}?tab=likes`,
+      href: `/feed/likes`,
     },
   ];
 };
@@ -88,11 +88,6 @@ export const exploreData: ISideProps[] = [
     label: "Music",
     Icon: "/assets/images/icons/music.svg",
     href: "/feed/music",
-  },
-  {
-    label: "Video",
-    Icon: "/assets/images/icons/videos.svg",
-    href: "/feed/videos",
   },
 ];
 

@@ -66,7 +66,7 @@ function FullViewVideo({ video }: Props) {
             revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
             videoId={_id}
           />
-          <AddWatchHistory videoId={_id} />
+          {user && <AddWatchHistory videoId={_id} />}
         </>
       )}
       <VideoCard className="sm:max-w-full rounded-none">

@@ -2,7 +2,7 @@ import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import React from "react";
 
-function UpTubeLayout({ children }: { children: React.ReactNode }) {
+function ChannelLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
@@ -14,4 +14,4 @@ function UpTubeLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default UpTubeLayout;
+export default ChannelLayout;

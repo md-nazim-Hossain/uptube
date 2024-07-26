@@ -41,15 +41,22 @@ const ColumnViewVideoCard = ({
   return (
     <VideoCard
       className={cn(
-        "sm:max-w-full h-max flex flex-col sm:flex-row gap-3",
+        "sm:max-w-full h-max flex flex-col sm:flex-row gap-3 rounded-md",
         className,
       )}
     >
       <VideoCard.Player
+        type={video?.type as any}
+        showDuration={video.type === "video"}
+        showType={video.type === "short"}
         thumbnail={video?.thumbnail}
-        className={cn("sm:max-w-xs lg:max-w-[160px]", playerClassName)}
+        className={cn(
+          "sm:max-w-xs lg:max-w-[160px] rounded-md",
+          playerClassName,
+        )}
         url={video?.videoFile}
         videoDuration={video?.duration}
+        durationClassName="bottom-1 right-1"
         _id={video?._id}
       />
       <div className="flex-1 space-y-3">
@@ -57,7 +64,11 @@ const ColumnViewVideoCard = ({
           <div className={cn(isWatchedVideo && "pt-1.5")}>
             <VideoCard.Link
               className={cn(isWatchedVideo && "text-lg")}
-              href={`/watch?v=${video?._id}`}
+              href={
+                video.type === "short"
+                  ? `/shorts/${video?._id}`
+                  : `/watch?v=${video?._id}`
+              }
             >
               {video?.title}
             </VideoCard.Link>
@@ -108,12 +119,14 @@ const ColumnViewVideoCard = ({
             <VideoCardActions user={video?.owner} show />
           </div>
         </VideoCard.Footer>
-        <Typography
-          variant={"xsmall"}
-          className="line-clamp-2 text-muted-foreground"
-        >
-          {video?.description}
-        </Typography>
+        {isWatchedVideo && (
+          <Typography
+            variant={"xsmall"}
+            className="line-clamp-2 text-muted-foreground"
+          >
+            {video?.description}
+          </Typography>
+        )}
       </div>
     </VideoCard>
   );

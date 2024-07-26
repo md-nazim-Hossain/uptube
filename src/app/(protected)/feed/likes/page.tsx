@@ -5,14 +5,14 @@ import { ColumnViewVideoCardSkeletons } from "@/components/skeletons/video-card-
 import { Skeleton } from "@/components/ui/skeleton";
 import { Typography } from "@/components/ui/typography";
 import ColumnViewVideoCard from "@/components/videos/column-view-video-card";
-import { IAPIResponse, IVideo } from "@/types";
+import { IAPIResponse, IUserFavoriteVideo } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import React from "react";
 
-function WatchHistory() {
-  const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
-    apiRoutes.users.watchHistory,
+function LikeVideos() {
+  const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(
+    apiRoutes.likes.getUserLikeVideos,
   );
   if (isLoading)
     return (
@@ -21,19 +21,18 @@ function WatchHistory() {
         <ColumnViewVideoCardSkeletons className="md:max-w-md !lg:max-w-[350px]" />
       </div>
     );
-  const watchHistory = data?.data || [];
-  if (!watchHistory || !watchHistory.length)
-    return <EmptyState text="No watch history" />;
+  const likeVideos = data?.data || [];
+  if (!likeVideos || !likeVideos.length)
+    return <EmptyState text="No like videos" />;
   return (
     <div className="space-y-10 py-5 max-w-4xl mx-auto">
-      <Typography variant={"h2"}>Watch history</Typography>
+      <Typography variant={"h2"}>Like Videos</Typography>
       <div className="space-y-5">
-        {watchHistory.map((history: IVideo, index: number) => (
+        {likeVideos.map((like: IUserFavoriteVideo, index: number) => (
           <ColumnViewVideoCard
-            className="rounded"
-            playerClassName="sm:max-w-md lg:max-w-[246px] rounded"
-            isWatchedVideo
-            video={history}
+            className="hover:bg-primary/10 p-1.5"
+            playerClassName="sm:max-w-md lg:max-w-[246px]"
+            video={like.video}
             key={index}
           />
         ))}
@@ -42,4 +41,4 @@ function WatchHistory() {
   );
 }
 
-export default WatchHistory;
+export default LikeVideos;
