@@ -16,11 +16,16 @@ function Logo({ onClick, href, className, title }: Props) {
   return (
     <div
       className={cn(
-        "flex items-center gap-x-1 md:gap-2 -ml-2.5 h-[56px]",
+        "flex items-center gap-x-1 md:gap-2 xs:-ml-2.5 h-[56px]",
         className,
       )}
     >
-      <Button onClick={onClick} size={"icon"} variant={"icon"}>
+      <Button
+        onClick={onClick}
+        size={"icon"}
+        variant={"icon"}
+        className="flex-shrink-0"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

@@ -45,7 +45,7 @@ function DashboardPage() {
         </div>
       </div>
       <div className="grid md:grid-cols-2 gap-5">
-        <div className="border rounded-2xl w-full h-[500px] p-5">
+        <div className="border rounded-2xl w-full h-[500px] p-3 xs:p-5">
           <div className="border px-3 border-dashed rounded-2xl w-full h-full flex flex-col justify-center items-center">
             <div className="size-[152px] relative overflow-hidden">
               <UpTubeImage

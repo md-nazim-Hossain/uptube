@@ -87,7 +87,7 @@ function Sidebar() {
                 href={item.href}
                 key={index}
                 className={cn(
-                  "flex studio-container relative h-[50px] w-full items-center gap-4 hover:bg-primary/10",
+                  "flex px-5 relative h-[50px] w-full items-center gap-4 hover:bg-primary/10",
                   isActive ? "bg-primary/10" : "bg-transparent",
                   openStudioSidebar ? "" : "justify-center px-0",
                 )}

@@ -14,7 +14,7 @@ function ChannelAnalytics() {
   if (isLoading) return <ChannelAnalyticsSkeleton />;
   const analytics = data?.data;
   return (
-    <div className="border p-5 h-max rounded-2xl space-y-3">
+    <div className="border p-3 xs:p-5 h-max rounded-2xl space-y-3">
       <div className="space-y-3 pb-10 border-b">
         <Typography variant={"h5"}>Channel Analytics</Typography>
         <div>
