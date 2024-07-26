@@ -14,14 +14,26 @@ function RelatedVideos({ currentVideoId }: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
     apiRoutes.videos.getAllContentByType,
   );
-  if (isLoading) return <ColumnViewVideoCardSkeletons />;
+  if (isLoading)
+    return (
+      <ColumnViewVideoCardSkeletons
+        showDescriptions={false}
+        className="md:max-w-md lg:max-w-sm"
+      />
+    );
   const videos = data?.data?.data || [];
   const sliceVideos = videos?.slice(0, 8);
   return (
     <div className="w-full lg:max-w-sm space-y-5">
       {sliceVideos.map((video: IVideo, index) => {
         if (video?._id === currentVideoId) return null;
-        return <ColumnViewVideoCard video={video} key={index} />;
+        return (
+          <ColumnViewVideoCard
+            showDescriptions={false}
+            video={video}
+            key={index}
+          />
+        );
       })}
     </div>
   );

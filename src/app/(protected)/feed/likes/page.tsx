@@ -18,7 +18,7 @@ function LikeVideos() {
     return (
       <div className="space-y-10 py-5 max-w-4xl mx-auto">
         <Skeleton className="w-[300px] h-5" />
-        <ColumnViewVideoCardSkeletons className="md:max-w-md !lg:max-w-[350px]" />
+        <ColumnViewVideoCardSkeletons showDescriptions={false} />
       </div>
     );
   const likeVideos = data?.data || [];
@@ -33,6 +33,7 @@ function LikeVideos() {
             className="hover:bg-primary/10 p-1.5"
             playerClassName="sm:max-w-md lg:max-w-[246px]"
             video={like.video}
+            showDescriptions={false}
             key={index}
           />
         ))}

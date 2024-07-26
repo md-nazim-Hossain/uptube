@@ -19,11 +19,13 @@ const ColumnViewVideoCard = ({
   className,
   isWatchedVideo = false,
   playerClassName,
+  showDescriptions = true,
 }: {
   className?: string;
   video: IVideo;
   isWatchedVideo?: boolean;
   playerClassName?: string;
+  showDescriptions?: boolean;
 }) => {
   const { toast } = useToast();
   const { mutateAsync } = useDelete(
@@ -119,7 +121,7 @@ const ColumnViewVideoCard = ({
             <VideoCardActions user={video?.owner} show />
           </div>
         </VideoCard.Footer>
-        {isWatchedVideo && (
+        {showDescriptions && (
           <Typography
             variant={"xsmall"}
             className="line-clamp-2 text-muted-foreground"

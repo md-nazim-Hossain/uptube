@@ -6,7 +6,7 @@ function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="min-h-[calc(100vh-56px)] flex flex-col justify-between">
+      <div className="mt-14 min-h-[calc(100vh-56px)] flex flex-col justify-between">
         <div>{children}</div>
         <Footer />
       </div>

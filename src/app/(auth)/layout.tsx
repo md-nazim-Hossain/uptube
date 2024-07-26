@@ -5,7 +5,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="w-[calc(100vw-40px)] mx-auto h-[calc(100vh-56px)] flex justify-center items-center">
+      <div className="w-[calc(100vw-40px)] mt-14 mx-auto h-[calc(100vh-56px)] flex justify-center items-center">
         <div className="w-full max-w-xl">{children}</div>
       </div>
     </>

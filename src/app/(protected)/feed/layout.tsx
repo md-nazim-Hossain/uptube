@@ -5,7 +5,7 @@ function FeedLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="h-[calc(100vh-56px)] overflow-y-auto scroll">
+      <div className="h-[calc(100vh-56px)] mt-14 overflow-y-auto scroll">
         <div className="container">{children}</div>
       </div>
     </>

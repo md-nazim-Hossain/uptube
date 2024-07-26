@@ -87,7 +87,7 @@ export const exploreData: ISideProps[] = [
   {
     label: "Music",
     Icon: "/assets/images/icons/music.svg",
-    href: "/feed/music",
+    href: "/feed/trending?type=music",
   },
 ];
 
