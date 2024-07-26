@@ -8,15 +8,19 @@ type SkeletonProps = {
   className?: string;
   showAvatar?: boolean;
   showDescriptions?: boolean;
+  playerClassName?: string;
 };
 export function VideoCardSkeleton({
   className,
   showAvatar = true,
   showDescriptions,
+  playerClassName,
 }: SkeletonProps) {
   return (
-    <div className={cn("w-full gap-2 flex flex-col xs:flex-row", className)}>
-      <Skeleton className="w-full xs:max-w-[250px] aspect-video rounded-2xl" />
+    <div className={cn("w-full ", className)}>
+      <Skeleton
+        className={cn("w-full aspect-video rounded-2xl", playerClassName)}
+      />
       <div className="flex-1 flex justify-between gap-5">
         <div className="flex justify-between gap-3 pt-2">
           {showAvatar && <Skeleton className="size-9 rounded-full" />}
@@ -74,6 +78,8 @@ export function ColumnViewVideoCardSkeletons({
         <VideoCardSkeleton
           showDescriptions={showDescriptions}
           showAvatar={false}
+          className="gap-2 flex flex-col xs:flex-row"
+          playerClassName="xs:max-w-[250px]"
           key={i}
         />
       ))}
