@@ -6,7 +6,7 @@ import { Skeleton } from "../ui/skeleton";
 
 function ChannelProfileSkeleton() {
   return (
-    <div className="pb-10 space-y-5 w-full h-full">
+    <div className="pb-10 pt-2 space-y-5 w-full h-full">
       <div className="container space-y-5">
         <Skeleton className="w-full h-[200px] sm:h-[300px]" />
         <div className="flex items-center gap-5">

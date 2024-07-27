@@ -24,7 +24,7 @@ function ChannelProfilePage() {
   const channel = data?.data as IChannelProfile;
   if (!channel) return <ChannelNotFound />;
   return (
-    <div className="pb-10 space-y-5 w-full h-full">
+    <div className="pb-10 pt-2 space-y-5 w-full h-full">
       <ChannelProfile channel={channel} />
       <ChannelDetails channel={channel} />
     </div>

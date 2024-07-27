@@ -27,77 +27,67 @@ function ChannelDetails({ channel }: Props) {
   return (
     <Tabs value={tab} onValueChange={setTab}>
       <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
-        <div className="container">
-          <TabsTrigger
-            className="font-normal space-x-1 text-foreground"
-            value="stations"
-          >
-            <span>Stations</span>{" "}
-            <span className="text-destructive">{channel?.totalVideos}</span>
-          </TabsTrigger>
-          <TabsTrigger className="font-normal text-foreground" value="shorts">
-            Shorts
-          </TabsTrigger>
-          <TabsTrigger
-            className="font-normal text-foreground"
-            value="playlists"
-          >
-            Playlists
-          </TabsTrigger>
-          {isMyChannel && (
-            <>
-              <TabsTrigger
-                className="font-normal text-foreground"
-                value="likes"
-              >
-                Likes
-              </TabsTrigger>
-              <TabsTrigger
-                className="font-normal text-foreground space-x-1"
-                value="followers"
-              >
-                <span>Followers</span>{" "}
-                <span className="text-destructive">
-                  {channel?.subscribersCount}
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                className="font-normal text-foreground space-x-1"
-                value="following"
-              >
-                <span>Followings</span>{" "}
-                <span className="text-destructive">
-                  {channel?.channelSubscribedToCount}
-                </span>
-              </TabsTrigger>
-            </>
-          )}
-        </div>
-      </TabsList>
-      <div className="container">
-        <TabsContent value="stations">
-          <Videos isChannelProfile userId={channel?._id} />
-        </TabsContent>
-        <TabsContent value="shorts">
-          <ChannelShorts userId={channel?._id} />
-        </TabsContent>
-        <TabsContent value="playlists">
-          <ChannelPlaylists userId={channel?._id} />
-        </TabsContent>
+        <TabsTrigger
+          className="font-normal space-x-1 text-foreground"
+          value="stations"
+        >
+          <span>Stations</span>{" "}
+          <span className="text-destructive">{channel?.totalVideos}</span>
+        </TabsTrigger>
+        <TabsTrigger className="font-normal text-foreground" value="shorts">
+          Shorts
+        </TabsTrigger>
+        <TabsTrigger className="font-normal text-foreground" value="playlists">
+          Playlists
+        </TabsTrigger>
         {isMyChannel && (
           <>
-            <TabsContent value="likes">
-              <ChannelUserFavoriteVideos />
-            </TabsContent>
-            <TabsContent value="followers">
-              <ChannelFollowers />
-            </TabsContent>
-            <TabsContent value="following">
-              <ChannelFollowings />
-            </TabsContent>
+            <TabsTrigger className="font-normal text-foreground" value="likes">
+              Likes
+            </TabsTrigger>
+            <TabsTrigger
+              className="font-normal text-foreground space-x-1"
+              value="followers"
+            >
+              <span>Followers</span>{" "}
+              <span className="text-destructive">
+                {channel?.subscribersCount}
+              </span>
+            </TabsTrigger>
+            <TabsTrigger
+              className="font-normal text-foreground space-x-1"
+              value="following"
+            >
+              <span>Followings</span>{" "}
+              <span className="text-destructive">
+                {channel?.channelSubscribedToCount}
+              </span>
+            </TabsTrigger>
           </>
         )}
-      </div>
+      </TabsList>
+      <TabsContent value="stations">
+        <Videos isChannelProfile userId={channel?._id} />
+      </TabsContent>
+      <TabsContent value="shorts">
+        <ChannelShorts userId={channel?._id} />
+      </TabsContent>
+      <TabsContent value="playlists">
+        <ChannelPlaylists userId={channel?._id} />
+      </TabsContent>
+      {isMyChannel && (
+        <>
+          <TabsContent value="likes">
+            <ChannelUserFavoriteVideos />
+          </TabsContent>
+          <TabsContent value="followers">
+            <ChannelFollowers />
+          </TabsContent>
+          <TabsContent value="following">
+            <ChannelFollowings />
+          </TabsContent>
+        </>
+      )}
     </Tabs>
   );
 }

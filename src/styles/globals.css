@@ -95,7 +95,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[1840px] mx-auto w-full px-2 xs:px-3 sm:px-5;
+    @apply max-w-[1900px] mx-auto w-full px-2;
   }
 }
 

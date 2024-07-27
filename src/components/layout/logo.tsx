@@ -15,10 +15,7 @@ type Props = {
 function Logo({ onClick, href, className, title }: Props) {
   return (
     <div
-      className={cn(
-        "flex items-center gap-x-1 md:gap-2 xs:-ml-2.5 h-[56px]",
-        className,
-      )}
+      className={cn("flex items-center gap-x-1 md:gap-2 h-[56px]", className)}
     >
       <Button
         onClick={onClick}

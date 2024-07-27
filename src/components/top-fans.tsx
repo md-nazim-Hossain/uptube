@@ -11,8 +11,10 @@ import { IAPIResponse, IFollower } from "@/types";
 import { TopFansSkeletons } from "./skeletons/top-fans-skeleton";
 import FollowUnfollow from "./channel/follow-unfollow";
 import { getCookie } from "cookies-next";
+import { useUserStore } from "@/zustand/useUserStore";
 
 function TopFans() {
+  const loading = useUserStore((state) => state.loading);
   const { data, isLoading } = useFetch<IAPIResponse<IFollower[]>>(
     apiRoutes.users.getAllChannelFollower,
     undefined,
@@ -22,7 +24,7 @@ function TopFans() {
     },
   );
 
-  if (isLoading) return <TopFansSkeletons size={6} />;
+  if (isLoading || loading) return <TopFansSkeletons size={6} />;
 
   const followers = data?.data || [];
   if (!followers.length) return null;

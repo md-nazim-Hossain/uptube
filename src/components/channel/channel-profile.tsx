@@ -45,7 +45,7 @@ function ChannelProfile({ className, channel, ...props }: CommentProps) {
   } = channel;
   const isMyChannel = user?.username === channel?.username;
   return (
-    <div {...props} className={cn("flex flex-col gap-5 container", className)}>
+    <div {...props} className={cn("flex flex-col gap-5", className)}>
       <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
         <UpTubeImage alt={`cover image of ${username}`} src={coverImage} />
       </div>

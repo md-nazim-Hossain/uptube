@@ -26,9 +26,11 @@ type Props = {
   className?: string;
 };
 function UserNavProfile({ className }: Props) {
-  const [loading, setLoading] = React.useState(true);
   const router = useRouter();
-  const { setUser, removeUser, user } = useUserStore((state) => state);
+  const { setUser, removeUser, user, loading, setLoading } = useUserStore(
+    (state) => state,
+  );
+
   const {
     data,
     isLoading: isLoadingUser,
@@ -53,7 +55,7 @@ function UserNavProfile({ className }: Props) {
       deleteCookie("refreshToken");
       setLoading(false);
     }
-  }, [data, error?.status, isLoadingUser, removeUser, setUser]);
+  }, [data, error?.status, isLoadingUser, removeUser, setLoading, setUser]);
 
   const { signOut, isLoading } = useSignOut();
   const pathname = usePathname();

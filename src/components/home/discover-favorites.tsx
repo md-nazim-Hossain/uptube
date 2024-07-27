@@ -7,11 +7,13 @@ import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { IAPIResponse, IUserFavoriteVideo } from "@/types";
 import { Skeleton } from "../ui/skeleton";
+import { useUserStore } from "@/zustand/useUserStore";
 function DiscoverFavorites() {
+  const loading = useUserStore((state) => state.loading);
   const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(
     apiRoutes.likes.getUserLikeVideos,
   );
-  if (isLoading)
+  if (isLoading || loading)
     return (
       <div className="flex-1 space-y-5 pb-5">
         <Skeleton className="w-1/4 h-6" />
