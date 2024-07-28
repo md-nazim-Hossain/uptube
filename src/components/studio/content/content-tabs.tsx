@@ -17,7 +17,7 @@ function ContentTabs() {
           return (
             <Link
               className={cn(
-                "capitalize inline-block py-3 relative",
+                "capitalize inline-block pb-3 relative",
                 isActive ? "text-primary" : "text-secondary",
               )}
               href={`/studio/content/${tab}`}

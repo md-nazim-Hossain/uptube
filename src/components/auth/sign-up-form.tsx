@@ -24,6 +24,15 @@ import { IAPIResponse, IUser } from "@/types";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { apiRoutes } from "@/utils/routes";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import countryList from "@/data/country-list.json";
+
 const formSchema = z
   .object({
     username: z
@@ -47,6 +56,7 @@ const formSchema = z
         },
       ),
     fullName: z.string().min(1, { message: "This field has to be filled." }),
+    country: z.string().min(3, { message: "This field has to be filled." }),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters.")
@@ -84,6 +94,7 @@ function SignUpForm({ handleChangeAuthModalState }: Props) {
       fullName: "",
       password: "",
       confirmPassword: "",
+      country: "",
     },
     mode: "all",
   });
@@ -200,6 +211,30 @@ function SignUpForm({ handleChangeAuthModalState }: Props) {
                   <Input variant={"destructive"} {...field} />
                 </FormControl>
               </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="country"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Country of residence </FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {countryList.map((country, index) => (
+                    <SelectItem key={country.code} value={country.code}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

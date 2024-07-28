@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,10 +22,19 @@ import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import countryList from "@/data/country-list.json";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const detailsSchema = z.object({
   fullName: z.string(),
   description: z.string(),
   email: z.string().email({ message: "Invalid email address." }),
+  country: z.string(),
 });
 function Details() {
   const queryClient = useQueryClient();
@@ -36,6 +46,7 @@ function Details() {
       fullName: user?.fullName,
       description: user?.description,
       email: user?.email,
+      country: user?.country,
     },
   });
   async function onSubmit(values: z.infer<typeof detailsSchema>) {
@@ -109,6 +120,37 @@ function Details() {
               <FormControl>
                 <Input type="email" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="country"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel className="text-base text-primary">
+                  Country of residence
+                </FormLabel>
+                <FormDescription className="text-xs">
+                  Choose the country where you&apos;re currently based
+                </FormDescription>
+              </div>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {countryList.map((country) => (
+                    <SelectItem key={country.code} value={country.code}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

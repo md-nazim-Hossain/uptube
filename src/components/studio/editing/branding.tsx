@@ -138,7 +138,7 @@ const EditImageComponent = ({
       </div>
       <div className="flex flex-col sm:flex-row gap-5">
         {user ? (
-          <div className="w-[290px] h-[160px] rounded-lg overflow-hidden relative">
+          <div className="max-w-[290px] w-full h-[160px] rounded-lg overflow-hidden relative">
             {name === "avatar" && (
               <UpTubeImage
                 src={
@@ -161,7 +161,7 @@ const EditImageComponent = ({
             )}
           </div>
         ) : (
-          <Skeleton className="w-[290px] h-[160px] rounded-lg" />
+          <Skeleton className="max-w-[290px] w-full h-[160px] rounded-lg" />
         )}
         <div className="flex-1 space-y-3">
           <Typography variant={"muted"} className="text-xs">

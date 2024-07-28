@@ -17,6 +17,7 @@ function Sidebar() {
   const user = useUserStore((state) => state.user);
   const openStudioSidebar = useLayoutStore((state) => state.openStudioSidebar);
   const pathname = usePathname();
+  const loading = useUserStore((state) => state.loading);
   return (
     <div
       className={cn(
@@ -125,7 +126,7 @@ function Sidebar() {
               : "studio-container sm:flex sm:justify-center sm:items-center",
           )}
         >
-          <Theme />
+          {loading ? <Skeleton className="size-6 rounded-full" /> : <Theme />}
         </div>
       </div>
     </div>
