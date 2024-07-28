@@ -44,7 +44,7 @@ function UptubeSidebar() {
             : `-translate-x-full ${!isWatchPage && "sm:translate-x-0"}`,
           isWatchPage
             ? "sm:fixed z-50"
-            : "sm:sticky sm:shadow-none z-50 sm:z-40 ",
+            : "sm:sticky sm:shadow-none z-50 sm:z-40 sm:top-14",
         )}
       >
         <Logo

@@ -8,10 +8,16 @@ import { apiRoutes } from "@/utils/routes";
 import { IAPIResponse, IUserFavoriteVideo } from "@/types";
 import { Skeleton } from "../ui/skeleton";
 import { useUserStore } from "@/zustand/useUserStore";
+import { getCookie } from "cookies-next";
 function DiscoverFavorites() {
   const loading = useUserStore((state) => state.loading);
   const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(
     apiRoutes.likes.getUserLikeVideos,
+    undefined,
+    {
+      queryKey: [apiRoutes.likes.getUserLikeVideos, undefined],
+      enabled: !!getCookie("accessToken"),
+    },
   );
   if (isLoading || loading)
     return (
