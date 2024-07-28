@@ -7,6 +7,7 @@ import { inter, roboto } from "@/utils/font";
 import ModaProvider from "@/components/modals/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
 import ProgressBarProviders from "@/components/providers/progress-providers";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "UPTube",
@@ -27,6 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log(cookies().get("accessToken"));
   return (
     <html lang="en">
       <body className={`${inter.className} ${roboto.className}`}>
