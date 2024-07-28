@@ -10,7 +10,7 @@ import { useFetch } from "@/utils/reactQuery";
 import { IAPIResponse, IFollower } from "@/types";
 import { TopFansSkeletons } from "./skeletons/top-fans-skeleton";
 import FollowUnfollow from "./channel/follow-unfollow";
-import { getCookie } from "cookies-next";
+import cookie from "js-cookie";
 import { useUserStore } from "@/zustand/useUserStore";
 
 function TopFans() {
@@ -20,7 +20,7 @@ function TopFans() {
     undefined,
     {
       queryKey: [apiRoutes.users.getAllChannelFollower, undefined],
-      enabled: !!getCookie("accessToken"),
+      enabled: !!cookie.get("accessToken"),
     },
   );
 

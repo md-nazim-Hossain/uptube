@@ -8,7 +8,7 @@ import { apiRoutes } from "@/utils/routes";
 import { IAPIResponse, IUserFavoriteVideo } from "@/types";
 import { Skeleton } from "../ui/skeleton";
 import { useUserStore } from "@/zustand/useUserStore";
-import { getCookie } from "cookies-next";
+import cookie from "js-cookie";
 function DiscoverFavorites() {
   const loading = useUserStore((state) => state.loading);
   const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(
@@ -16,7 +16,7 @@ function DiscoverFavorites() {
     undefined,
     {
       queryKey: [apiRoutes.likes.getUserLikeVideos, undefined],
-      enabled: !!getCookie("accessToken"),
+      enabled: !!cookie.get("accessToken"),
     },
   );
   if (isLoading || loading)

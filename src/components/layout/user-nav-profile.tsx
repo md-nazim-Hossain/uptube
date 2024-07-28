@@ -15,13 +15,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { Typography } from "../ui/typography";
 import UpTubeImage from "../uptube/uptube-image";
 import { useSignOut } from "@/hooks/useSignOut";
-import { deleteCookie, getCookie } from "cookies-next";
 import { apiRoutes } from "@/utils/routes";
 import { useFetch } from "@/utils/reactQuery";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
-
+import cookie from "js-cookie";
 type Props = {
   className?: string;
 };
@@ -37,11 +36,12 @@ function UserNavProfile({ className }: Props) {
     error,
   } = useFetch<IAPIResponse<IUser>>(apiRoutes.users.getUser, undefined, {
     queryKey: [apiRoutes.users.getUser, undefined],
-    enabled: !!getCookie("accessToken"),
+    enabled: !!cookie.get("accessToken"),
   });
-  console.log("token-----", getCookie("accessToken"));
+  console.log("token-----", cookie.get("accessToken"));
+
   useEffect(() => {
-    if (!getCookie("accessToken")) {
+    if (!cookie.get("accessToken")) {
       setLoading(false);
       removeUser();
       return;
@@ -54,10 +54,9 @@ function UserNavProfile({ className }: Props) {
       setLoading(false);
     }
     if (!isLoadingUser && (error?.status === 401 || error?.status === 403)) {
-      console.log("error", error);
       removeUser();
-      deleteCookie("accessToken");
-      deleteCookie("refreshToken");
+      cookie.remove("accessToken");
+      cookie.remove("refreshToken");
       setLoading(false);
     }
   }, [data, error, isLoadingUser, removeUser, setLoading, setUser]);
