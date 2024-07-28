@@ -39,6 +39,7 @@ function UserNavProfile({ className }: Props) {
     queryKey: [apiRoutes.users.getUser, undefined],
     enabled: !!getCookie("accessToken"),
   });
+  console.log("token-----", getCookie("accessToken"));
   useEffect(() => {
     if (!getCookie("accessToken")) {
       setLoading(false);
@@ -53,12 +54,13 @@ function UserNavProfile({ className }: Props) {
       setLoading(false);
     }
     if (!isLoadingUser && (error?.status === 401 || error?.status === 403)) {
+      console.log("error", error);
       removeUser();
       deleteCookie("accessToken");
       deleteCookie("refreshToken");
       setLoading(false);
     }
-  }, [data, error?.status, isLoadingUser, removeUser, setLoading, setUser]);
+  }, [data, error, isLoadingUser, removeUser, setLoading, setUser]);
 
   const { signOut, isLoading } = useSignOut();
   const pathname = usePathname();

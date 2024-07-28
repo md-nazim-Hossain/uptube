@@ -4,10 +4,8 @@ import Shorts from "@/components/home/shorts";
 import TopFans from "@/components/top-fans";
 import { Typography } from "@/components/ui/typography";
 import Videos from "@/components/videos/videos";
-import { useUserStore } from "@/zustand/useUserStore";
 
 function Home() {
-  const user = useUserStore((state) => state.user);
   return (
     <main className="container pt-2">
       <div className="flex flex-col lg:flex-row gap-10">

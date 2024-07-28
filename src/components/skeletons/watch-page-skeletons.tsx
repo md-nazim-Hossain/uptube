@@ -29,7 +29,7 @@ function WatchPageSkeletons() {
 
           <CommentsSkeleton />
         </div>
-        <ColumnViewVideoCardSkeletons />
+        <ColumnViewVideoCardSkeletons className="w-full lg:max-w-sm" />
       </div>
     </div>
   );
