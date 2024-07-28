@@ -8,7 +8,7 @@ const axios = Axios.create({
     Accept: "application/json",
     "Allow-Control-Allow-Origin": process.env.NEXT_PUBLIC_BASE_URL,
   },
-  // withCredentials: true,
+  withCredentials: true,
 });
 
 axios.interceptors.response.use(
