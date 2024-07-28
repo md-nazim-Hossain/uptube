@@ -49,6 +49,9 @@ function UserNavProfile({ className }: Props) {
       setUser(data.data as IUser);
       setLoading(false);
     }
+    if (!data && !isLoadingUser) {
+      setLoading(false);
+    }
     if (!isLoadingUser && (error?.status === 401 || error?.status === 403)) {
       removeUser();
       deleteCookie("accessToken");
