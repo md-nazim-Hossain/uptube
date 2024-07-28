@@ -54,9 +54,10 @@ function UserNavProfile({ className }: Props) {
       setLoading(false);
     }
     if (!isLoadingUser && (error?.status === 401 || error?.status === 403)) {
+      console.log(error);
       removeUser();
-      cookie.remove("accessToken");
-      cookie.remove("refreshToken");
+      // cookie.remove("accessToken");
+      // cookie.remove("refreshToken");
       setLoading(false);
     }
   }, [data, error, isLoadingUser, removeUser, setLoading, setUser]);
