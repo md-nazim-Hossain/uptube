@@ -45,11 +45,11 @@ function ShortsSlider({ shorts, className }: Props) {
       <CarouselContent>
         {shorts.map((short: IVideo, index: number) => (
           <CarouselItem
-            className="sm:basis-1 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/5"
+            className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
             key={index}
           >
             <SingleVideoCard
-              playerClassName="h-[450px] w-full aspect-auto"
+              playerClassName="h-[500px] w-full aspect-auto"
               className="h-full"
               {...short}
               showAvatar={false}

@@ -15,7 +15,7 @@ function Shorts() {
     return (
       <ShortCardSkeletons
         size={6}
-        className="flex gap-3 sm:basis-1 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/5"
+        className="flex gap-3 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
       />
     );
   const shortVideos = data?.data?.data || [];

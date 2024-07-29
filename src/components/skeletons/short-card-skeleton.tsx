@@ -15,10 +15,15 @@ export function ShortCardSkeletons({ className, size = 5 }: Props) {
     </div>
   );
 }
-export function ShortCardSkeleton() {
+
+type IProps = {
+  className?: string;
+  height?: number;
+};
+export function ShortCardSkeleton({ className, height = 500 }: IProps) {
   return (
-    <div className="w-full max-w-[282px] space-y-3">
-      <Skeleton className="w-full h-[450px]" />
+    <div className={cn("w-full max-w-[282px] space-y-3", className)}>
+      <Skeleton style={{ height: `${height}px` }} className={`w-full`} />
       <div className="space-y-1">
         <Skeleton className="w-3/4 h-4" />
         <Skeleton className="w-1/2 h-4" />

@@ -12,22 +12,19 @@ import { apiRoutes } from "@/utils/routes";
 import { viewsFormat } from "@/utils/video";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useUserStore } from "@/zustand/useUserStore";
-import { useRouter } from "next/navigation";
 import React from "react";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
-import { Tagify } from "react-tagify";
 import ViewCount from "./view-count";
 import AddWatchHistory from "./AddWatchHistory";
 import RelatedVideos from "./related-videos";
+import UTagify from "../uptube/u-tagify";
 
 type Props = {
   video: IVideo;
 };
 function FullViewVideo({ video }: Props) {
-  const [showMore, setShowMore] = React.useState(false);
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
-  const router = useRouter();
   const { _id, likes, views, title, owner, videoFile, isLiked } = video;
 
   const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
@@ -138,27 +135,7 @@ function FullViewVideo({ video }: Props) {
             </div>
           </div>
           <div className="mb-4 p-3 rounded-md bg-primary/10 text-primary text-sm">
-            <Tagify
-              mentionStyle={{ cursor: "pointer", color: "#154eea" }}
-              tagStyle={{ cursor: "pointer", color: "#154eea" }}
-              onClick={(text: string, type: "mention" | "tag") => {
-                if (type === "mention") {
-                  const username = text.startsWith("@") ? text : "@" + text;
-                  router.push("/" + username);
-                }
-              }}
-            >
-              <span>
-                {showMore
-                  ? video?.description
-                  : video?.description?.slice(0, 200)}
-              </span>
-              {video?.description?.length > 200 && (
-                <span onClick={() => setShowMore(!showMore)}>
-                  {showMore ? " Show Less" : "...more"}
-                </span>
-              )}
-            </Tagify>
+            <UTagify text={video?.description ?? ""} />
           </div>
           <Comments contentId={_id} />
         </VideoCard.Footer>

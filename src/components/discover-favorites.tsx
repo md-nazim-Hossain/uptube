@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import DiscoverSlider from "../slider/discover-slider";
-import { Typography } from "../ui/typography";
+import DiscoverSlider from "./slider/discover-slider";
+import { Typography } from "./ui/typography";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { IAPIResponse, IUserFavoriteVideo } from "@/types";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "./ui/skeleton";
 import { useUserStore } from "@/zustand/useUserStore";
 import cookie from "js-cookie";
 function DiscoverFavorites() {

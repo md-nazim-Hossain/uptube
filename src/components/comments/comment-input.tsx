@@ -3,7 +3,6 @@ import { Input } from "../ui/input";
 import { useUserStore } from "@/zustand/useUserStore";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { cn } from "@/lib/utils";
-import { viewsFormat } from "@/utils/video";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -24,7 +23,6 @@ import { useAuthStore } from "@/zustand/useAuthStore";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface CommentInputProps {
-  totalComments?: number;
   className?: string;
   contentId: string;
   avatarClassName?: string;
@@ -43,7 +41,6 @@ const CommentFormSchema = z.object({
 });
 function CommentInput({
   className,
-  totalComments,
   contentId,
   avatarClassName,
   isReplay = false,
@@ -100,11 +97,6 @@ function CommentInput({
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn("flex flex-col gap-4", className)}
       >
-        {!isReplay && !isEdit && (
-          <h4 className="font-medium">
-            {viewsFormat(totalComments ?? 0)} Comment
-          </h4>
-        )}
         <div className="flex items-center gap-3">
           {user ? (
             <UpTubeAvatarImage

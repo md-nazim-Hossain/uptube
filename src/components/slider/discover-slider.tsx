@@ -13,6 +13,9 @@ import { IUserFavoriteVideo, IVideo } from "@/types";
 import { cn } from "@/lib/utils";
 import { VideoCardPlayer, VideoDetails } from "../ui/video-card";
 import { Typography } from "../ui/typography";
+import UpTubeImage from "../uptube/uptube-image";
+import { addHTTPPrefix } from "@/utils/common";
+import Link from "next/link";
 
 type Props = {
   favorites: IUserFavoriteVideo[];
@@ -55,13 +58,12 @@ function DiscoverSlider({ favorites, className }: Props) {
               className="basis-full relative h-[450px] lg:h-[650px] rounded-2xl overflow-hidden"
               key={index}
             >
-              <VideoCardPlayer
-                className="w-full h-full aspect-auto"
-                url={video?.videoFile}
-                thumbnail={video?.thumbnail}
-                videoDuration={video?.duration}
-                _id={video?._id}
-              />
+              <Link className="w-full h-full" href={`/shorts/${video._id}`}>
+                <UpTubeImage
+                  alt={`favorites of ${favorite.video.owner.fullName}`}
+                  src={addHTTPPrefix(video?.thumbnail!)}
+                />
+              </Link>
               <div className="absolute z-10 bottom-10 left-10 space-y-5">
                 <Typography variant={"h1"} className="text-white">
                   {video?.title}

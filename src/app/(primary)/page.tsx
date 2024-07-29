@@ -1,6 +1,6 @@
 "use client";
-import DiscoverFavorites from "@/components/home/discover-favorites";
-import Shorts from "@/components/home/shorts";
+import DiscoverFavorites from "@/components/discover-favorites";
+import Shorts from "@/components/shorts/shorts";
 import TopFans from "@/components/top-fans";
 import { Typography } from "@/components/ui/typography";
 import Videos from "@/components/videos/videos";
