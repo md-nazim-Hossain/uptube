@@ -1,30 +1,31 @@
 "use client";
-import {
-  ShortCardSkeleton,
-  ShortCardSkeletons,
-} from "@/components/skeletons/short-card-skeleton";
-import ShortVideo from "@/components/videos/short-video";
-import { IAPIResponse, IVideo } from "@/types";
-import { useFetch } from "@/utils/reactQuery";
-import { apiRoutes } from "@/utils/routes";
+import EmptyState from "@/components/empty-state";
+import { useShortsProvider } from "@/components/providers/shorts-provider";
+import ShortVideo from "@/components/shorts/short-video";
+import { ShortCardSkeleton } from "@/components/skeletons/short-card-skeleton";
+import { IVideo } from "@/types";
+import { useParams } from "next/navigation";
 import React from "react";
 
 function ShortsVideoPage() {
-  const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
-    apiRoutes.videos.getAllShorts,
-  );
+  const { id } = useParams();
+  const { isLoading, shorts } = useShortsProvider();
   if (isLoading)
     return (
       <div className="flex flex-col gap-5 items-center w-full pb-10">
-        <ShortCardSkeleton />
+        <ShortCardSkeleton className="max-w-[500px]" height={800} />
       </div>
     );
-  const shorts = data?.data || [];
+  const findShort = shorts.find((short) => short._id === id);
+  if (!findShort) return <EmptyState text="No short found" />;
   return (
-    <section className="flex flex-col gap-5 items-center w-full pb-10">
-      {shorts.map((short: IVideo, index: number) => (
-        <ShortVideo key={index} {...short} />
-      ))}
+    <section className="flex flex-col gap-5 items-center  w-full pb-10">
+      <ShortVideo {...findShort} />
+      {shorts.map((short: IVideo, index: number) =>
+        short._id === findShort._id ? null : (
+          <ShortVideo key={index} {...short} />
+        ),
+      )}
     </section>
   );
 }

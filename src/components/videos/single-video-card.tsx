@@ -25,7 +25,7 @@ function SingleVideoCard({
   duration,
   createdAt,
   _id,
-  subscribersCount,
+  type,
   className,
   playerClassName,
   showAvatar = true,
@@ -34,36 +34,14 @@ function SingleVideoCard({
   const { avatar, username, fullName, isVerified } = owner || {};
   return (
     <VideoCard className={className}>
-      {isShort ? (
-        <Link
-          href={`/shorts/${_id}`}
-          className={cn(
-            "h-[450px] w-[300px] relative block rounded-2xl overflow-hidden",
-            playerClassName,
-          )}
-        >
-          <UpTubeImage
-            className="z-10"
-            alt={`thumbnail of ${title}`}
-            src={addHTTPPrefix(thumbnail)}
-          />
-          <ReactPlayer
-            width="100%"
-            height="100%"
-            url={addHTTPPrefix(videoFile)}
-            playsinline
-            style={{ objectFit: "cover" }}
-          />
-        </Link>
-      ) : (
-        <VideoCard.Player
-          thumbnail={thumbnail}
-          className={playerClassName}
-          url={videoFile}
-          videoDuration={duration}
-          _id={_id}
-        />
-      )}
+      <VideoCard.Player
+        type={type as any}
+        thumbnail={thumbnail}
+        className={playerClassName}
+        url={videoFile}
+        videoDuration={duration}
+        _id={_id}
+      />
       <VideoCard.Footer>
         <div className="flex flex-1 gap-3">
           {showAvatar && (

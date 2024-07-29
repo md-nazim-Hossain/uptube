@@ -3,7 +3,7 @@
 import { IAPIResponse, IVideo } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
-import React, { createContext, ReactNode, useContext } from "react";
+import React, { createContext, ReactNode, Suspense, useContext } from "react";
 
 type IShortContext = {
   shorts: IVideo[];
@@ -23,7 +23,7 @@ export default function ShortsProvider({ children }: { children: ReactNode }) {
   );
   return (
     <ShortsContext.Provider value={{ shorts: data?.data || [], isLoading }}>
-      {children}
+      <Suspense>{children}</Suspense>
     </ShortsContext.Provider>
   );
 }

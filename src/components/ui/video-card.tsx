@@ -19,6 +19,9 @@ import { Typography } from "./typography";
 import { addHTTPPrefix } from "@/utils/common";
 import UpTubeImage from "../uptube/uptube-image";
 import { SiYoutubeshorts } from "react-icons/si";
+import { Button } from "./button";
+import { IoIosPause, IoIosPlay } from "react-icons/io";
+import { GoMute, GoUnmute } from "react-icons/go";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -50,6 +53,7 @@ interface VideoCardVideoProps {
   showType?: boolean;
   type?: "short" | "video";
   durationClassName?: string;
+  controls?: boolean;
 }
 const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
   (
@@ -65,6 +69,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
       showType = false,
       type = "video",
       durationClassName,
+      controls = false,
     },
     ref,
   ) => {
@@ -92,9 +97,11 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
           </div>
         ) : (
           <Link
-            href={(type === "short" ? "/short/" : "/watch?v=") + _id}
+            onMouseEnter={() => setAutoPlayState(true)}
+            onMouseLeave={() => setAutoPlayState(false)}
+            href={(type === "short" ? "/shorts/" : "/watch?v=") + _id}
             className={cn(
-              "w-full aspect-video block cursor-pointer rounded-2xl relative overflow-hidden",
+              "w-full aspect-video block group/player cursor-pointer rounded-2xl relative overflow-hidden",
               className,
             )}
           >
@@ -109,29 +116,37 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
                 {convertMillisecondsToTime(duration ?? 0)}
               </span>
             )}
-            {showType && (
-              <span className="absolute bottom-1 text-xs z-20 capitalize flex items-center gap-1 right-1 bg-black/80 p-1 rounded">
+            {showType && !autoPlayState && (
+              <span className="absolute bottom-1 text-white text-xs z-20 capitalize flex items-center gap-1 right-1 bg-black/80 p-1 rounded">
                 <SiYoutubeshorts />
                 SHORTS
               </span>
             )}
-            <UpTubeImage
-              className={"z-10"}
-              alt=""
-              src={addHTTPPrefix(thumbnail!)}
-            />
-            <ReactPlayer
-              width="100%"
-              height="100%"
-              url={url}
-              controls
-              playing={autoPlayState}
-              playsinline
-              onDuration={(d) => setDuration(d)}
-              onPlay={() => setAutoPlayState(true)}
-              onPause={() => setAutoPlayState(false)}
-              style={{ objectFit: "cover" }}
-            />
+
+            {!autoPlayState ? (
+              <UpTubeImage
+                className={"z-10"}
+                alt=""
+                src={addHTTPPrefix(thumbnail!)}
+              />
+            ) : (
+              <ReactPlayer
+                light={!thumbnail}
+                width="100%"
+                height="100%"
+                url={addHTTPPrefix(url)}
+                playing={autoPlayState}
+                controls={controls}
+                playsinline
+                onDuration={(d) => setDuration(d)}
+                onPlay={() => setAutoPlayState(true)}
+                onPause={() => setAutoPlayState(false)}
+                style={{
+                  objectFit: "cover",
+                  scale: type && type === "short" ? 4 : 1,
+                }}
+              />
+            )}
           </Link>
         )}
       </>
