@@ -21,6 +21,7 @@ export default function ShortsProvider({ children }: { children: ReactNode }) {
   const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
     apiRoutes.videos.getAllShorts,
   );
+
   return (
     <ShortsContext.Provider value={{ shorts: data?.data || [], isLoading }}>
       <Suspense>{children}</Suspense>

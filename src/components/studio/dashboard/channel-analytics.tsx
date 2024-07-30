@@ -1,5 +1,6 @@
 "use client";
 import ChannelAnalyticsSkeleton from "@/components/skeletons/channel-analytics-skeleton";
+import { MyTooltip } from "@/components/ui/tooltip";
 import { Typography } from "@/components/ui/typography";
 import { IAPIResponse, IChannelAnalytics } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
@@ -50,21 +51,29 @@ function ChannelAnalytics() {
         <Typography>Top Video</Typography>
         <div className="grid grid-cols-4 gap-2">
           <Typography variant={"small"}>Title</Typography>
-          <Typography variant={"small"}>Likes</Typography>
-          <Typography variant={"small"}>Comments</Typography>
-          <Typography variant={"small"}>Views</Typography>
+          <Typography variant={"small"} className="text-center">
+            Likes
+          </Typography>
+          <Typography variant={"small"} className="text-center">
+            Comments
+          </Typography>
+          <Typography variant={"small"} className="text-center">
+            Views
+          </Typography>
         </div>
         <div className="grid grid-cols-4 gap-2">
-          <Typography variant={"xsmall"} className="w-full truncate">
-            {analytics?.topVideo?.title}
-          </Typography>
-          <Typography variant={"xsmall"}>
+          <MyTooltip align="start" content={analytics?.topVideo?.title}>
+            <Typography variant={"xsmall"} className="w-full truncate">
+              {analytics?.topVideo?.title}
+            </Typography>
+          </MyTooltip>
+          <Typography variant={"xsmall"} className="text-center">
             {viewsFormat(analytics?.topVideo?.likes ?? 0)}
           </Typography>
-          <Typography variant={"xsmall"}>
+          <Typography variant={"xsmall"} className="text-center">
             {viewsFormat(analytics?.topVideo?.comments ?? 0)}
           </Typography>
-          <Typography variant={"xsmall"}>
+          <Typography variant={"xsmall"} className="text-center">
             {viewsFormat(analytics?.topVideo?.views ?? 0)}
           </Typography>
         </div>

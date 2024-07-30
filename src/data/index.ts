@@ -21,7 +21,7 @@ export const sidebarTopData: ISideProps[] = [
   {
     label: "Shorts",
     Icon: "/assets/images/icons/shorts.svg",
-    href: "/shorts/12",
+    href: "/shorts",
   },
   {
     label: "Library",
