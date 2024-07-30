@@ -21,11 +21,11 @@ function ShortsVideoPage() {
   return (
     <section className="flex flex-col gap-5 items-center  w-full pb-10">
       <ShortVideo {...findShort} />
-      {shorts.map((short: IVideo, index: number) =>
-        short._id === findShort._id ? null : (
-          <ShortVideo key={index} {...short} />
-        ),
-      )}
+      {shorts.map((short: IVideo, index: number) => {
+        const nextShortId = shorts[index + 1]?._id;
+        if (short._id === findShort?._id) return null;
+        return <ShortVideo key={index} nextShortId={nextShortId} {...short} />;
+      })}
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { LiaTimesSolid } from "react-icons/lia";
 import Comments from "../comments/comments";
@@ -31,6 +31,7 @@ function ShortComments({ contentId, onClose, openCommentBox }: Props) {
   );
 
   const comments = data?.data || [];
+
   return (
     <div
       className={cn(

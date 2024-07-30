@@ -25,8 +25,12 @@ import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { cn } from "@/lib/utils";
 import { GoMute, GoUnmute } from "react-icons/go";
 import ShortComments from "./short-comments";
+import { viewsFormat } from "@/utils/video";
+import { MyTooltip } from "../ui/tooltip";
 
-type Props = IVideo;
+type Props = IVideo & {
+  nextShortId?: string;
+};
 function ShortVideo({
   videoFile,
   title,
@@ -34,13 +38,15 @@ function ShortVideo({
   _id,
   isLiked,
   description,
+  likes,
+  nextShortId,
 }: Props) {
   const router = useRouter();
   const setOpen = useAuthStore((state) => state.setOpen);
   const user = useUserStore((state) => state.user);
   const queryClient = useQueryClient();
   const { avatar, username, fullName, isVerified } = owner;
-  const [play, setPlay] = React.useState(false);
+  const [play, setPlay] = useState(false);
   const [mute, setMute] = useState(false);
   const [openCommentBox, setOpenCommentBox] = useState(false);
   const { ref, inView } = useInView({
@@ -103,15 +109,20 @@ function ShortVideo({
             openCommentBox ? "rounded-tl-2xl rounded-bl-2xl" : "rounded-2xl",
           )}
         >
-          <ReactPlayer
-            width="100%"
-            height="100%"
-            url={addHTTPPrefix(videoFile)}
-            playing={play}
-            muted={mute}
-            playsinline
-            style={{ objectFit: "contain", scale: 4 }}
-          />
+          <div onClick={() => setPlay(!play)} className="w-full h-full">
+            <ReactPlayer
+              loop
+              width="100%"
+              height="100%"
+              url={addHTTPPrefix(videoFile)}
+              playing={play}
+              muted={mute}
+              onPlay={() => setPlay(true)}
+              onPause={() => setPlay(false)}
+              playsinline
+              style={{ objectFit: "contain", scale: 4 }}
+            />
+          </div>
 
           <div
             className={cn(
@@ -185,7 +196,12 @@ function ShortVideo({
             >
               <FaCaretRight /> {title}
             </Typography>
-            <UTagify text={description} className="text-sm text-white" />
+            <MyTooltip align="start" content={description}>
+              <UTagify
+                text={description}
+                className="text-sm text-white line-clamp-3"
+              />
+            </MyTooltip>
           </div>
           {openCommentBox && (
             <div className="absolute right-5 bottom-5 z-10">
@@ -193,6 +209,7 @@ function ShortVideo({
                 openCommentBox={openCommentBox}
                 owner={owner}
                 isLiked={isLiked}
+                likes={likes}
                 _id={_id}
               />
             </div>
@@ -203,6 +220,7 @@ function ShortVideo({
             onComment={() => setOpenCommentBox(true)}
             owner={owner}
             isLiked={isLiked}
+            likes={likes}
             _id={_id}
           />
         )}

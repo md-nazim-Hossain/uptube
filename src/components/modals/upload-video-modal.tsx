@@ -32,6 +32,13 @@ import { apiRoutes } from "@/utils/routes";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import UploadContent from "../studio/layout/upload-content";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 type Props = {
   trigger: React.ReactNode;
@@ -44,6 +51,7 @@ type Props = {
     videoFiles: string;
     thumbnail: string;
     isPublished: boolean;
+    type: "video" | "short";
   };
 };
 
@@ -60,6 +68,7 @@ const formSchema = z.object({
     .any()
     .refine((file) => file, { message: "This field is required." }),
   isPublished: z.boolean(),
+  type: z.any().default("video"),
 });
 
 function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
@@ -78,6 +87,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
           isPublished: false,
           videoFiles: "",
           thumbnail: "",
+          type: "video",
         },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -87,9 +97,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       formData.append("description", values.description);
       formData.append("isPublished", String(values.isPublished));
       formData.append("thumbnail", values.thumbnail);
-      if (isShort && !isEdit) {
-        formData.append("type", "short");
-      }
+      formData.append("type", values.type);
       if (isEdit) {
         await axios.put(
           `${apiRoutes.videos.updateVideo}${defaultValue?._id}`,
@@ -164,6 +172,37 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                   <FormControl>
                     <Textarea placeholder="Write a description..." {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base">Type</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="capitalize">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {["video", "short"].map((type, index) => (
+                        <SelectItem
+                          key={index}
+                          value={type}
+                          className="capitalize"
+                        >
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

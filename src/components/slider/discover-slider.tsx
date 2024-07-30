@@ -50,7 +50,7 @@ function DiscoverSlider({ favorites, className }: Props) {
       }}
       className={cn("w-full py-5 group", className)}
     >
-      <CarouselContent>
+      <CarouselContent className="ml-0">
         {favorites.map((favorite: IUserFavoriteVideo, index: number) => {
           const video = favorite?.video as IVideo;
           return (

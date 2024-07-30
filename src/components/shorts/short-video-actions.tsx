@@ -12,6 +12,8 @@ import { RiChat1Line } from "react-icons/ri";
 import { IUser, IVideo } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { usePost } from "@/utils/reactQuery";
+import { Typography } from "../ui/typography";
+import { viewsFormat } from "@/utils/video";
 
 type Props = {
   _id: string;
@@ -20,6 +22,7 @@ type Props = {
   owner: IUser;
   onComment?: () => void;
   openCommentBox?: boolean;
+  likes: number;
 };
 function ShortVideoActions({
   _id,
@@ -28,6 +31,7 @@ function ShortVideoActions({
   owner,
   onComment,
   openCommentBox = false,
+  likes,
 }: Props) {
   const { avatar, fullName, subscribersCount } = owner;
   const setOpen = useAuthStore((state) => state.setOpen);
@@ -68,16 +72,24 @@ function ShortVideoActions({
 
   return (
     <div className="flex flex-col gap-3">
-      <Button
-        onClick={() => (!user ? setOpen(true) : handleLikeDislike())}
-        variant="icon"
-        className={cn(
-          "sm:size-12 sm:text-xl rounded-full p-0 ",
-          openCommentBox ? "text-white bg-primary/20" : "bg-primary/10",
-        )}
-      >
-        {isLiked ? <FaHeart /> : <FaRegHeart />}
-      </Button>
+      <div className="space-y-1">
+        <Button
+          onClick={() => (!user ? setOpen(true) : handleLikeDislike())}
+          variant="icon"
+          className={cn(
+            "sm:size-12 sm:text-xl rounded-full p-0 ",
+            openCommentBox ? "text-white bg-primary/20" : "bg-primary/10",
+          )}
+        >
+          {isLiked ? <FaHeart /> : <FaRegHeart />}
+        </Button>
+        <Typography
+          variant={"xsmall"}
+          className={cn("text-center", openCommentBox && "text-white")}
+        >
+          {viewsFormat(likes ?? 0)}
+        </Typography>
+      </div>
       <Button
         onClick={() => (!user ? setOpen(true) : onComment && onComment())}
         variant="icon"

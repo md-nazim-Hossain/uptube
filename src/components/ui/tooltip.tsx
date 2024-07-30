@@ -29,9 +29,7 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 const MyTooltip = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<
-    typeof TooltipPrimitive.Content & { content: string | React.ReactNode }
-  >
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ sideOffset = 4, children, content, ...props }, ref) => (
   <TooltipProvider>
     <Tooltip>
