@@ -28,7 +28,7 @@ const RecursiveComments: React.FC<{
             contentId={contentId}
           />
 
-          <div className="ml-12 pb-2">
+          <div className="ml-12 pb-2 pt-1">
             {comment?.replies.length > 0 && (
               <Button
                 onClick={() => toggleNested(comment._id)}

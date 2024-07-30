@@ -141,6 +141,13 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
                 onDuration={(d) => setDuration(d)}
                 onPlay={() => setAutoPlayState(true)}
                 onPause={() => setAutoPlayState(false)}
+                fallback={
+                  <UpTubeImage
+                    className={"z-10"}
+                    alt=""
+                    src={addHTTPPrefix(thumbnail!)}
+                  />
+                }
                 style={{
                   objectFit: "cover",
                   scale: type && type === "short" ? 4 : 1,

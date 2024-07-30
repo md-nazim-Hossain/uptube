@@ -18,7 +18,7 @@ type Props = {
 };
 function Comments({ className, contentId, showCommentInput = true }: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<IComment[]>>(
-    apiRoutes.comments.getAllCommentById + contentId,
+    apiRoutes.comments.getAllCommentByContentId + contentId,
   );
   if (isLoading) return <CommentsSkeleton size={5} />;
   const comments = data?.data || [];

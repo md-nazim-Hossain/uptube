@@ -83,7 +83,7 @@ function CommentInput({
       }
       form.reset();
       queryClient.invalidateQueries({
-        queryKey: [apiRoutes.comments.getAllCommentById + contentId, undefined],
+        queryKey: [apiRoutes.comments.getAllCommentByContentId + contentId],
       });
       setShowSubmitButton(false);
       onSuccess && onSuccess();

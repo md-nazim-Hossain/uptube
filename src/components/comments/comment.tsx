@@ -1,5 +1,5 @@
 import { IComment } from "@/types";
-import React from "react";
+import React, { useState } from "react";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { Typography, typographyVariants } from "../ui/typography";
 import { getCreationDateDifference, viewsFormat } from "@/utils/video";
@@ -8,12 +8,13 @@ import { VideoCard } from "../ui/video-card";
 import { Button } from "../ui/button";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import CommentInput from "./comment-input";
-import { useDelete, usePost } from "@/utils/reactQuery";
+import { useDelete, useUpdate } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { useToast } from "../ui/use-toast";
 import { useUserStore } from "@/zustand/useUserStore";
 import DeleteAlertModal from "../modals/delete-alert-modal";
 import { useAuthStore } from "@/zustand/useAuthStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 type CommentProps = {
   className?: string;
@@ -27,16 +28,17 @@ function Comment({
   contentId,
   isReplayComment = false,
 }: CommentProps) {
+  const queryClient = useQueryClient();
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
   const { toast } = useToast();
-  const { content, owner, createdAt, _id, isEdited, isLiked, likes } = comment;
+  const { content, owner, createdAt, _id, isEdited, likes } = comment;
   const [isReplay, setIsReplay] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
   const isMyComment = user?._id === owner?._id;
   const { mutateAsync: commentDelete } = useDelete<any>(
     apiRoutes.comments.deleteComment,
-    apiRoutes.comments.getAllCommentById + contentId,
+    apiRoutes.comments.getAllCommentByContentId + contentId,
     undefined,
     (oldData, id) => {
       if (!oldData) return;
@@ -52,24 +54,23 @@ function Comment({
     },
   );
 
-  const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
-    apiRoutes.likes.likeDislike,
-    apiRoutes.comments.getAllCommentById + contentId,
+  const { mutateAsync: mutateLikeDislike } = useUpdate<any, any>(
+    apiRoutes.comments.commentLikeDislike,
+    apiRoutes.comments.getAllCommentByContentId + contentId,
     undefined,
-    (oldData, data: { commentId: string; state: "like" | "dislike" }) => {
+    (oldData, data: { id: string; state: "like" | "dislike" }) => {
       if (!oldData) return;
       return {
         ...oldData,
         data: oldData?.data?.map((comment: IComment) => {
-          const { likes: totalLikes } = comment;
-          if (comment._id === data.commentId) {
+          const { likes } = comment;
+          if (comment._id === data.id) {
             return {
               ...comment,
               likes:
                 data?.state === "dislike"
-                  ? totalLikes - (totalLikes > 0 ? 1 : 0)
-                  : totalLikes + 1,
-              isLiked: data?.state === "dislike" ? false : true,
+                  ? likes.filter((l) => l !== user?._id)
+                  : [...likes, user?._id],
             };
           }
           return comment;
@@ -81,8 +82,8 @@ function Comment({
   const handleLikedAndDisliked = async (id: string) => {
     try {
       await mutateLikeDislike({
-        commentId: id,
-        state: isLiked ? "dislike" : "like",
+        id,
+        state: likes.includes(user?._id ?? "") ? "dislike" : "like",
       });
     } catch (error) {}
   };
@@ -175,9 +176,15 @@ function Comment({
               variant="icon"
               className="size-8 text-base rounded-full p-0 hover:bg-primary/10"
             >
-              {isLiked ? <IoMdHeart /> : <IoIosHeartEmpty />}
+              {likes.includes(user?._id ?? "") ? (
+                <IoMdHeart />
+              ) : (
+                <IoIosHeartEmpty />
+              )}
             </Button>
-            <Typography variant="muted">{viewsFormat(likes)}</Typography>
+            <Typography variant="muted">
+              {viewsFormat(likes?.length ?? 0)}
+            </Typography>
           </div>
           <Button
             onClick={() => (user ? setIsReplay(true) : setOpen(true))}
@@ -194,6 +201,13 @@ function Comment({
             avatarClassName="size-6"
             onClose={() => setIsReplay(false)}
             defaultValue={{ comment: content, _id }}
+            onSuccess={() => {
+              queryClient.invalidateQueries({
+                queryKey: [
+                  apiRoutes.comments.getAllCommentByContentId + contentId,
+                ],
+              });
+            }}
           />
         )}
       </div>

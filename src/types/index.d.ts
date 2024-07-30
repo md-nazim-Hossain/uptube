@@ -75,8 +75,7 @@ export interface IComment {
   tweet?: string;
   isEdited: boolean;
   lastEditedAt: string;
-  likes: number;
-  isLiked: boolean;
+  likes: string[];
   parentComment: null | string;
   replies: IComment[];
 }

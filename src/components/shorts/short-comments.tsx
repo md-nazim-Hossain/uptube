@@ -19,10 +19,13 @@ type Props = {
 };
 function ShortComments({ contentId, onClose, openCommentBox }: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<IComment[]>>(
-    apiRoutes.comments.getAllCommentById + contentId,
+    apiRoutes.comments.getAllCommentByContentId + contentId,
     undefined,
     {
-      queryKey: [apiRoutes.comments.getAllCommentById + contentId, undefined],
+      queryKey: [
+        apiRoutes.comments.getAllCommentByContentId + contentId,
+        undefined,
+      ],
       enabled: openCommentBox,
     },
   );

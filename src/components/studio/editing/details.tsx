@@ -145,7 +145,7 @@ function Details() {
                 </FormControl>
                 <SelectContent>
                   {countryList.map((country) => (
-                    <SelectItem key={country.code} value={country.code}>
+                    <SelectItem key={country.code} value={country.name}>
                       {country.name}
                     </SelectItem>
                   ))}
