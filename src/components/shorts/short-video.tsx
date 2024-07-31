@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import { IVideo } from "@/types";
 import dynamic from "next/dynamic";
@@ -26,9 +26,17 @@ import { cn } from "@/lib/utils";
 import { GoMute, GoUnmute } from "react-icons/go";
 import ShortComments from "./short-comments";
 import { MyTooltip } from "../ui/tooltip";
+import { Input } from "../ui/input";
 
+type IPlayerSate = {
+  muted: boolean;
+  volume: number;
+};
 type Props = IVideo & {
   nextShortId?: string;
+  playerState: IPlayerSate;
+  toggleMute: (state: boolean) => void;
+  handleVolume: (value: string) => void;
 };
 function ShortVideo({
   videoFile,
@@ -39,22 +47,24 @@ function ShortVideo({
   description,
   likes,
   nextShortId,
+  toggleMute,
+  playerState,
+  handleVolume,
 }: Props) {
   const router = useRouter();
   const setOpen = useAuthStore((state) => state.setOpen);
   const user = useUserStore((state) => state.user);
+  const [playing, setPlaying] = useState(false);
   const queryClient = useQueryClient();
   const { avatar, username, fullName, isVerified } = owner;
-  const [play, setPlay] = useState(false);
-  const [mute, setMute] = useState(false);
   const [openCommentBox, setOpenCommentBox] = useState(false);
   const { ref, inView } = useInView({
     threshold: 1,
     delay: 100,
   });
   useEffect(() => {
-    if (inView) setPlay(true);
-    else setPlay(false);
+    if (inView) setPlaying(true);
+    else setPlaying(false);
   }, [inView]);
 
   const { mutateAsync: mutateFollowUnfollow } = usePost<any, any>(
@@ -108,7 +118,7 @@ function ShortVideo({
           )}
         >
           <div
-            onClick={() => setPlay(!play)}
+            onClick={() => toggleMute(!playerState?.muted)}
             className={cn(
               "w-full h-full overflow-hidden",
               openCommentBox ? "rounded-tl-2xl rounded-bl-2xl" : "rounded-2xl",
@@ -119,10 +129,11 @@ function ShortVideo({
               width="100%"
               height="100%"
               url={addHTTPPrefix(videoFile)}
-              playing={play}
-              muted={mute}
-              onPlay={() => setPlay(true)}
-              onPause={() => setPlay(false)}
+              playing={playing}
+              muted={playerState?.muted}
+              volume={playerState?.volume}
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
               playsinline
               style={{ objectFit: "cover", scale: 1.5 }}
             />
@@ -130,24 +141,38 @@ function ShortVideo({
 
           <div
             className={cn(
-              "absolute z-10 flex items-center gap-3 top-5 left-5 group-hover/player:opacity-100 opacity-0",
+              "absolute z-10 flex items-center gap-3 top-5 left-5 group-hover/player:opacity-100 opacity-100",
             )}
           >
             <Button
               onClick={() => {
-                setPlay(!play);
+                setPlaying(!playing);
               }}
               variant="icon"
-              className="bg-black/50 hover:bg-black/45 text-white text-xl"
+              className="bg-black/40 hover:bg-black/60 text-white text-xl"
             >
-              {play ? <IoIosPause /> : <IoIosPlay />}
+              {playing ? <IoIosPause /> : <IoIosPlay />}
             </Button>
             <Button
-              onClick={() => setMute((prev) => !prev)}
               variant="icon"
-              className="bg-black/50 hover:bg-black/45 text-xl text-white"
+              className="bg-black/40 hover:bg-black/60 text-xl text-white size-max hover:!pr-2.5 hover:w-[250px] gap-1 group/mute flex hover:justify-start"
             >
-              {mute ? <GoMute /> : <GoUnmute />}
+              <span
+                onClick={() => toggleMute(!playerState?.muted)}
+                className="flex-shrink-0 p-2.5"
+              >
+                {playerState?.muted ? <GoMute /> : <GoUnmute />}
+              </span>
+              <input
+                value={playerState.volume * 100}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  handleVolume(event.target.value);
+                }}
+                min={0}
+                max={100}
+                type="range"
+                className="hidden w-full accent-white group-hover/mute:block appearance-none bg-gray-600 h-2 rounded"
+              />
             </Button>
           </div>
 

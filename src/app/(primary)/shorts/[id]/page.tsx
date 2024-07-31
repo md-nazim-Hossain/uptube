@@ -8,6 +8,11 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 function ShortsVideoPage() {
+  const [prevVolume, setPrevVolume] = React.useState(0.5);
+  const [playerState, setPlayerState] = React.useState({
+    muted: false,
+    volume: 0.5,
+  });
   const { id } = useParams();
   const { isLoading, shorts } = useShortsProvider();
   if (isLoading)
@@ -18,13 +23,41 @@ function ShortsVideoPage() {
     );
   const findShort = shorts.find((short) => short._id === id);
   if (!findShort) return <EmptyState text="No short found" />;
+
+  const handleMuteUnmute = (state: boolean) => {
+    setPrevVolume(playerState.volume);
+    setPlayerState({
+      volume: state ? 0 : prevVolume,
+      muted: state,
+    });
+  };
+
+  const handleVolume = (value: string) => {
+    const newVolume = parseFloat(value) / 100;
+    setPlayerState((prev) => ({ volume: newVolume, muted: newVolume === 0 }));
+  };
+
   return (
     <section className="flex flex-col gap-5 items-center  w-full pb-10">
-      <ShortVideo {...findShort} />
+      <ShortVideo
+        handleVolume={handleVolume}
+        playerState={playerState}
+        toggleMute={handleMuteUnmute}
+        {...findShort}
+      />
       {shorts.map((short: IVideo, index: number) => {
         const nextShortId = shorts[index + 1]?._id;
         if (short._id === findShort?._id) return null;
-        return <ShortVideo key={index} nextShortId={nextShortId} {...short} />;
+        return (
+          <ShortVideo
+            handleVolume={handleVolume}
+            playerState={playerState}
+            toggleMute={handleMuteUnmute}
+            key={index}
+            nextShortId={nextShortId}
+            {...short}
+          />
+        );
       })}
     </section>
   );
