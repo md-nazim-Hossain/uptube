@@ -6,54 +6,55 @@ import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import VideoCardActions from "@/components/videos/video-card-actions";
-import { IVideo } from "@/types";
-import { usePost } from "@/utils/reactQuery";
+import { IAPIResponse, IVideo } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { viewsFormat } from "@/utils/video";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useUserStore } from "@/zustand/useUserStore";
-import React from "react";
+import React, { useState } from "react";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import ViewCount from "./view-count";
 import AddWatchHistory from "./AddWatchHistory";
 import RelatedVideos from "./related-videos";
 import UTagify from "../uptube/u-tagify";
+import axios from "@/utils/axios";
+import { useToast } from "../ui/use-toast";
+import { revalidatePath } from "@/actions/revalidate-actions";
 
 type Props = {
   video: IVideo;
 };
 function FullViewVideo({ video }: Props) {
+  const { toast } = useToast();
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
   const { _id, likes, views, title, owner, videoFile, isLiked } = video;
-
-  const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
-    apiRoutes.likes.likeDislike,
-    apiRoutes.videos.getVideoById + _id,
-    undefined,
-    (oldData, data) => {
-      if (!oldData) return;
-      const totalLikes = oldData?.data?.likes;
-      const isLiked = oldData?.data?.isLiked;
-      return {
-        data: {
-          ...oldData?.data,
-          likes: isLiked
-            ? totalLikes - (totalLikes > 0 ? 1 : 0)
-            : totalLikes + 1,
-          isLiked: !isLiked,
-        },
-      };
-    },
-  );
+  const [isLikedVideo, setIsLikedVideo] = useState(isLiked);
+  const [totalLikes, setTotalLikes] = useState(likes);
 
   const handleLikeDislike = async () => {
+    const prevLiked = isLikedVideo;
     try {
-      await mutateLikeDislike({
+      setTotalLikes((prev) =>
+        isLikedVideo ? prev - (prev > 0 ? 1 : 0) : prev + 1,
+      );
+      setIsLikedVideo((prev) => !prev);
+      await axios.post(apiRoutes.likes.likeDislike, {
         videoId: _id,
-        state: isLiked ? "dislike" : "like",
+        state: isLikedVideo ? "dislike" : "like",
       });
-    } catch (error) {}
+      revalidatePath("/watch");
+    } catch (error: IAPIResponse<any> | any) {
+      setTotalLikes((prev) =>
+        !prevLiked ? prev - (prev > 0 ? 1 : 0) : prev + 1,
+      );
+      setIsLikedVideo(prevLiked);
+      toast({
+        variant: "destructive",
+        title: `Failed to ${isLikedVideo ? "dislike" : "like"} video`,
+        description: error?.data?.message,
+      });
+    }
   };
   return (
     <div>
@@ -110,7 +111,7 @@ function FullViewVideo({ video }: Props) {
                 channelId={owner?._id}
                 isFollow={owner?.isSubscribed}
                 channelName={owner?.fullName}
-                revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
+                onSuccess={() => revalidatePath("/watch")}
               />
             </div>
             <div className="flex items-center gap-5 w-max">
@@ -121,14 +122,14 @@ function FullViewVideo({ video }: Props) {
                   variant={"flat"}
                   className="flex text-lg hover:bg-transparent justify-center items-center size-8 p-0"
                 >
-                  {isLiked ? (
+                  {isLikedVideo ? (
                     <IoMdHeart className="text-destructive" />
                   ) : (
                     <IoIosHeartEmpty />
                   )}
                 </Button>
                 <span className="text-secondary text-sm">
-                  {viewsFormat(likes)}
+                  {viewsFormat(totalLikes)}
                 </span>
               </div>
               <VideoCardActions user={owner} show={!!user} />

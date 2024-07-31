@@ -75,6 +75,7 @@ export function ContentTableRowActions<TData>({
             thumbnail,
             videoFiles: videoFile,
             isPublished,
+            type: (row.original as IVideo).type as any,
           }}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

@@ -12,9 +12,11 @@ import { TopFansSkeletons } from "./skeletons/top-fans-skeleton";
 import FollowUnfollow from "./channel/follow-unfollow";
 import cookie from "js-cookie";
 import { useUserStore } from "@/zustand/useUserStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 function TopFans() {
   const loading = useUserStore((state) => state.loading);
+  const queryClient = useQueryClient();
   const { data, isLoading } = useFetch<IAPIResponse<IFollower[]>>(
     apiRoutes.users.getAllChannelFollower,
     undefined,
@@ -60,7 +62,14 @@ function TopFans() {
               <FollowUnfollow
                 className="h-max text-xs px-2 py-0.5"
                 isFollow={follower?.subscriber?.isSubscribed}
-                revalidateQueryKey={apiRoutes.users.getAllChannelFollower}
+                onSuccess={() =>
+                  queryClient.invalidateQueries({
+                    queryKey: [
+                      apiRoutes.users.getAllChannelFollower,
+                      undefined,
+                    ],
+                  })
+                }
                 channelName={follower?.subscriber?.fullName}
                 channelId={follower?.subscriber?._id}
               />

@@ -6,6 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import UserNavProfile from "./user-nav-profile";
 import { useLayoutStore } from "@/zustand/useLayoutStore";
 import Logo from "./logo";
+import { Button } from "../ui/button";
 
 function Navbar() {
   const [openMobileSearch, setOpenMobileSearch] = React.useState(false);
@@ -21,13 +22,12 @@ function Navbar() {
           <Logo onClick={() => setOpenSideBar(!openSidebar)} href="/" />
           <SearchBoxDesktop />
           <div className="gap-x-3 flex items-center">
-            <div className="block sm:hidden">
-              <FiSearch
-                onClick={() => setOpenMobileSearch(true)}
-                size={16}
-                className="cursor-pointer text-secondary"
-              />
-            </div>
+            <Button
+              variant={"icon"}
+              className="flex sm:hidden p-0 text-secondary"
+            >
+              <FiSearch onClick={() => setOpenMobileSearch(true)} size={16} />
+            </Button>
             <UserNavProfile />
           </div>
         </div>

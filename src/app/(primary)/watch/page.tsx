@@ -1,11 +1,11 @@
 import React from "react";
 import WatchVideoPage from "@/components/videos/watch-video-page";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
-import axios from "@/utils/axios";
-import { apiRoutes } from "@/utils/routes";
 import { generateClientMetadata } from "@/utils/generate-metadata";
-import { IAPIResponse, IVideo } from "@/types";
+import { getVideoById } from "@/actions/getVideoById";
+import FullViewVideo from "@/components/videos/full-view-video";
+import WatchPageSkeletons from "@/components/skeletons/watch-page-skeletons";
 type Props = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
@@ -15,10 +15,15 @@ export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
   const id = searchParams?.v;
-  const data = (await axios
-    .get(apiRoutes.videos.getVideoById + id)
-    .then((res) => res.data)) as IAPIResponse<IVideo>;
-  const video = data?.data;
+  if (!id)
+    return generateClientMetadata({
+      title: "UPTube",
+    });
+  const video = await getVideoById(id as string);
+  if (!video)
+    return generateClientMetadata({
+      title: "UPTube",
+    });
   return generateClientMetadata({
     title: video?.title || "UPTube",
     descriptions: video?.description,
@@ -26,11 +31,12 @@ export async function generateMetadata({
   });
 }
 
-function WatchPage({ searchParams }: { searchParams: { v: string } }) {
+async function WatchPage({ searchParams }: Props) {
   const { v } = searchParams;
   if (!v) redirect("/");
-
-  return <WatchVideoPage videoId={v} />;
+  const video = await getVideoById(v as string);
+  if (!video) return notFound();
+  return <FullViewVideo video={video} />;
 }
 
 export default WatchPage;

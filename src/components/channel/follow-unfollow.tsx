@@ -8,11 +8,10 @@ import { cn } from "@/lib/utils";
 import DeleteAlertModal from "../modals/delete-alert-modal";
 import { apiRoutes } from "@/utils/routes";
 import { usePost } from "@/utils/reactQuery";
-import { useQueryClient } from "@tanstack/react-query";
 import { VariantProps } from "class-variance-authority";
 
 type Props = {
-  revalidateQueryKey: string;
+  onSuccess: () => void;
   className?: string;
   channelId: string;
   isFollow: boolean;
@@ -20,14 +19,13 @@ type Props = {
   variant?: VariantProps<typeof buttonVariants>["variant"];
 };
 function FollowUnfollow({
-  revalidateQueryKey,
   className,
   channelId,
   isFollow,
   channelName,
   variant = "outline",
+  onSuccess,
 }: Props) {
-  const queryClient = useQueryClient();
   const [follow, setFollow] = React.useState(isFollow);
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
@@ -43,9 +41,7 @@ function FollowUnfollow({
         channelId,
         state: follow ? "unsubscribe" : "subscribe",
       });
-      queryClient.invalidateQueries({
-        queryKey: [revalidateQueryKey, undefined],
-      });
+      onSuccess();
     } catch (error) {
       setFollow(prevFollow);
     }
