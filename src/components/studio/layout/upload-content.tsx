@@ -77,11 +77,11 @@ function UploadContent({
                 ? thumbnail instanceof File
                   ? URL.createObjectURL(thumbnail)
                   : addHTTPPrefix(thumbnail)
-                : false
+                : true
             }
             className="w-full h-full"
             url={preview}
-            controls
+            muted
             playsinline
             playing
             width="100%"

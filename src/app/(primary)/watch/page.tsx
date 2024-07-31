@@ -1,11 +1,9 @@
 import React from "react";
-import WatchVideoPage from "@/components/videos/watch-video-page";
 import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import { generateClientMetadata } from "@/utils/generate-metadata";
-import { getVideoById } from "@/actions/getVideoById";
 import FullViewVideo from "@/components/videos/full-view-video";
-import WatchPageSkeletons from "@/components/skeletons/watch-page-skeletons";
+import { getVideoById } from "@/actions/video/getVideoById";
 type Props = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };

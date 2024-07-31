@@ -25,7 +25,6 @@ import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { cn } from "@/lib/utils";
 import { GoMute, GoUnmute } from "react-icons/go";
 import ShortComments from "./short-comments";
-import { viewsFormat } from "@/utils/video";
 import { MyTooltip } from "../ui/tooltip";
 
 type Props = IVideo & {
@@ -105,11 +104,16 @@ function ShortVideo({
       <div className="flex items-end gap-3">
         <div
           className={cn(
-            "w-full group/player h-full sm:w-[460px] overflow-hidden shadow relative",
-            openCommentBox ? "rounded-tl-2xl rounded-bl-2xl" : "rounded-2xl",
+            "w-full group/player h-full sm:w-[460px] shadow relative",
           )}
         >
-          <div onClick={() => setPlay(!play)} className="w-full h-full">
+          <div
+            onClick={() => setPlay(!play)}
+            className={cn(
+              "w-full h-full overflow-hidden",
+              openCommentBox ? "rounded-tl-2xl rounded-bl-2xl" : "rounded-2xl",
+            )}
+          >
             <ReactPlayer
               loop
               width="100%"
@@ -120,7 +124,7 @@ function ShortVideo({
               onPlay={() => setPlay(true)}
               onPause={() => setPlay(false)}
               playsinline
-              style={{ objectFit: "contain", scale: 4 }}
+              style={{ objectFit: "cover", scale: 1.5 }}
             />
           </div>
 

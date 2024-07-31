@@ -150,7 +150,6 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
                 }
                 style={{
                   objectFit: "cover",
-                  scale: type && type === "short" ? 4 : 1,
                 }}
               />
             )}

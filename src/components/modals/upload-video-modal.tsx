@@ -30,7 +30,7 @@ import { AxiosError } from "axios";
 import { IAPIResponse } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import UploadContent from "../studio/layout/upload-content";
 import {
   Select,
@@ -39,6 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Typography } from "../ui/typography";
 
 type Props = {
   trigger: React.ReactNode;
@@ -55,24 +56,28 @@ type Props = {
   };
 };
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: "This field has to be filled." }),
-  description: z
-    .string()
-    .min(1, { message: "This field has to be filled." })
-    .max(500),
-  videoFiles: z
-    .any()
-    .refine((file) => file, { message: "This field is required." }),
-  thumbnail: z
-    .any()
-    .refine((file) => file, { message: "This field is required." }),
-  isPublished: z.boolean(),
-  type: z.any().default("video"),
-});
+const formSchema = z
+  .object({
+    title: z.string().min(1, { message: "This field has to be filled." }),
+    description: z
+      .string()
+      .min(1, { message: "This field has to be filled." })
+      .max(500),
+    videoFiles: z
+      .any()
+      .refine((file) => file, { message: "This field is required." }),
+    thumbnail: z.any(),
+    isPublished: z.boolean(),
+    type: z.any().default("video"),
+  })
+  .refine((data) => data.type == "short" || data.thumbnail, {
+    message: "This field is required.",
+    path: ["thumbnail"],
+  });
 
 function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
   const pathname = usePathname();
+  const router = useRouter();
   const isShort = pathname === "/studio/content/shorts";
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
@@ -87,7 +92,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
           isPublished: false,
           videoFiles: "",
           thumbnail: "",
-          type: "video",
+          type: isShort ? "short" : "video",
         },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -96,7 +101,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("isPublished", String(values.isPublished));
-      formData.append("thumbnail", values.thumbnail);
+      values.thumbnail && formData.append("thumbnail", values.thumbnail);
       formData.append("type", values.type);
       if (isEdit) {
         await axios.put(
@@ -120,8 +125,13 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
         title: `${isEdit ? "Update" : "Upload"} Successful`,
         description: `You have successfully ${
           isEdit ? "updated" : "uploaded"
-        } a video.`,
+        } a ${values.type}.`,
       });
+      if (!isEdit) {
+        router.replace(
+          "/studio/content" + values.type === "short" ? "/shorts" : "/videos",
+        );
+      }
       form.reset();
       setOpen(false);
       queryClient.invalidateQueries({
@@ -146,7 +156,9 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
         className={cn("max-h-[90vh] overflow-y-auto scroll", className)}
       >
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Update" : "Upload"} Video</DialogTitle>
+          <DialogTitle className="capitalize">
+            {isEdit ? "Update" : "Upload"} {form.watch("type")}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
@@ -213,7 +225,15 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                 name="thumbnail"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">Thumbnail</FormLabel>
+                    <FormLabel className="text-base flex items-center gap-1">
+                      Thumbnail
+                      <Typography
+                        className="text-destructive"
+                        variant={"xsmall"}
+                      >
+                        (Required for video)
+                      </Typography>
+                    </FormLabel>
                     <FormControl>
                       <Thumbnail
                         defaultFile={field?.value}
@@ -272,9 +292,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                 loading={form.formState.isSubmitting}
                 loadingText={isEdit ? "Updating..." : "Uploading..."}
                 disabled={
-                  form.formState.isSubmitting ||
-                  (!isEdit && !form.formState.isValid) ||
-                  !form.formState.isDirty
+                  form.formState.isSubmitting || !form.formState.isDirty
                 }
               >
                 {isEdit ? "Update" : "Upload"}
