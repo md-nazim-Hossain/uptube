@@ -35,10 +35,10 @@ function ShortComments({ contentId, onClose, openCommentBox }: Props) {
   return (
     <div
       className={cn(
-        "relative shadow-md bg-primary/5 rounded-tr-2xl rounded-br-2xl h-[840px] duration-200",
+        "absolute bottom-0 xs:-bottom-1 lg:-bottom-0 lg:relative z-30 max-w-[460px] shadow-md bg-background lg:bg-primary/5 rounded-tr-2xl lg:rounded-br-2xl rounded-tl-2xl lg:rounded-tl-none h-[80dvh] lg:h-[840px] duration-200",
         openCommentBox
-          ? "-translate-x-0 left-0 flex-1 lg:w-[300px] xl:w-[460px] visible"
-          : "-translate-x-full -left-20 -z-10 w-0 invisible",
+          ? "-translate-y-0 lg:-translate-x-0 lg:left-0 w-full lg:flex-1 lg:w-[300px] xl:w-[460px] visible"
+          : "translate-y-full lg:-translate-y-0 lg:-translate-x-full lg:-left-20 -z-10 w-full lg:w-0 invisible",
       )}
     >
       {openCommentBox && (
@@ -65,7 +65,7 @@ function ShortComments({ contentId, onClose, openCommentBox }: Props) {
       </div>
 
       {openCommentBox && !isLoading && (
-        <div className="absolute bottom-0 w-full border-t py-3 z-10">
+        <div className="absolute bottom-5 xs:bottom-0 w-full bg-background border-t py-3 z-10">
           <div className="px-5">
             <CommentInput
               contentId={contentId}

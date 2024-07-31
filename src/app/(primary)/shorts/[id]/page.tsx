@@ -38,7 +38,7 @@ function ShortsVideoPage() {
   };
 
   return (
-    <section className="flex flex-col gap-5 items-center  w-full pb-10">
+    <section className="flex flex-col xs:gap-5 items-center w-full pb-10">
       <ShortVideo
         handleVolume={handleVolume}
         playerState={playerState}

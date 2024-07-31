@@ -8,7 +8,7 @@ function PrimaryLayout({ children }: { children: React.ReactNode }) {
     <>
       <Navbar />
       <div className="mt-14 min-h-[calc(100vh-56px)] flex flex-col justify-between">
-        <div className="flex gap-5 container">
+        <div className="flex gap-5">
           <UptubeSidebar />
           <div className="flex-1">{children}</div>
         </div>

@@ -71,21 +71,26 @@ function ShortVideoActions({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className={cn("flex flex-col gap-3", className)}>
       <div className="space-y-1">
         <Button
           onClick={() => (!user ? setOpen(true) : handleLikeDislike())}
           variant="icon"
           className={cn(
             "sm:size-12 sm:text-xl rounded-full p-0 ",
-            openCommentBox ? "text-white bg-primary/20" : "bg-primary/10",
+            openCommentBox
+              ? "text-white bg-primary/20"
+              : "text-white lg:text-inherit bg-primary/20 lg:bg-primary/10",
           )}
         >
           {isLiked ? <FaHeart /> : <FaRegHeart />}
         </Button>
         <Typography
           variant={"xsmall"}
-          className={cn("text-center", openCommentBox && "text-white")}
+          className={cn(
+            "text-center text-white lg:text-inherit",
+            openCommentBox && "text-white",
+          )}
         >
           {viewsFormat(likes ?? 0)}
         </Typography>
@@ -95,7 +100,9 @@ function ShortVideoActions({
         variant="icon"
         className={cn(
           "sm:size-12 sm:text-xl rounded-full p-0 ",
-          openCommentBox ? "text-white bg-primary/20" : "bg-primary/10",
+          openCommentBox
+            ? "text-white bg-primary/20"
+            : "text-white lg:text-inherit bg-primary/20 lg:bg-primary/10",
         )}
       >
         <RiChat1Line />
@@ -106,7 +113,9 @@ function ShortVideoActions({
             variant="icon"
             className={cn(
               "sm:size-12 sm:text-xl rounded-full p-0 ",
-              openCommentBox ? "text-white bg-primary/20" : "bg-primary/10",
+              openCommentBox
+                ? "text-white bg-primary/20"
+                : "text-white lg:text-inherit bg-primary/20 lg:bg-primary/10",
             )}
           >
             <BiDotsVerticalRounded />

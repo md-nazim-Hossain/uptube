@@ -1,6 +1,5 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IVideo } from "@/types";
 import dynamic from "next/dynamic";
 import { useInView } from "react-intersection-observer";
@@ -26,7 +25,8 @@ import { cn } from "@/lib/utils";
 import { GoMute, GoUnmute } from "react-icons/go";
 import ShortComments from "./short-comments";
 import { MyTooltip } from "../ui/tooltip";
-import { Input } from "../ui/input";
+import { useReactPlayerControler } from "../../hooks/useReactPlayerControler";
+import ReactPlayer from "react-player";
 
 type IPlayerSate = {
   muted: boolean;
@@ -51,6 +51,7 @@ function ShortVideo({
   playerState,
   handleVolume,
 }: Props) {
+  const videoRef = useRef<ReactPlayer | null>(null);
   const router = useRouter();
   const setOpen = useAuthStore((state) => state.setOpen);
   const user = useUserStore((state) => state.user);
@@ -105,23 +106,26 @@ function ShortVideo({
       });
     } catch (error) {}
   };
+  const { ProgressBar, progressHandler } = useReactPlayerControler(videoRef);
 
   return (
     <div
       style={{ scrollSnapAlign: "start", scrollMarginTop: "70px" }}
-      className="container w-full h-[840px] sm:w-max flex relative"
+      className="w-full h-[calc(100dvh-56px)] xs:h-[840px] lg:w-max flex justify-center relative"
     >
       <div className="flex items-end gap-3">
         <div
           className={cn(
-            "w-full group/player h-full sm:w-[460px] shadow relative",
+            "w-full group/player h-full lg:w-[460px] shadow relative xs:rounded-2xl",
           )}
         >
           <div
             onClick={() => toggleMute(!playerState?.muted)}
             className={cn(
               "w-full h-full overflow-hidden",
-              openCommentBox ? "rounded-tl-2xl rounded-bl-2xl" : "rounded-2xl",
+              openCommentBox
+                ? "xs:rounded-2xl lg:rounded-none lg:rounded-tl-2xl lg:rounded-bl-2xl"
+                : "xs:rounded-2xl",
             )}
           >
             <ReactPlayer
@@ -132,13 +136,15 @@ function ShortVideo({
               playing={playing}
               muted={playerState?.muted}
               volume={playerState?.volume}
+              onProgress={progressHandler}
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
               playsinline
               style={{ objectFit: "cover", scale: 1.5 }}
+              ref={videoRef}
             />
           </div>
-
+          <ProgressBar openCommentBox={openCommentBox} />
           <div
             className={cn(
               "absolute z-10 flex items-center gap-3 top-5 left-5 group-hover/player:opacity-100 opacity-100",
@@ -171,7 +177,7 @@ function ShortVideo({
                 min={0}
                 max={100}
                 type="range"
-                className="hidden w-full accent-white group-hover/mute:block appearance-none bg-gray-600 h-2 rounded"
+                className="hidden w-full accent-white group-hover/mute:block appearance-none bg-gray-500 h-1 rounded-sm"
               />
             </Button>
           </div>
@@ -221,38 +227,47 @@ function ShortVideo({
             </div>
             <Typography
               variant={"small"}
-              className="flex items-center gap-1 text-white"
+              className={cn(
+                "flex items-center gap-1 text-white leading-normal",
+                openCommentBox ? "w-11/12" : "w-11/12 sm:w-full",
+              )}
             >
               <FaCaretRight /> {title}
             </Typography>
             <MyTooltip align="start" content={description}>
               <UTagify
                 text={description}
-                className="text-sm text-white line-clamp-3"
+                className={cn(
+                  "text-sm text-white line-clamp-3",
+                  openCommentBox ? "w-11/12" : "w-11/12 sm:w-full",
+                )}
               />
             </MyTooltip>
           </div>
-          {openCommentBox && (
-            <div className="absolute right-5 bottom-5 z-10">
-              <ShortVideoActions
-                openCommentBox={openCommentBox}
-                owner={owner}
-                isLiked={isLiked}
-                likes={likes}
-                _id={_id}
-              />
-            </div>
-          )}
+          <div
+            className={cn(
+              "absolute right-5 bottom-5 z-10",
+              openCommentBox ? "block" : "block lg:hidden",
+            )}
+          >
+            <ShortVideoActions
+              openCommentBox={openCommentBox}
+              onComment={() => setOpenCommentBox(true)}
+              owner={owner}
+              isLiked={isLiked}
+              likes={likes}
+              _id={_id}
+            />
+          </div>
         </div>
-        {!openCommentBox && (
-          <ShortVideoActions
-            onComment={() => setOpenCommentBox(true)}
-            owner={owner}
-            isLiked={isLiked}
-            likes={likes}
-            _id={_id}
-          />
-        )}
+        <ShortVideoActions
+          className={cn(!openCommentBox ? "hidden lg:flex" : "hidden")}
+          onComment={() => setOpenCommentBox(true)}
+          owner={owner}
+          isLiked={isLiked}
+          likes={likes}
+          _id={_id}
+        />
       </div>
       <ShortComments
         contentId={_id}
