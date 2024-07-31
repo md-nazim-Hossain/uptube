@@ -6,7 +6,7 @@ import CommentsSkeleton from "./comments-skeleton";
 function WatchPageSkeletons() {
   return (
     <div className="container">
-      <Skeleton className="w-full h-[200px] sm:h-[300px]" />
+      <Skeleton className="w-full h-[300px] sm:h-[400px] lg:h-[500px]" />
       <div className="py-5 flex flex-col lg:flex-row justify-between gap-10">
         <div className="flex-1 space-y-5">
           <Skeleton className="w-1/4 h-6" />

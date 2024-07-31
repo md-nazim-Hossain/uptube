@@ -9,7 +9,7 @@ import {
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { Typography, typographyVariants } from "../ui/typography";
 import { viewsFormat } from "@/utils/video";
-import { Input } from "../ui/input";
+import { Input, inputVariants } from "../ui/input";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -22,6 +22,8 @@ import {
 } from "react-share";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 type Props = {
   trigger: React.ReactNode;
   user: {
@@ -32,6 +34,7 @@ type Props = {
   shareLink: string;
 };
 function ShareModal({ trigger, user, shareLink }: Props) {
+  const { toast } = useToast();
   const link = `${process.env.NEXT_PUBLIC_BASE_URL}${
     shareLink.includes("/") ? shareLink : `/${shareLink}`
   }`;
@@ -92,11 +95,31 @@ function ShareModal({ trigger, user, shareLink }: Props) {
               <XIcon size={32} round={true} />
             </TwitterShareButton>
           </div>
-          <Input
-            className="text-muted-foreground"
-            variant={"destructive"}
-            defaultValue={`${link}`}
-          />
+          <div className="w-full border rounded-md flex items-center gap-3 px-4 py-2">
+            <Typography variant={"muted"} className="line-clamp-1">
+              {link}
+            </Typography>
+            <Button
+              size={"sm"}
+              onClick={() => {
+                navigator.clipboard
+                  .writeText(link)
+                  .then(() => {
+                    toast({
+                      title: "Copied to clipboard",
+                    });
+                  })
+                  .catch((err) => {
+                    toast({
+                      title: "Failed to copy",
+                      variant: "destructive",
+                    });
+                  });
+              }}
+            >
+              Copy
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

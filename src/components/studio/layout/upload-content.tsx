@@ -77,7 +77,7 @@ function UploadContent({
                 ? thumbnail instanceof File
                   ? URL.createObjectURL(thumbnail)
                   : addHTTPPrefix(thumbnail)
-                : true
+                : false
             }
             className="w-full h-full"
             url={preview}

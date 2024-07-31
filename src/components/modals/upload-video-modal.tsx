@@ -128,7 +128,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
         } a ${values.type}.`,
       });
       if (!isEdit) {
-        router.replace(
+        router.push(
           "/studio/content" + values.type === "short" ? "/shorts" : "/videos",
         );
       }

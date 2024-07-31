@@ -34,6 +34,7 @@ interface CommentInputProps {
     comment: string;
     _id: string;
   };
+  inputClassName?: string;
 }
 
 const CommentFormSchema = z.object({
@@ -48,6 +49,7 @@ function CommentInput({
   onClose,
   defaultValue,
   isEdit,
+  inputClassName,
 }: CommentInputProps) {
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
@@ -116,7 +118,10 @@ function CommentInput({
                 <FormControl>
                   <Input
                     placeholder={`Add a ${isReplay ? "reply" : "comment"}...`}
-                    className="focus-visible:border-b-secondary/40"
+                    className={cn(
+                      "focus-visible:border-b-secondary/40",
+                      inputClassName,
+                    )}
                     variant={"destructive"}
                     {...field}
                     onFocus={() =>

@@ -20,8 +20,8 @@ import { addHTTPPrefix } from "@/utils/common";
 import UpTubeImage from "../uptube/uptube-image";
 import { SiYoutubeshorts } from "react-icons/si";
 import { Button } from "./button";
-import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { GoMute, GoUnmute } from "react-icons/go";
+import IReactPlayer from "react-player";
 interface VideoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -60,7 +60,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
     {
       className,
       url,
-      autoPlay,
+      autoPlay = false,
       videoDuration,
       _id,
       thumbnail,
@@ -74,15 +74,25 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
     ref,
   ) => {
     const [duration, setDuration] = React.useState(videoDuration ?? 0);
-    const [autoPlayState, setAutoPlayState] = React.useState(autoPlay);
+    const [videoState, setVideoState] = React.useState({
+      playing: autoPlay,
+      muted: type === "short",
+      volume: 0.5,
+      played: 0,
+      seeking: false,
+      buffer: true,
+      playback: 1,
+    });
+    const { buffer, muted, playback, played, playing, seeking, volume } =
+      videoState;
 
+    const handlePlaying = (value: boolean) => {
+      setVideoState((prev) => ({ ...prev, playing: value }));
+    };
     return (
       <>
         {fullPreview ? (
-          <div
-            ref={ref}
-            className={cn("w-full aspect-video max-h-[80vh]", className)}
-          >
+          <div className={cn("w-full aspect-video max-h-[80vh]", className)}>
             <ReactPlayer
               width="100%"
               height="100%"
@@ -90,70 +100,92 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
               controls
               playing={true}
               playsinline
-              ref={ref}
               onDuration={(d) => setDuration(d)}
               style={{ objectFit: "cover" }}
             />
           </div>
         ) : (
-          <Link
-            onMouseEnter={() => setAutoPlayState(true)}
-            onMouseLeave={() => setAutoPlayState(false)}
-            href={(type === "short" ? "/shorts/" : "/watch?v=") + _id}
+          <div
+            onMouseEnter={() => handlePlaying(true)}
+            onMouseLeave={() => handlePlaying(false)}
             className={cn(
-              "w-full aspect-video block group/player cursor-pointer rounded-2xl relative overflow-hidden",
+              "w-full aspect-video group/player cursor-pointer rounded-2xl relative overflow-hidden",
               className,
             )}
           >
-            {showDuration && (
+            {type === "video" && (
+              <div
+                className={cn(
+                  "absolute z-10 flex items-center top-3 right-3 group-hover/player:opacity-100 opacity-0",
+                )}
+              >
+                <Button
+                  onClick={() =>
+                    setVideoState((prev) => ({ ...prev, muted: !prev.muted }))
+                  }
+                  variant="icon"
+                  className="bg-black/50 hover:bg-black/45 text-xl text-white"
+                >
+                  {muted ? <GoMute /> : <GoUnmute />}
+                </Button>
+              </div>
+            )}
+            {showDuration && type === "video" && (
               <span
                 className={cn(
                   "absolute z-20 text-white text-xs bottom-3 right-3 rounded-sm bg-black/80 px-1 py-[1px]",
-                  autoPlayState ? "hidden" : "block",
+                  playing ? "hidden" : "block",
                   durationClassName,
                 )}
               >
                 {convertMillisecondsToTime(duration ?? 0)}
               </span>
             )}
-            {showType && !autoPlayState && (
+            {showType && !playing && (
               <span className="absolute bottom-1 text-white text-xs z-20 capitalize flex items-center gap-1 right-1 bg-black/80 p-1 rounded">
                 <SiYoutubeshorts />
                 SHORTS
               </span>
             )}
-
-            {!autoPlayState ? (
-              <UpTubeImage
-                className={"z-10"}
-                alt=""
-                src={addHTTPPrefix(thumbnail!)}
-              />
-            ) : (
-              <ReactPlayer
-                light={!thumbnail}
-                width="100%"
-                height="100%"
-                url={addHTTPPrefix(url)}
-                playing={autoPlayState}
-                controls={controls}
-                playsinline
-                onDuration={(d) => setDuration(d)}
-                onPlay={() => setAutoPlayState(true)}
-                onPause={() => setAutoPlayState(false)}
-                fallback={
-                  <UpTubeImage
-                    className={"z-10"}
-                    alt=""
-                    src={addHTTPPrefix(thumbnail!)}
-                  />
-                }
-                style={{
-                  objectFit: "cover",
-                }}
-              />
-            )}
-          </Link>
+            <Link
+              className="w-full h-full"
+              href={(type === "short" ? "/shorts/" : "/watch?v=") + _id}
+            >
+              {!playing ? (
+                <UpTubeImage
+                  className={"z-10"}
+                  alt=""
+                  src={
+                    thumbnail
+                      ? addHTTPPrefix(thumbnail)
+                      : "/assets/images/placeholder.svg"
+                  }
+                />
+              ) : (
+                <ReactPlayer
+                  muted={muted}
+                  width="100%"
+                  height="100%"
+                  url={addHTTPPrefix(url)}
+                  playing={playing}
+                  controls={controls}
+                  playsinline
+                  onPlay={() => handlePlaying(true)}
+                  onPause={() => handlePlaying(false)}
+                  fallback={
+                    <UpTubeImage
+                      className={"z-10"}
+                      alt=""
+                      src={addHTTPPrefix(thumbnail!)}
+                    />
+                  }
+                  style={{
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+            </Link>
+          </div>
         )}
       </>
     );
