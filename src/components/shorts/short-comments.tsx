@@ -65,7 +65,7 @@ function ShortComments({ contentId, onClose, openCommentBox }: Props) {
       </div>
 
       {openCommentBox && !isLoading && (
-        <div className="absolute bottom-5 xs:bottom-0 w-full bg-background border-t py-3 z-10">
+        <div className="absolute bottom-5 xs:bottom-0 w-full bg-background lg:bg-primary/5 border-t py-3 z-10">
           <div className="px-5">
             <CommentInput
               contentId={contentId}

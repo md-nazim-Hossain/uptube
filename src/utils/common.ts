@@ -18,7 +18,7 @@ export const blurImage = () => {
 };
 
 export const addHTTPPrefix = (url: string) => {
-  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+  if (!url?.startsWith("http://") && !url?.startsWith("https://")) {
     return `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}${url}`;
   }
   return url;

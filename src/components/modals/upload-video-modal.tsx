@@ -56,24 +56,19 @@ type Props = {
   };
 };
 
-const formSchema = z
-  .object({
-    title: z.string().min(1, { message: "This field has to be filled." }),
-    description: z
-      .string()
-      .min(1, { message: "This field has to be filled." })
-      .max(500),
-    videoFiles: z
-      .any()
-      .refine((file) => file, { message: "This field is required." }),
-    thumbnail: z.any(),
-    isPublished: z.boolean(),
-    type: z.any().default("video"),
-  })
-  .refine((data) => data.type == "short" || data.thumbnail, {
-    message: "This field is required.",
-    path: ["thumbnail"],
-  });
+const formSchema = z.object({
+  title: z.string().min(1, { message: "This field has to be filled." }),
+  description: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .max(500),
+  videoFiles: z
+    .any()
+    .refine((file) => file, { message: "This field is required." }),
+  thumbnail: z.any(),
+  isPublished: z.boolean(),
+  type: z.any().default("video"),
+});
 
 function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
   const pathname = usePathname();
@@ -101,7 +96,9 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("isPublished", String(values.isPublished));
-      values.thumbnail && formData.append("thumbnail", values.thumbnail);
+      values.thumbnail &&
+        values.type === "video" &&
+        formData.append("thumbnail", values.thumbnail);
       formData.append("type", values.type);
       if (isEdit) {
         await axios.put(
@@ -129,7 +126,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
       });
       if (!isEdit) {
         router.push(
-          "/studio/content" + values.type === "short" ? "/shorts" : "/videos",
+          `/studio/content/${values.type === "short" ? "shorts" : "videos"}`,
         );
       }
       form.reset();
@@ -219,31 +216,30 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                 </FormItem>
               )}
             />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base flex items-center gap-1">
-                      Thumbnail
-                      <Typography
-                        className="text-destructive"
-                        variant={"xsmall"}
-                      >
-                        (Required for video)
-                      </Typography>
-                    </FormLabel>
-                    <FormControl>
-                      <Thumbnail
-                        defaultFile={field?.value}
-                        getFile={(file) => field.onChange(file)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div
+              className={cn(
+                "grid",
+                form.watch("type") === "video" && "sm:grid-cols-2 gap-4",
+              )}
+            >
+              {form.watch("type") === "video" && (
+                <FormField
+                  control={form.control}
+                  name="thumbnail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base">Thumbnail</FormLabel>
+                      <FormControl>
+                        <Thumbnail
+                          defaultFile={field?.value}
+                          getFile={(file) => field.onChange(file)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="videoFiles"
@@ -256,7 +252,8 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                         isEdit={isEdit}
                         getFile={(file) => {
                           field.onChange(file);
-                          form.setValue("title", file?.name || "");
+                          !form.getValues("title") &&
+                            form.setValue("title", file?.name || "");
                         }}
                         thumbnail={form.getValues().thumbnail}
                         onDelete={() => {

@@ -71,7 +71,9 @@ function SignInForm({ handleChangeAuthModalState }: Props) {
         queryClient.invalidateQueries({
           queryKey: [apiRoutes.videos.getVideoById + videoId, undefined],
         });
-      open ? setOpen(false) : router.push("/");
+      open
+        ? setOpen(false)
+        : router.push(res?.data?.avatar ? "/" : "/studio/editing");
     } catch (error: IAPIResponse<any> | any) {
       console.log(error);
       toast({

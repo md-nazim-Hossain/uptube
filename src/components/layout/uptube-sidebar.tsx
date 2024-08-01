@@ -143,10 +143,10 @@ export default UptubeSidebar;
 const SidebarLink: React.FC<{ item: ISideProps }> = ({ item }) => {
   const pathname = usePathname();
   const openSidebar = useLayoutStore((state) => state.openUPTubeSidebar);
-  const setOpenSidebar = useLayoutStore((state) => state.setOpenStudioSidebar);
+  const setOpenSidebar = useLayoutStore((state) => state.setOpenUPTubeSidebar);
   return (
     <Link
-      onClick={() => setOpenSidebar(!openSidebar)}
+      onClick={() => setOpenSidebar(false)}
       href={item.href}
       className={cn(
         "flex items-center p-2 hover:bg-primary/10",

@@ -31,7 +31,7 @@ export const useReactPlayerControler = (
       className={cn(
         "absolute bottom-4 left-0 xs:left-3 h-0 z-20 group/slider",
         openCommentBox
-          ? "xs:w-[calc(100%-22px)]"
+          ? "xs:w-[calc(100%-11px)] sm:w-[calc(100%-22px)] lg:w-[calc(100%-11px)]"
           : "w-full xs:w-[calc(100%-22px)]",
       )}
     >

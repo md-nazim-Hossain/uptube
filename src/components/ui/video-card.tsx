@@ -151,7 +151,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
               className="w-full h-full"
               href={(type === "short" ? "/shorts/" : "/watch?v=") + _id}
             >
-              {!playing ? (
+              {!playing && type === "video" && thumbnail ? (
                 <UpTubeImage
                   className={"z-10"}
                   alt=""
