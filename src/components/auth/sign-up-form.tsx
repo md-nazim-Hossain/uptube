@@ -229,7 +229,7 @@ function SignUpForm({ handleChangeAuthModalState }: Props) {
                 </FormControl>
                 <SelectContent>
                   {countryList.map((country, index) => (
-                    <SelectItem key={country.code} value={country.code}>
+                    <SelectItem key={country.code} value={country.name}>
                       {country.name}
                     </SelectItem>
                   ))}

@@ -96,9 +96,15 @@ function Details() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base text-primary">Name</FormLabel>
+              <FormLabel className="text-base text-primary">
+                Description
+              </FormLabel>
               <FormControl>
-                <Textarea rows={8} {...field} />
+                <Textarea
+                  rows={8}
+                  {...field}
+                  placeholder="Write a description..."
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

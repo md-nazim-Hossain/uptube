@@ -12,10 +12,10 @@ import cookie from "js-cookie";
 function DiscoverFavorites() {
   const loading = useUserStore((state) => state.loading);
   const { data, isLoading } = useFetch<IAPIResponse<IUserFavoriteVideo[]>>(
-    apiRoutes.likes.getUserLikeVideos,
+    apiRoutes.likes.getUserLikeVideos + "?type=video",
     undefined,
     {
-      queryKey: [apiRoutes.likes.getUserLikeVideos, undefined],
+      queryKey: [apiRoutes.likes.getUserLikeVideos, { type: "video" }],
       enabled: !!cookie.get("accessToken"),
     },
   );

@@ -11,7 +11,7 @@ import { addHTTPPrefix } from "@/utils/common";
 import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 
 const fields: IEditBrandingField[] = [
   {
@@ -37,6 +37,7 @@ const fields: IEditBrandingField[] = [
   },
 ];
 function Branding() {
+  const [publishing, setPublishing] = useState(false);
   const [avatar, setAvatar] = React.useState<File | null>(null);
   const [coverImage, setCoverImage] = React.useState<File | null>(null);
   const queryClient = useQueryClient();
@@ -60,7 +61,7 @@ function Branding() {
       ))}
       <div className="flex gap-3 pt-5">
         <Button
-          disabled={!coverImage && !avatar}
+          disabled={(!coverImage && !avatar) || publishing}
           variant={"ghost"}
           className="h-8"
           onClick={async () => {
@@ -69,6 +70,7 @@ function Branding() {
             if (coverImage) formData.append("coverImage", coverImage);
             if (avatar) formData.append("avatar", avatar);
             try {
+              setPublishing(true);
               if (coverImage) {
                 await axios
                   .patch(apiRoutes.users.updateCoverImage, formData, {
@@ -94,13 +96,15 @@ function Branding() {
               });
             } catch (error) {
               console.log(error);
+            } finally {
+              setPublishing(false);
             }
           }}
         >
-          Publish
+          {publishing ? "Publishing..." : "Publish"}
         </Button>
         <Button
-          disabled={!coverImage && !avatar}
+          disabled={(!coverImage && !avatar) || publishing}
           onClick={() => {
             setCoverImage(null);
             setAvatar(null);
