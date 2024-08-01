@@ -9,7 +9,8 @@ const RecursiveComments: React.FC<{
   comments: IComment[];
   contentId: string;
   className?: string;
-}> = ({ comments, contentId, className }) => {
+  inputClassName?: string;
+}> = ({ comments, contentId, className, inputClassName }) => {
   const [showNested, setShowNested] = useState<{ [key: string]: boolean }>({});
   const toggleNested = (parentId: string) => {
     setShowNested((prev) => ({ ...prev, [parentId]: !prev[parentId] }));
@@ -26,6 +27,7 @@ const RecursiveComments: React.FC<{
             comment={comment}
             className={className}
             contentId={contentId}
+            inputClassName={inputClassName}
           />
 
           <div className="ml-12 pb-2 pt-1">
@@ -48,6 +50,7 @@ const RecursiveComments: React.FC<{
             <>
               {comment?.replies.length > 0 && (
                 <RecursiveComments
+                  inputClassName={inputClassName}
                   comments={comment?.replies}
                   contentId={contentId}
                   className={className}

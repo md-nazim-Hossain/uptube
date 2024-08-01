@@ -15,6 +15,7 @@ type Props = {
   defaultFile?: File | null;
   onDelete: () => void;
   isEdit?: boolean;
+  type?: "video" | "short";
 };
 
 function UploadContent({
@@ -24,6 +25,7 @@ function UploadContent({
   thumbnail,
   onDelete,
   isEdit,
+  type = "video",
 }: Props) {
   const [preview, setPreview] = React.useState("");
   useEffect(() => {
@@ -89,9 +91,9 @@ function UploadContent({
           />
         </div>
       ) : (
-        <div className="w-full h-full flex text-secondary justify-center flex-col gap-1 items-center">
+        <div className="w-full h-full flex text-secondary justify-center flex-col gap-1 items-center capitalize">
           <PiUploadThin className="size-6" />
-          <span>Upload Video</span>
+          <span>Upload {type}</span>
         </div>
       )}
     </div>

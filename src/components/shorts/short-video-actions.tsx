@@ -88,8 +88,8 @@ function ShortVideoActions({
         <Typography
           variant={"xsmall"}
           className={cn(
-            "text-center text-white lg:text-inherit",
-            openCommentBox && "text-white",
+            "text-center",
+            openCommentBox ? "text-white" : "text-white lg:text-inherit",
           )}
         >
           {viewsFormat(likes ?? 0)}

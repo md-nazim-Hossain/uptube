@@ -245,9 +245,12 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                 name="videoFiles"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">Video</FormLabel>
+                    <FormLabel className="text-base capitalize">
+                      {form.watch("type")}
+                    </FormLabel>
                     <FormControl>
                       <UploadContent
+                        type={form.getValues().type}
                         defaultFile={field?.value}
                         isEdit={isEdit}
                         getFile={(file) => {
@@ -277,8 +280,8 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormLabel className="text-sm cursor-pointer">
-                    Publish this video
+                  <FormLabel className="text-sm cursor-pointer capitalize">
+                    Publish this {form.watch("type")}
                   </FormLabel>
                 </FormItem>
               )}

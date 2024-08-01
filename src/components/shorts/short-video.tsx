@@ -184,7 +184,7 @@ function ShortVideo({
 
           <div
             ref={ref}
-            className="w-[calc(100% - 40px)] absolute bottom-5 left-5 flex flex-col gap-3 justify-end"
+            className="w-[calc(100%-40px)] absolute bottom-5 left-5 flex flex-col gap-3 justify-end"
           >
             <div className="flex items-center gap-3">
               <div className="flex gap-3">
@@ -229,20 +229,18 @@ function ShortVideo({
               variant={"small"}
               className={cn(
                 "flex items-center gap-1 text-white leading-normal",
-                openCommentBox ? "w-11/12" : "w-11/12 sm:w-full",
+                openCommentBox ? "w-[85%]" : "w-[85%] sm:w-full",
               )}
             >
               <FaCaretRight /> {title}
             </Typography>
-            <MyTooltip align="start" content={description}>
-              <UTagify
-                text={description}
-                className={cn(
-                  "text-sm text-white line-clamp-3",
-                  openCommentBox ? "w-11/12" : "w-11/12 sm:w-full",
-                )}
-              />
-            </MyTooltip>
+            <UTagify
+              text={description}
+              className={cn(
+                "text-sm text-white line-clamp-3",
+                openCommentBox ? "w-[85%]" : "w-[85%] lg:w-full",
+              )}
+            />
           </div>
           <div
             className={cn(

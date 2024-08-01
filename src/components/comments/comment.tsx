@@ -21,12 +21,14 @@ type CommentProps = {
   comment: IComment;
   contentId: string;
   isReplayComment?: boolean;
+  inputClassName?: string;
 };
 function Comment({
   className,
   comment,
   contentId,
   isReplayComment = false,
+  inputClassName,
 }: CommentProps) {
   const queryClient = useQueryClient();
   const user = useUserStore((state) => state.user);
@@ -96,6 +98,7 @@ function Comment({
         isEdit
         onClose={() => setIsEdit(false)}
         onSuccess={() => setIsEdit(false)}
+        inputClassName={inputClassName}
       />
     );
 
@@ -201,6 +204,7 @@ function Comment({
             avatarClassName="size-6"
             onClose={() => setIsReplay(false)}
             defaultValue={{ comment: content, _id }}
+            inputClassName={inputClassName}
             onSuccess={() => {
               queryClient.invalidateQueries({
                 queryKey: [
