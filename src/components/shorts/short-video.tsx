@@ -120,7 +120,7 @@ function ShortVideo({
           )}
         >
           <div
-            onClick={() => toggleMute(!playerState?.muted)}
+            onClick={() => setPlaying((prev) => !prev)}
             className={cn(
               "w-full h-full overflow-hidden",
               openCommentBox
@@ -225,22 +225,26 @@ function ShortVideo({
                 )}
               </div>
             </div>
-            <Typography
-              variant={"small"}
-              className={cn(
-                "flex items-center gap-1 text-white leading-normal",
-                openCommentBox ? "w-[85%]" : "w-[85%] sm:w-full",
-              )}
-            >
-              <FaCaretRight /> {title}
-            </Typography>
-            <UTagify
-              text={description}
-              className={cn(
-                "text-sm text-white line-clamp-3",
-                openCommentBox ? "w-[85%]" : "w-[85%] lg:w-full",
-              )}
-            />
+            {title && (
+              <Typography
+                variant={"small"}
+                className={cn(
+                  "flex items-center gap-1 text-white leading-normal",
+                  openCommentBox ? "w-[85%]" : "w-[85%] sm:w-full",
+                )}
+              >
+                <FaCaretRight /> {title}
+              </Typography>
+            )}
+            {description && (
+              <UTagify
+                text={description}
+                className={cn(
+                  "text-sm text-white line-clamp-3",
+                  openCommentBox ? "w-[85%]" : "w-[85%] lg:w-full",
+                )}
+              />
+            )}
           </div>
           <div
             className={cn(
@@ -275,10 +279,12 @@ function ShortVideo({
       {inView && (
         <>
           {user && <AddWatchHistory videoId={_id} />}
-          <ViewCount
-            revalidateQueryKey={apiRoutes.videos.getAllShorts}
-            videoId={_id}
-          />
+          {user?._id !== owner?._id && (
+            <ViewCount
+              revalidateQueryKey={apiRoutes.videos.getAllShorts}
+              videoId={_id}
+            />
+          )}
         </>
       )}
     </div>

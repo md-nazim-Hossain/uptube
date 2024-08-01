@@ -60,10 +60,12 @@ function FullViewVideo({ video }: Props) {
     <div>
       {_id && (
         <>
-          <ViewCount
-            revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
-            videoId={_id}
-          />
+          {user?._id !== owner?._id && (
+            <ViewCount
+              revalidateQueryKey={apiRoutes.videos.getVideoById + _id}
+              videoId={_id}
+            />
+          )}
           {user && <AddWatchHistory videoId={_id} />}
         </>
       )}
