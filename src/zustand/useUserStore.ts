@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 type IUserStore = {
   user: IUser | null;
-  setUser: (user: IUser) => void;
+  setUser: (user: IUser | null) => void;
   removeUser: () => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;

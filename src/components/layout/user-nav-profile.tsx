@@ -10,75 +10,31 @@ import {
 } from "../ui/dropdown-menu";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { useUserStore } from "@/zustand/useUserStore";
-import { IAPIResponse, IUser } from "@/types";
+import { IUser } from "@/types";
 import { usePathname, useRouter } from "next/navigation";
 import { Typography } from "../ui/typography";
 import UpTubeImage from "../uptube/uptube-image";
 import { useSignOut } from "@/hooks/useSignOut";
-import { apiRoutes } from "@/utils/routes";
-import { useFetch } from "@/utils/reactQuery";
-import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
-import { getCookie } from "cookies-next";
+import { Skeleton } from "../ui/skeleton";
 type Props = {
   className?: string;
+  userData: IUser | null;
 };
-function UserNavProfile({ className }: Props) {
+function UserNavProfile({ className, userData }: Props) {
   const router = useRouter();
-  const accessToken = getCookie("accessToken", {
-    domain: process.env.NEXT_PUBLIC_COOKIES_DOMAIN,
-  });
-  const { setUser, removeUser, user, loading, setLoading } = useUserStore(
-    (state) => state,
-  );
-
-  const {
-    data,
-    isLoading: isLoadingUser,
-    error,
-  } = useFetch<IAPIResponse<IUser>>(apiRoutes.users.getUser, undefined, {
-    queryKey: [apiRoutes.users.getUser, undefined],
-    enabled: !!accessToken,
-  });
-  console.log("accessToken-----", accessToken);
-
+  const { setUser, user, setLoading, loading } = useUserStore((state) => state);
   useEffect(() => {
-    if (!accessToken) {
-      setLoading(false);
-      removeUser();
-      return;
-    }
-    if (data && !isLoadingUser) {
-      setUser(data.data as IUser);
-      setLoading(false);
-    }
-    if (!data && !isLoadingUser) {
-      setLoading(false);
-    }
-    if (!isLoadingUser && (error?.status === 401 || error?.status === 403)) {
-      console.log(error);
-      removeUser();
-      // cookie.remove("accessToken");
-      // cookie.remove("refreshToken");
-      setLoading(false);
-    }
-  }, [
-    accessToken,
-    data,
-    error,
-    isLoadingUser,
-    removeUser,
-    setLoading,
-    setUser,
-  ]);
+    setUser(userData);
+    setLoading(false);
+  }, [setLoading, setUser, userData]);
 
   const { signOut, isLoading } = useSignOut();
   const pathname = usePathname();
   const isStudioPage = pathname.startsWith("/studio");
-  if (loading)
-    return <Skeleton className="size-10 flex-shrink-0 rounded-full" />;
-  if (!user || !data?.data)
+  if (loading) return <Skeleton className="size-10 rounded-full" />;
+  if (!user)
     return (
       <>
         <Link
@@ -115,9 +71,9 @@ function UserNavProfile({ className }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
         <UpTubeAvatarImage
-          name={data?.data?.fullName}
-          src={data?.data?.avatar || ""}
-          alt={`profile of ${data?.data?.username}`}
+          name={user?.fullName}
+          src={user?.avatar || ""}
+          alt={`profile of ${user?.username}`}
           className="size-10"
         />
       </DropdownMenuTrigger>
@@ -127,24 +83,22 @@ function UserNavProfile({ className }: Props) {
           className="cursor-default flex items-center gap-3 focus:bg-transparent"
         >
           <UpTubeAvatarImage
-            name={data?.data?.fullName}
-            src={data?.data?.avatar || ""}
-            alt={`profile of ${data?.data?.username}`}
+            name={user?.fullName}
+            src={user?.avatar || ""}
+            alt={`profile of ${user?.username}`}
             className="size-10"
           />
           <div className="flex-1 truncate">
             <Typography className="leading-none truncate">
-              {data?.data?.fullName}
+              {user?.fullName}
             </Typography>
-            <Typography variant={"muted"}>{data?.data?.username}</Typography>
+            <Typography variant={"muted"}>{user?.username}</Typography>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={() =>
-            router.push(`/channel/${data?.data?.username}?tab=stations`)
-          }
+          onClick={() => router.push(`/channel/${user?.username}?tab=stations`)}
         >
           <div className="relative w-6 h-5 mr-2">
             <UpTubeImage

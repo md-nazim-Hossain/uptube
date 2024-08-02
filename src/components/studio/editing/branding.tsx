@@ -5,12 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Typography } from "@/components/ui/typography";
 import UpTubeImage from "@/components/uptube/uptube-image";
-import { IEditBrandingField } from "@/types";
+import { IAPIResponse, IEditBrandingField, IUser } from "@/types";
 import axios from "@/utils/axios";
 import { addHTTPPrefix } from "@/utils/common";
 import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
-import { useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 
 const fields: IEditBrandingField[] = [
@@ -40,8 +39,7 @@ function Branding() {
   const [publishing, setPublishing] = useState(false);
   const [avatar, setAvatar] = React.useState<File | null>(null);
   const [coverImage, setCoverImage] = React.useState<File | null>(null);
-  const queryClient = useQueryClient();
-
+  const setUser = useUserStore((state) => state.setUser);
   return (
     <div className="space-y-3">
       {fields.map((field) => (
@@ -72,28 +70,27 @@ function Branding() {
             try {
               setPublishing(true);
               if (coverImage) {
-                await axios
+                const updatedUser = (await axios
                   .patch(apiRoutes.users.updateCoverImage, formData, {
                     headers: {
                       "Content-Type": "multipart/form-data",
                     },
                   })
-                  .then((res) => res.data);
+                  .then((res) => res.data)) as IAPIResponse<IUser>;
+                setUser(updatedUser?.data);
                 setCoverImage(null);
               }
               if (avatar) {
-                await axios
+                const res = (await axios
                   .patch(apiRoutes.users.updateAvatar, formData, {
                     headers: {
                       "Content-Type": "multipart/form-data",
                     },
                   })
-                  .then((res) => res.data);
+                  .then((res) => res.data)) as IAPIResponse<IUser>;
+                setUser(res?.data);
                 setAvatar(null);
               }
-              queryClient.invalidateQueries({
-                queryKey: [apiRoutes.users.getUser],
-              });
             } catch (error) {
               console.log(error);
             } finally {

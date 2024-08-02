@@ -50,7 +50,6 @@ function UptubeSidebar() {
         <Logo
           className={cn("px-2", isWatchPage ? "" : "flex sm:hidden")}
           href="/"
-          onClick={() => setOpenSidebar(!openSidebar)}
         />
         <div className={cn("pt-3", openSidebar ? "space-y-4" : "space-y-2")}>
           {/* ============= Discover Sidebar Link =============*/}

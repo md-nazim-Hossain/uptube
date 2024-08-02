@@ -5,20 +5,32 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import UpTubeImage from "../uptube/uptube-image";
+import { useLayoutStore } from "@/zustand/useLayoutStore";
 
 type Props = {
-  onClick: () => void;
   href: string;
   className?: string;
   title?: string;
 };
-function Logo({ onClick, href, className, title }: Props) {
+function Logo({ href, className, title }: Props) {
+  const {
+    openStudioSidebar,
+    setOpenStudioSidebar,
+    openUPTubeSidebar,
+    setOpenUPTubeSidebar,
+  } = useLayoutStore((state) => state);
   return (
     <div
       className={cn("flex items-center gap-x-1 md:gap-2 h-[56px]", className)}
     >
       <Button
-        onClick={onClick}
+        onClick={() => {
+          if (href === "/") {
+            setOpenUPTubeSidebar(!openUPTubeSidebar);
+          } else {
+            setOpenStudioSidebar(!openStudioSidebar);
+          }
+        }}
         size={"icon"}
         variant={"icon"}
         className="flex-shrink-0"

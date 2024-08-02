@@ -13,12 +13,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Typography } from "@/components/ui/typography";
 import { useToast } from "@/components/ui/use-toast";
-import { IAPIResponse } from "@/types";
+import { IAPIResponse, IUser } from "@/types";
 import axios from "@/utils/axios";
 import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,9 +36,9 @@ const detailsSchema = z.object({
   country: z.string(),
 });
 function Details() {
-  const queryClient = useQueryClient();
   const { toast } = useToast();
   const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
   const form = useForm<z.infer<typeof detailsSchema>>({
     resolver: zodResolver(detailsSchema),
     defaultValues: {
@@ -51,14 +50,14 @@ function Details() {
   });
   async function onSubmit(values: z.infer<typeof detailsSchema>) {
     try {
-      await axios
+      const res = (await axios
         .patch(apiRoutes.users.updateUserDetails, values)
-        .then((res) => res.data);
+        .then((res) => res.data)) as IAPIResponse<IUser>;
+      setUser(res?.data);
       toast({
         title: "Update Successful",
         description: "You have successfully updated your details.",
       });
-      queryClient.invalidateQueries({ queryKey: [apiRoutes.users.getUser] });
     } catch (error: IAPIResponse<any> | any) {
       console.log(error);
       toast({

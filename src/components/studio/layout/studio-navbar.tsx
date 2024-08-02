@@ -1,24 +1,17 @@
-"use client";
 import Logo from "@/components/layout/logo";
 import UserNavProfile from "@/components/layout/user-nav-profile";
 import React from "react";
 import UploadContentDropdown from "./upload-content-dropdown";
-import { useLayoutStore } from "@/zustand/useLayoutStore";
+import { getUser } from "@/actions/user/getUser";
 
-function StudioNavbar() {
-  const { openStudioSidebar, setOpenStudioSidebar } = useLayoutStore(
-    (state) => state,
-  );
+async function StudioNavbar() {
+  const user = await getUser();
   return (
     <div className="studio-container items-center justify-between shadow-sm border-b flex gap-5 sticky top-0 z-50 h-[56px]">
-      <Logo
-        title="Studio"
-        href={`/studio`}
-        onClick={() => setOpenStudioSidebar(!openStudioSidebar)}
-      />
+      <Logo title="Studio" href={`/studio`} />
       <div className="flex gap-5 items-center">
         <UploadContentDropdown />
-        <UserNavProfile />
+        <UserNavProfile userData={user} />
       </div>
     </div>
   );

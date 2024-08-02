@@ -5,9 +5,7 @@ export const api = {
   get: <T>(url: string, params?: object) =>
     axios.get<T>(url, {
       headers: {
-        Authorization: `Bearer ${getCookie("accessToken", {
-          domain: "youtube-backend-topaz.vercel.app",
-        })}`,
+        Authorization: `Bearer ${getCookie("accessToken")}`,
       },
       ...params,
     }),
