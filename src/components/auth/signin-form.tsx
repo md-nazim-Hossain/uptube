@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import axios from "@/utils/axios";
 import { IAPIResponse, IUser } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -24,6 +23,7 @@ import { useUserStore } from "@/zustand/useUserStore";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { apiRoutes } from "@/utils/routes";
+import axios from "axios";
 const formSchema = z.object({
   identifier: z
     .string()
@@ -60,7 +60,7 @@ function SignInForm({ handleChangeAuthModalState }: Props) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const res = (await axios
-        .post("/users/login", values)
+        .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/signin", values)
         .then((res) => res.data)) as IAPIResponse<IUser>;
       setUser(res.data as IUser);
       toast({
