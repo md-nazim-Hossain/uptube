@@ -23,7 +23,7 @@ export const useSignOut = () => {
       removeUser();
       toast({
         title: "Sign Out Successful",
-        description: "You have successfully logged out.",
+        description: "You have successfully signed out.",
       });
       router.replace("/signin");
     } catch (error: IAPIResponse<any> | any) {
