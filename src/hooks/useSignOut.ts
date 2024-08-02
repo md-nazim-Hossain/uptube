@@ -1,25 +1,19 @@
 import { useToast } from "@/components/ui/use-toast";
 import { IAPIResponse } from "@/types";
-import axios from "@/utils/axios";
+import { usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export const useSignOut = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const removeUser = useUserStore((state) => state.removeUser);
   const { toast } = useToast();
   const router = useRouter();
+
+  const { mutateAsync, isPending } = usePost(apiRoutes.users.logout);
   const signOut = async () => {
     try {
-      setIsLoading(true);
-      await axios.post(apiRoutes.users.logout, {
-        headers: {
-          Authorization: `Bearer ${getCookie("accessToken")}`,
-        },
-      });
+      await mutateAsync({});
       removeUser();
       toast({
         title: "Sign Out Successful",
@@ -27,15 +21,14 @@ export const useSignOut = () => {
       });
       router.replace("/signin");
     } catch (error: IAPIResponse<any> | any) {
+      console.log(error);
       toast({
         title: "Sign Out Failed",
         description: error?.message,
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  return { signOut, isLoading };
+  return { signOut, isLoading: isPending };
 };
