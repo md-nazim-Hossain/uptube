@@ -30,7 +30,6 @@ export const POST = async (req: NextRequest) => {
     });
     cookies().set("refreshToken", data.refreshToken, {
       expires: refreshTokenExpires,
-      httpOnly: true,
       secure: true,
       sameSite: "none",
     });

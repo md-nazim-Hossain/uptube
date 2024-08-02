@@ -46,7 +46,7 @@ function TopFans() {
                 alt={`Avatar of ${follower?.subscriber?.username}`}
               />
             </Link>
-            <div className="flex flex-col gap-1 items-center">
+            <div className="flex flex-col gap-1">
               <Link
                 href={`/${follower?.subscriber?.username}`}
                 className={cn(
