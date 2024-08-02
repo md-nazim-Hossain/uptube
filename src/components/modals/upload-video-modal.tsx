@@ -39,7 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Typography } from "../ui/typography";
+import { getCookie } from "cookies-next";
 
 type Props = {
   trigger: React.ReactNode;
@@ -107,6 +107,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${getCookie("accessToken")}`,
             },
           },
         );
@@ -115,6 +116,7 @@ function UploadVideoModal({ trigger, className, defaultValue, isEdit }: Props) {
         await axios.post(apiRoutes.videos.uploadVideo, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${getCookie("accessToken")}`,
           },
         });
       }
