@@ -3,6 +3,7 @@ import { IAPIResponse } from "@/types";
 import { usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
+import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
 export const useSignOut = () => {
@@ -15,6 +16,8 @@ export const useSignOut = () => {
     try {
       await mutateAsync({});
       removeUser();
+      deleteCookie("accessToken");
+      deleteCookie("refreshToken");
       toast({
         title: "Sign Out Successful",
         description: "You have successfully signed out.",
