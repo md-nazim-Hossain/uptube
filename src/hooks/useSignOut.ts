@@ -1,6 +1,7 @@
 import { useToast } from "@/components/ui/use-toast";
 import { IAPIResponse } from "@/types";
 import axios from "@/utils/axios";
+import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,7 +14,7 @@ export const useSignOut = () => {
   const signOut = async () => {
     try {
       setIsLoading(true);
-      await axios.post("/users/logout");
+      await axios.post(apiRoutes.users.logout);
       removeUser();
       toast({
         title: "Sign Out Successful",

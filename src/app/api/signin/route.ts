@@ -25,13 +25,13 @@ export const POST = async (req: NextRequest) => {
     if (!data) return NextResponse.json(response, { status: 400 });
     cookies().set("accessToken", data.accessToken, {
       expires: accessTokenExpires,
-      httpOnly: process.env.NODE_ENV === "production",
+      httpOnly: true,
       secure: true,
       sameSite: "none",
     });
     cookies().set("refreshToken", data.refreshToken, {
       expires: refreshTokenExpires,
-      httpOnly: process.env.NODE_ENV === "production",
+      httpOnly: true,
       secure: true,
       sameSite: "none",
     });

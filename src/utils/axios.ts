@@ -6,7 +6,7 @@ const axios = Axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    "Allow-Control-Allow-Origin": process.env.NEXT_PUBLIC_BASE_URL,
+    "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_BASE_URL,
   },
   withCredentials: true,
 });
