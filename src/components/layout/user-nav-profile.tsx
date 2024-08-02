@@ -20,12 +20,15 @@ import { useFetch } from "@/utils/reactQuery";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
-import cookie from "js-cookie";
+import { getCookie } from "cookies-next";
 type Props = {
   className?: string;
 };
 function UserNavProfile({ className }: Props) {
   const router = useRouter();
+  const accessToken = getCookie("accessToken", {
+    domain: process.env.NEXT_PUBLIC_COOKIES_DOMAIN,
+  });
   const { setUser, removeUser, user, loading, setLoading } = useUserStore(
     (state) => state,
   );
@@ -36,12 +39,12 @@ function UserNavProfile({ className }: Props) {
     error,
   } = useFetch<IAPIResponse<IUser>>(apiRoutes.users.getUser, undefined, {
     queryKey: [apiRoutes.users.getUser, undefined],
-    enabled: !!cookie.get("accessToken"),
+    enabled: !!accessToken,
   });
-  console.log("token-----", cookie.get("accessToken"));
+  console.log("accessToken-----", accessToken);
 
   useEffect(() => {
-    if (!cookie.get("accessToken")) {
+    if (!accessToken) {
       setLoading(false);
       removeUser();
       return;
@@ -60,7 +63,15 @@ function UserNavProfile({ className }: Props) {
       // cookie.remove("refreshToken");
       setLoading(false);
     }
-  }, [data, error, isLoadingUser, removeUser, setLoading, setUser]);
+  }, [
+    accessToken,
+    data,
+    error,
+    isLoadingUser,
+    removeUser,
+    setLoading,
+    setUser,
+  ]);
 
   const { signOut, isLoading } = useSignOut();
   const pathname = usePathname();

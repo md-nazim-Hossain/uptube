@@ -17,7 +17,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log(cookies().get("accessToken"));
   return (
     <html lang="en">
       <body className={`${inter.className} ${roboto.className}`}>
