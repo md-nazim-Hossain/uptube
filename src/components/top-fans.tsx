@@ -10,19 +10,18 @@ import { useFetch } from "@/utils/reactQuery";
 import { IAPIResponse, IFollower } from "@/types";
 import { TopFansSkeletons } from "./skeletons/top-fans-skeleton";
 import FollowUnfollow from "./channel/follow-unfollow";
-import cookie from "js-cookie";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useQueryClient } from "@tanstack/react-query";
 
 function TopFans() {
-  const loading = useUserStore((state) => state.loading);
+  const { loading, user } = useUserStore((state) => state);
   const queryClient = useQueryClient();
   const { data, isLoading } = useFetch<IAPIResponse<IFollower[]>>(
     apiRoutes.users.getAllChannelFollower,
     undefined,
     {
       queryKey: [apiRoutes.users.getAllChannelFollower, undefined],
-      enabled: !!cookie.get("accessToken"),
+      enabled: !!user,
     },
   );
 
