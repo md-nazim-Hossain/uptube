@@ -28,7 +28,7 @@ export const generateClientMetadata = ({
       "website",
       "streaming",
     ].concat(keywords || []),
-    authors: [{ name: "UPTube", url: "https://up-tube.vercel.app" }],
+    authors: [{ name: "UPTube", url: "https://uptube.vercel.app" }],
     publisher: "UPTube",
     creator: "UPTube",
   };
