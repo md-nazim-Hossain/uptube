@@ -1,8 +1,10 @@
+import { getAllShorts } from "@/actions/video/getAllShorts";
 import ShortsProvider from "@/components/providers/shorts-provider";
 import React, { ReactNode } from "react";
 
-function ShortLayout({ children }: { children: ReactNode }) {
-  return <ShortsProvider>{children}</ShortsProvider>;
+async function ShortLayout({ children }: { children: ReactNode }) {
+  const shorts = await getAllShorts();
+  return <ShortsProvider initialData={shorts}>{children}</ShortsProvider>;
 }
 
 export default ShortLayout;

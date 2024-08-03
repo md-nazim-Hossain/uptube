@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { IInfiniteScrollAPIResponse, IVideo } from "@/types";
+import { IAPIResponse, IInfiniteScrollAPIResponse, IVideo } from "@/types";
 import { useInView } from "react-intersection-observer";
 import { addHTTPPrefix } from "@/utils/common";
 import { Button } from "../ui/button";
@@ -16,7 +16,7 @@ import { useAuthStore } from "@/zustand/useAuthStore";
 import { useUserStore } from "@/zustand/useUserStore";
 import ViewCount from "../videos/view-count";
 import AddWatchHistory from "../videos/AddWatchHistory";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import UTagify from "../uptube/u-tagify";
 import { FaCaretRight } from "react-icons/fa6";
 import { IoIosPause, IoIosPlay } from "react-icons/io";
@@ -25,6 +25,7 @@ import { GoMute, GoUnmute } from "react-icons/go";
 import ShortComments from "./short-comments";
 import { useReactPlayerControler } from "../../hooks/useReactPlayerControler";
 import ReactPlayer from "react-player";
+import { useToast } from "../ui/use-toast";
 
 type IPlayerSate = {
   muted: boolean;
@@ -49,13 +50,13 @@ function ShortVideo({
   handleVolume,
   inViewRef,
 }: Props) {
+  const { toast } = useToast();
   const videoRef = useRef<ReactPlayer | null>(null);
-  const router = useRouter();
+  const id = useParams()?.id as string;
   const setOpen = useAuthStore((state) => state.setOpen);
   const user = useUserStore((state) => state.user);
   const [playing, setPlaying] = useState(false);
-  const queryClient = useQueryClient();
-  const { avatar, username, fullName, isVerified } = owner;
+  const { avatar, username, fullName, isVerified, watchHistory } = owner;
   const [openCommentBox, setOpenCommentBox] = useState(false);
   const { ref, inView } = useInView({
     threshold: 1,
@@ -71,7 +72,7 @@ function ShortVideo({
     { channelId: string; state: string }
   >(
     apiRoutes.follows.createFollowAndUnfollow,
-    apiRoutes.videos.getAllShorts,
+    [apiRoutes.videos.getAllShorts, { id }],
     undefined,
     (oldData, data) => {
       if (!oldData) return;
@@ -109,10 +110,15 @@ function ShortVideo({
         channelId: owner._id,
         state: owner.isSubscribed ? "unsubscribe" : "subscribe",
       });
-      queryClient.invalidateQueries({
-        queryKey: [apiRoutes.videos.getAllShorts, undefined],
+    } catch (error: IAPIResponse<any> | any) {
+      toast({
+        title: `Failed to ${
+          owner.isSubscribed ? "unfollow" : "follow"
+        } channel`,
+        description: error?.data?.message || error?.message,
+        variant: "destructive",
       });
-    } catch (error) {}
+    }
   };
   const { ProgressBar, progressHandler } = useReactPlayerControler(videoRef);
 
@@ -287,7 +293,9 @@ function ShortVideo({
       />
       {inView && (
         <>
-          {user && <AddWatchHistory videoId={_id} />}
+          {user && !(watchHistory as string[])?.includes(_id) && (
+            <AddWatchHistory videoId={_id} />
+          )}
           {user?._id !== owner?._id && (
             <ViewCount
               revalidateQueryKey={apiRoutes.videos.getAllShorts}

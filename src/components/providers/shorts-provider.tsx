@@ -1,8 +1,13 @@
 "use client";
 
-import { IVideo } from "@/types";
+import { IAPIResponse, IInfiniteScrollAPIResponse, IVideo } from "@/types";
 import { useLoadMore } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
+import {
+  FetchNextPageOptions,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import React, {
   createContext,
   ReactNode,
@@ -18,6 +23,11 @@ type IShortContext = {
   inViewRef: (node?: Element | null) => void;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
+  fetchNextPage: (
+    options?: FetchNextPageOptions,
+  ) => Promise<
+    InfiniteQueryObserverResult<IInfiniteScrollAPIResponse<IVideo[]>, Error>
+  >;
 };
 const ShortsContext = createContext<IShortContext>({
   isLoading: false,
@@ -25,15 +35,32 @@ const ShortsContext = createContext<IShortContext>({
   inViewRef: () => {},
   hasNextPage: false,
   isFetchingNextPage: false,
+  fetchNextPage: () => Promise.resolve({} as any),
 });
 export function useShortsProvider() {
   return useContext(ShortsContext);
 }
 
-export default function ShortsProvider({ children }: { children: ReactNode }) {
+type IProvider = {
+  children: ReactNode;
+  initialData: IAPIResponse<IVideo[]>;
+};
+export default function ShortsProvider({ children, initialData }: IProvider) {
+  const { id } = useParams();
   const { ref, inView } = useInView();
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useLoadMore<IVideo[]>(apiRoutes.videos.getAllShorts);
+  const {
+    data,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isFetching,
+  } = useLoadMore<IVideo[]>(
+    apiRoutes.videos.getAllShorts,
+    { id },
+    [initialData],
+    { enabled: !!id },
+  );
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -46,10 +73,11 @@ export default function ShortsProvider({ children }: { children: ReactNode }) {
     <ShortsContext.Provider
       value={{
         shorts,
-        isLoading,
+        isLoading: isLoading || isFetching,
         inViewRef: ref,
         hasNextPage,
         isFetchingNextPage,
+        fetchNextPage,
       }}
     >
       <Suspense>{children}</Suspense>

@@ -9,11 +9,18 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { cn } from "@/lib/utils";
 import { RiChat1Line } from "react-icons/ri";
-import { IInfiniteScrollAPIResponse, IUser, IVideo } from "@/types";
+import {
+  IAPIResponse,
+  IInfiniteScrollAPIResponse,
+  IUser,
+  IVideo,
+} from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { usePost } from "@/utils/reactQuery";
 import { Typography } from "../ui/typography";
 import { viewsFormat } from "@/utils/video";
+import { useParams } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 
 type Props = {
   _id: string;
@@ -33,6 +40,8 @@ function ShortVideoActions({
   openCommentBox = false,
   likes,
 }: Props) {
+  const { toast } = useToast();
+  const id = useParams()?.id as string;
   const { avatar, fullName, subscribersCount } = owner;
   const setOpen = useAuthStore((state) => state.setOpen);
   const user = useUserStore((state) => state.user);
@@ -41,7 +50,7 @@ function ShortVideoActions({
     { videoId: string; state: string }
   >(
     apiRoutes.likes.likeDislike,
-    apiRoutes.videos.getAllShorts,
+    [apiRoutes.videos.getAllShorts, { id }],
     undefined,
     (oldData, data) => {
       if (!oldData) return;
@@ -76,7 +85,13 @@ function ShortVideoActions({
         videoId: _id,
         state: isLiked ? "dislike" : "like",
       });
-    } catch (error) {}
+    } catch (error: IAPIResponse<any> | any) {
+      toast({
+        variant: "destructive",
+        title: `Failed to ${isLiked ? "remove like from" : "like"} video`,
+        description: error?.data?.message || error?.message,
+      });
+    }
   };
 
   return (

@@ -37,6 +37,7 @@ export type IUser = {
   description: string;
   subscribersCount: number;
   isSubscribed: boolean;
+  watchHistory: IVideo[] | string[];
 };
 
 export type IUserProfile = IUser & {

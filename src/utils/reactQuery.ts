@@ -34,6 +34,10 @@ export const useLoadMore = <T>(
   url: string | null,
   params?: object,
   initialData?: any[],
+  config?: {
+    enabled?: boolean;
+    queryKey?: QueryKeyT;
+  },
 ) => {
   const context = useInfiniteQuery<
     GetInfinitePagesInterface<T>,
@@ -44,9 +48,10 @@ export const useLoadMore = <T>(
     queryKey: [url!, params],
     queryFn: ({ queryKey, pageParam }) => fetcher({ queryKey, pageParam }),
     initialPageParam: 1,
-    getPreviousPageParam: (firstPage) => firstPage?.meta.previousId ?? false,
-    getNextPageParam: (lastPage) => lastPage?.meta.nextId,
-    // initialData: { pageParams: [1], pages: initialData ?? [] },
+    getPreviousPageParam: (firstPage) => firstPage?.meta?.previousId ?? false,
+    getNextPageParam: (lastPage) => lastPage?.meta?.nextId,
+    initialData: { pageParams: [1], pages: initialData ?? [] },
+    ...config,
   });
   return context;
 };
@@ -83,15 +88,18 @@ export const useFetch = <T>(
 const useGenericMutation = <T, S>(
   func: (data: T | S) => Promise<AxiosResponse<S>>,
   url: string,
-  updaterQueryKey?: string,
+  updaterQueryKey?: string | QueryKeyT,
   params?: object,
   updater?: ((oldData: T, newData: S) => T) | undefined,
 ) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const queryKey = updaterQueryKey
-    ? [updaterQueryKey, undefined]
+    ? Array.isArray(updaterQueryKey)
+      ? updaterQueryKey
+      : [updaterQueryKey, undefined]
     : [url, params];
+
   return useMutation<AxiosResponse, AxiosError, T | S>({
     mutationFn: func,
     onMutate: async (data: T | S) => {
@@ -141,7 +149,7 @@ export const useDelete = <T>(
 
 export const usePost = <T, S>(
   url: string,
-  updaterQueryKey?: string,
+  updaterQueryKey?: string | QueryKeyT,
   params?: object,
   updater?: (oldData: T, newData: S) => T,
 ) => {
