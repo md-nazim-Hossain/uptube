@@ -34,10 +34,7 @@ function TopFans() {
       <Typography variant={"h3"}>Top Fans</Typography>
       <div className="flex flex-row lg:flex-col gap-5 flex-wrap">
         {followers.map((follower, index) => (
-          <div
-            key={index}
-            className="flex flex-col lg:flex-row items-center gap-3"
-          >
+          <div key={index} className="flex flex-col lg:flex-row gap-3">
             <Link href={`/${follower?.subscriber?.username}`}>
               <UpTubeAvatarImage
                 className="size-12"
@@ -59,7 +56,7 @@ function TopFans() {
                 {follower?.subscriber?.fullName}
               </Link>
               <FollowUnfollow
-                className="h-max text-xs px-2 py-0.5"
+                className="h-max text-xs py-0.5"
                 isFollow={follower?.subscriber?.isSubscribed}
                 onSuccess={() =>
                   queryClient.invalidateQueries({

@@ -10,6 +10,7 @@ import axios from "@/utils/axios";
 import { addHTTPPrefix } from "@/utils/common";
 import { apiRoutes } from "@/utils/routes";
 import { useUserStore } from "@/zustand/useUserStore";
+import { getCookie } from "cookies-next";
 import React, { useState } from "react";
 
 const fields: IEditBrandingField[] = [
@@ -74,6 +75,7 @@ function Branding() {
                   .patch(apiRoutes.users.updateCoverImage, formData, {
                     headers: {
                       "Content-Type": "multipart/form-data",
+                      Authorization: `Bearer ${getCookie("accessToken")}`,
                     },
                   })
                   .then((res) => res.data)) as IAPIResponse<IUser>;
@@ -85,6 +87,7 @@ function Branding() {
                   .patch(apiRoutes.users.updateAvatar, formData, {
                     headers: {
                       "Content-Type": "multipart/form-data",
+                      Authorization: `Bearer ${getCookie("accessToken")}`,
                     },
                   })
                   .then((res) => res.data)) as IAPIResponse<IUser>;

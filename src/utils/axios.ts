@@ -1,4 +1,5 @@
 import Axios, { AxiosError, AxiosResponse } from "axios";
+import { getCookie } from "cookies-next";
 
 const axios = Axios.create({
   baseURL:
@@ -7,6 +8,7 @@ const axios = Axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
     "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_BASE_URL,
+    Authorization: `Bearer ${getCookie("accessToken")}`,
   },
   withCredentials: true,
 });
