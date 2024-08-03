@@ -9,7 +9,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { cn } from "@/lib/utils";
 import { RiChat1Line } from "react-icons/ri";
-import { IUser, IVideo } from "@/types";
+import { IInfiniteScrollAPIResponse, IUser, IVideo } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { usePost } from "@/utils/reactQuery";
 import { Typography } from "../ui/typography";
@@ -36,25 +36,34 @@ function ShortVideoActions({
   const { avatar, fullName, subscribersCount } = owner;
   const setOpen = useAuthStore((state) => state.setOpen);
   const user = useUserStore((state) => state.user);
-  const { mutateAsync: mutateLikeDislike } = usePost<any, any>(
+  const { mutateAsync: mutateLikeDislike } = usePost<
+    IInfiniteScrollAPIResponse<IVideo[]> | undefined,
+    { videoId: string; state: string }
+  >(
     apiRoutes.likes.likeDislike,
     apiRoutes.videos.getAllShorts,
     undefined,
     (oldData, data) => {
       if (!oldData) return;
-      console.log(oldData, data);
+      const pages = oldData?.pages || [];
       return {
         ...oldData,
-        data: oldData?.data?.map((short: IVideo) => {
-          const totalLikes = short?.likes;
-          const isLiked = short?.isLiked;
-          if (short?._id !== _id) return short;
+        pages: pages.map((page) => {
+          if (!page || !page.data?.length) return page;
           return {
-            ...short,
-            likes: isLiked
-              ? totalLikes - (totalLikes > 0 ? 1 : 0)
-              : totalLikes + 1,
-            isLiked: !isLiked,
+            ...page,
+            data: page.data.map((short) => {
+              const totalLikes = short?.likes;
+              const isLiked = short?.isLiked;
+              if (short?._id !== _id) return short;
+              return {
+                ...short,
+                likes: isLiked
+                  ? totalLikes - (totalLikes > 0 ? 1 : 0)
+                  : totalLikes + 1,
+                isLiked: !isLiked,
+              };
+            }),
           };
         }),
       };

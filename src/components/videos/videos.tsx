@@ -1,12 +1,13 @@
 "use client";
-import { IAPIResponse, IVideo } from "@/types";
-import React from "react";
+import { IVideo } from "@/types";
+import React, { Fragment, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { useFetch, useLoadMore } from "@/utils/reactQuery";
+import { useLoadMore } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { VideoCardSkeletons } from "../skeletons/video-card-skeleton";
 import EmptyState from "../empty-state";
 import SingleVideoCard from "./single-video-card";
+import { useInView } from "react-intersection-observer";
 
 type Props = {
   isFeed?: boolean;
@@ -15,22 +16,27 @@ type Props = {
   userId?: string;
 };
 function Videos({
-  isFeed,
+  isFeed = false,
   className,
   isChannelProfile = false,
   userId,
 }: Props) {
-  const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
+  const { ref, inView } = useInView();
+  const { data, isLoading, fetchNextPage, hasNextPage } = useLoadMore<IVideo[]>(
     isChannelProfile
       ? apiRoutes.videos.getVideoByUserId + `/${userId}`
       : apiRoutes.videos.getAllContentByType,
   );
-  if (isLoading) return <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />;
-  const videos = data?.data?.data || [];
-  const sliceVideos = isFeed ? videos : videos?.slice(0, 8);
-  if (!sliceVideos.length && isChannelProfile)
-    return <EmptyState text={"No videos found"} />;
 
+  useEffect(() => {
+    if (inView && isFeed) fetchNextPage();
+  }, [fetchNextPage, inView, isFeed]);
+
+  if (isLoading) return <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />;
+
+  const videos = data?.pages ?? [];
+  if (!videos.length && isChannelProfile)
+    return <EmptyState text={"No videos found"} />;
   return (
     <div
       className={cn(
@@ -38,13 +44,36 @@ function Videos({
         className,
       )}
     >
-      {sliceVideos.map((video: IVideo, index) => (
-        <SingleVideoCard
-          showAvatar={!isChannelProfile}
-          key={index}
-          {...video}
-        />
-      ))}
+      {isFeed && (
+        <>
+          {videos?.map((page, index) => {
+            return (
+              <Fragment key={index}>
+                {page?.data?.map((video: IVideo, index: number) => (
+                  <SingleVideoCard
+                    showAvatar={!isChannelProfile}
+                    key={index}
+                    {...video}
+                  />
+                ))}
+              </Fragment>
+            );
+          })}
+
+          {hasNextPage && <div ref={ref}></div>}
+        </>
+      )}
+      {!isFeed && (
+        <>
+          {(videos?.[0]?.data || [])?.map((video: IVideo, index: number) => (
+            <SingleVideoCard
+              showAvatar={!isChannelProfile}
+              key={index}
+              {...video}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

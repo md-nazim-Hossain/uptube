@@ -8,7 +8,11 @@ import {
 import { QueryFunctionContext } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { api } from "./api";
-import { GetInfinitePagesInterface } from "@/types";
+import {
+  GetInfinitePagesInterface,
+  IAPIResponse,
+  IInfiniteScrollAPIResponse,
+} from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 
 type QueryKeyT = [string, object | undefined];
@@ -34,19 +38,16 @@ export const useLoadMore = <T>(
   const context = useInfiniteQuery<
     GetInfinitePagesInterface<T>,
     Error,
-    GetInfinitePagesInterface<T>,
+    IInfiniteScrollAPIResponse<T>,
     QueryKeyT
   >({
     queryKey: [url!, params],
     queryFn: ({ queryKey, pageParam }) => fetcher({ queryKey, pageParam }),
     initialPageParam: 1,
-    getPreviousPageParam: (firstPage) => firstPage?.previousId ?? false,
-    getNextPageParam: (lastPage) => {
-      return lastPage?.nextId ?? false;
-    },
+    getPreviousPageParam: (firstPage) => firstPage?.meta.previousId ?? false,
+    getNextPageParam: (lastPage) => lastPage?.meta.nextId,
     // initialData: { pageParams: [1], pages: initialData ?? [] },
   });
-
   return context;
 };
 

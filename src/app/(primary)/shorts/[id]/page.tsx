@@ -14,7 +14,7 @@ function ShortsVideoPage() {
     volume: 0.5,
   });
   const { id } = useParams();
-  const { isLoading, shorts } = useShortsProvider();
+  const { isLoading, shorts, inViewRef } = useShortsProvider();
   if (isLoading)
     return (
       <div className="flex flex-col gap-5 items-center w-full pb-10">
@@ -46,15 +46,15 @@ function ShortsVideoPage() {
         {...findShort}
       />
       {shorts.map((short: IVideo, index: number) => {
-        const nextShortId = shorts[index + 1]?._id;
+        const isSecondLast = index + 1 === shorts.length - 2;
         if (short._id === findShort?._id) return null;
         return (
           <ShortVideo
+            inViewRef={isSecondLast ? inViewRef : undefined}
             handleVolume={handleVolume}
             playerState={playerState}
             toggleMute={handleMuteUnmute}
             key={index}
-            nextShortId={nextShortId}
             {...short}
           />
         );

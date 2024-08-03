@@ -13,6 +13,12 @@ export type IAPIResponse<T = unknown> = {
   data: T | null;
   message: string;
   error: string | null;
+  meta?: {
+    nextId: number | null;
+    previousId: number | null;
+    currentId: number | null;
+    total: number;
+  };
 };
 
 // users type
@@ -45,13 +51,13 @@ export type IChannelProfile = IUser & {
 };
 
 export interface GetInfinitePagesInterface<T> {
-  nextCursor: unknown;
-  prevPage: unknown;
-  nextPage: unknown;
-  nextId?: number;
-  previousId?: number;
+  meta: {
+    nextId: number | null;
+    previousId: number | null;
+    currentId: number | null;
+    total: number;
+  };
   data: T;
-  count: number;
 }
 
 export interface IPlayList {
@@ -138,4 +144,9 @@ export interface IChannelAnalytics {
   topVideo: IVideo & { comments: number };
   totalLikes: number;
   totalComments: number;
+}
+
+export interface IInfiniteScrollAPIResponse<T> {
+  pageParams: number[];
+  pages: Array<IAPIResponse<T>>;
 }

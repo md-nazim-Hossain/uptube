@@ -1,7 +1,6 @@
 "use client";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { IVideo } from "@/types";
-import dynamic from "next/dynamic";
+import { IInfiniteScrollAPIResponse, IVideo } from "@/types";
 import { useInView } from "react-intersection-observer";
 import { addHTTPPrefix } from "@/utils/common";
 import { Button } from "../ui/button";
@@ -24,7 +23,6 @@ import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { cn } from "@/lib/utils";
 import { GoMute, GoUnmute } from "react-icons/go";
 import ShortComments from "./short-comments";
-import { MyTooltip } from "../ui/tooltip";
 import { useReactPlayerControler } from "../../hooks/useReactPlayerControler";
 import ReactPlayer from "react-player";
 
@@ -33,10 +31,10 @@ type IPlayerSate = {
   volume: number;
 };
 type Props = IVideo & {
-  nextShortId?: string;
   playerState: IPlayerSate;
   toggleMute: (state: boolean) => void;
   handleVolume: (value: string) => void;
+  inViewRef?: (node?: Element | null) => void | undefined;
 };
 function ShortVideo({
   videoFile,
@@ -46,10 +44,10 @@ function ShortVideo({
   isLiked,
   description,
   likes,
-  nextShortId,
   toggleMute,
   playerState,
   handleVolume,
+  inViewRef,
 }: Props) {
   const videoRef = useRef<ReactPlayer | null>(null);
   const router = useRouter();
@@ -68,27 +66,37 @@ function ShortVideo({
     else setPlaying(false);
   }, [inView]);
 
-  const { mutateAsync: mutateFollowUnfollow } = usePost<any, any>(
+  const { mutateAsync: mutateFollowUnfollow } = usePost<
+    IInfiniteScrollAPIResponse<IVideo[]> | undefined,
+    { channelId: string; state: string }
+  >(
     apiRoutes.follows.createFollowAndUnfollow,
     apiRoutes.videos.getAllShorts,
     undefined,
     (oldData, data) => {
       if (!oldData) return;
+      const pages = oldData?.pages;
       return {
         ...oldData,
-        data: oldData?.data?.map((short: IVideo) => {
-          if (short?.owner?._id !== data.channelId) return short;
-          const isSubscribed = short?.owner?.isSubscribed;
-          const subscribersCount = short?.owner?.subscribersCount;
+        pages: pages?.map((shorts) => {
+          if (!shorts?.data?.length) return shorts;
           return {
-            ...short,
-            owner: {
-              ...short?.owner,
-              isSubscribed: !isSubscribed,
-              subscribersCount: isSubscribed
-                ? subscribersCount - (subscribersCount > 0 ? 1 : 0)
-                : subscribersCount + 1,
-            },
+            ...shorts,
+            data: shorts.data.map((short) => {
+              if (short?.owner?._id !== data.channelId) return short;
+              const isSubscribed = short?.owner?.isSubscribed;
+              const subscribersCount = short?.owner?.subscribersCount;
+              return {
+                ...short,
+                owner: {
+                  ...short?.owner,
+                  isSubscribed: !isSubscribed,
+                  subscribersCount: isSubscribed
+                    ? subscribersCount - (subscribersCount > 0 ? 1 : 0)
+                    : subscribersCount + 1,
+                },
+              };
+            }),
           };
         }),
       };
@@ -110,6 +118,7 @@ function ShortVideo({
 
   return (
     <div
+      ref={inViewRef}
       style={{ scrollSnapAlign: "start", scrollMarginTop: "70px" }}
       className="w-full h-[calc(100dvh-56px)] xs:h-[840px] lg:w-max flex justify-center relative"
     >

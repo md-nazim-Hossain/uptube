@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Typography } from "@/components/ui/typography";
+import { useToast } from "@/components/ui/use-toast";
 import UpTubeImage from "@/components/uptube/uptube-image";
 import { IAPIResponse, IEditBrandingField, IUser } from "@/types";
 import axios from "@/utils/axios";
@@ -37,6 +38,7 @@ const fields: IEditBrandingField[] = [
   },
 ];
 function Branding() {
+  const { toast } = useToast();
   const [publishing, setPublishing] = useState(false);
   const [avatar, setAvatar] = React.useState<File | null>(null);
   const [coverImage, setCoverImage] = React.useState<File | null>(null);
@@ -94,8 +96,12 @@ function Branding() {
                 setUser(res?.data);
                 setAvatar(null);
               }
-            } catch (error) {
-              console.log(error);
+            } catch (error: IAPIResponse<any> | any) {
+              toast({
+                title: "Upload Failed",
+                description: error?.data?.message,
+                variant: "destructive",
+              });
             } finally {
               setPublishing(false);
             }
