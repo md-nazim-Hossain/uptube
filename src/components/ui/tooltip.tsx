@@ -29,13 +29,18 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 const MyTooltip = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ sideOffset = 4, children, content, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & {
+    triggerClassName?: string;
+    text: string | React.ReactNode;
+  }
+>(({ sideOffset = 4, children, text, triggerClassName, ...props }, ref) => (
   <TooltipProvider>
     <Tooltip>
-      <TooltipTrigger className="text-left">{children}</TooltipTrigger>
+      <TooltipTrigger className={cn("text-left", triggerClassName)}>
+        {children}
+      </TooltipTrigger>
       <TooltipContent ref={ref} {...props}>
-        {content}
+        {text}
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>

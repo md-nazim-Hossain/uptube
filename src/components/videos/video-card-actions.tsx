@@ -12,8 +12,9 @@ type Props = {
   className?: string;
   user: IUser;
   show?: boolean;
+  shareLink?: string;
 };
-function VideoCardActions({ className, user, show }: Props) {
+function VideoCardActions({ className, user, show, shareLink }: Props) {
   return (
     <VideoCard.VideoActions show={show} className={cn("", className)}>
       <Button variant={"flat"}>Add to playlist</Button>
@@ -26,7 +27,7 @@ function VideoCardActions({ className, user, show }: Props) {
           avatar: user?.avatar ?? "",
           fullName: user?.fullName ?? "",
         }}
-        shareLink={`/${user?.username}`}
+        shareLink={shareLink || `/${user?.username}`}
       />
 
       <Separator />

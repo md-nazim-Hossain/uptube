@@ -268,7 +268,7 @@ const VideoCardVerifiedBadge = ({
 }: VideoCardVerifiedBadgeProps) => {
   return (
     <div className="flex items-center gap-1">
-      <MyTooltip content={fullName}>
+      <MyTooltip text={fullName}>
         {isLink ? (
           <Link
             href={`/${channelName}`}
@@ -287,7 +287,7 @@ const VideoCardVerifiedBadge = ({
           </Typography>
         )}
       </MyTooltip>
-      <MyTooltip content={isVerified ? "verified" : "unverified"}>
+      <MyTooltip text={isVerified ? "verified" : "unverified"}>
         <VscVerifiedFilled
           className={cn(isVerified ? "text-blue-600" : "text-secondary")}
           size={size}

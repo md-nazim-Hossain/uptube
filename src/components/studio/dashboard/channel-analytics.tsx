@@ -62,7 +62,7 @@ function ChannelAnalytics() {
           </Typography>
         </div>
         <div className="grid grid-cols-4 gap-2">
-          <MyTooltip align="start" content={analytics?.topVideo?.title}>
+          <MyTooltip align="start" text={analytics?.topVideo?.title}>
             <Typography variant={"xsmall"} className="w-full truncate">
               {analytics?.topVideo?.title}
             </Typography>

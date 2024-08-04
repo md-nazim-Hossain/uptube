@@ -1,6 +1,6 @@
 "use client";
 
-import { IVideo } from "@/types";
+import { IInfiniteScrollAPIResponse, IVideo } from "@/types";
 
 import VideoCardActions from "./video-card-actions";
 import { VideoCard } from "../ui/video-card";
@@ -28,15 +28,24 @@ const ColumnViewVideoCard = ({
   showDescriptions?: boolean;
 }) => {
   const { toast } = useToast();
-  const { mutateAsync } = useDelete(
+  const { mutateAsync } = useDelete<
+    IInfiniteScrollAPIResponse<IVideo[]> | undefined
+  >(
     apiRoutes.users.deleteWatchHistory,
     apiRoutes.users.watchHistory,
     undefined,
-    (oldData: any, id) => {
+    (oldData, id) => {
       if (!oldData) return;
+      const pages = oldData?.pages || [];
       return {
         ...oldData,
-        data: oldData?.data?.filter((history: IVideo) => history._id !== id),
+        pages: pages.map((page) => {
+          if (!page || !page.data || !page.data.length) return page;
+          return {
+            ...page,
+            data: page.data.filter((item) => item._id !== id),
+          };
+        }),
       };
     },
   );
@@ -115,7 +124,15 @@ const ColumnViewVideoCard = ({
                 }
               />
             )}
-            <VideoCardActions user={video?.owner} show />
+            <VideoCardActions
+              shareLink={
+                video?.type === "short"
+                  ? `/shorts/${video?._id}565656`
+                  : `/watch?v=${video?._id}5656565656`
+              }
+              user={video?.owner}
+              show
+            />
           </div>
         </VideoCard.Footer>
         {showDescriptions && (
