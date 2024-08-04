@@ -145,7 +145,7 @@ function ShortVideoActions({
             <BiDotsVerticalRounded />
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="end" className={cn("w-36 px-0 py-2")}>
+        <PopoverContent align="start" className={cn("w-36 px-0 py-2")}>
           <Button variant={"flat"}>Add to playlist</Button>
           <ShareModal
             trigger={<Button variant={"flat"}>Share</Button>}
