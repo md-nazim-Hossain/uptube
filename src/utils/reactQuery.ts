@@ -46,7 +46,7 @@ export const useLoadMore = <T>(
     queryKey: [url!, params],
     queryFn: ({ queryKey, pageParam }) => fetcher({ queryKey, pageParam }),
     initialPageParam: 1,
-    getPreviousPageParam: (firstPage) => firstPage?.meta?.previousId ?? false,
+    getPreviousPageParam: (firstPage) => firstPage?.meta?.previousId,
     getNextPageParam: (lastPage) => lastPage?.meta?.nextId,
     initialData: { pageParams: [1], pages: initialData ?? [] },
     ...config,

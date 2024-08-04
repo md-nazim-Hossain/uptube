@@ -3,12 +3,7 @@
 import { IVideo } from "@/types";
 import React from "react";
 import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
-import ReactPlayer from "react-player";
-import { addHTTPPrefix } from "@/utils/common";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import VideoCardActions from "./video-card-actions";
-import UpTubeImage from "../uptube/uptube-image";
 
 type Props = IVideo & {
   className?: string;

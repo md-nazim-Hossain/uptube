@@ -22,15 +22,19 @@ async function Home() {
           {videos?.data?.length && (
             <>
               <Typography variant={"h3"}>Videos</Typography>
-              <div className="py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="py-5 grid gap-5 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
                 {videos.data.map((video: IVideo, index: number) => (
-                  <SingleVideoCard key={index} {...video} />
+                  <SingleVideoCard
+                    className="w-full sm:max-w-max lg:max-w-md"
+                    key={index}
+                    {...video}
+                  />
                 ))}
               </div>
             </>
           )}
         </div>
-        <div className="basis-[200px] pb-5">
+        <div className="basis-[200px] pb-3 h-full overflow-y-auto scroll max-h-[1000px]">
           <TopFans />
         </div>
       </div>

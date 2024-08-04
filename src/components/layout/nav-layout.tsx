@@ -13,7 +13,7 @@ type Props = {
 function NavLayout({ children }: Props) {
   const [openMobileSearch, setOpenMobileSearch] = React.useState(false);
   return (
-    <div className="bg-background fixed top-0 z-50 w-screen left-0">
+    <div className="bg-background fixed top-0 z-50 w-full min-w-screen left-0">
       {/* Mobile Search */}
       {openMobileSearch ? (
         <SearchBoxMobile onClose={() => setOpenMobileSearch(false)} />
