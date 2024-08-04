@@ -1,5 +1,5 @@
 "use client";
-import { IAPIResponse, IVideo } from "@/types";
+import { IAPIResponse, IVideo, QueryKeyT } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 
 type Props = {
   videoId: string;
-  revalidateQueryKey: string;
+  revalidateQueryKey?: string;
 };
 function ViewCount({ videoId, revalidateQueryKey }: Props) {
   const queryClient = useQueryClient();

@@ -10,12 +10,10 @@ import { AxiosError, AxiosResponse } from "axios";
 import { api } from "./api";
 import {
   GetInfinitePagesInterface,
-  IAPIResponse,
   IInfiniteScrollAPIResponse,
+  QueryKeyT,
 } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
-
-type QueryKeyT = [string, object | undefined];
 
 export const fetcher = async <T>({
   queryKey,

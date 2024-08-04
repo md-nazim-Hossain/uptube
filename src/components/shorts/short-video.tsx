@@ -296,12 +296,7 @@ function ShortVideo({
           {user && !(watchHistory as string[])?.includes(_id) && (
             <AddWatchHistory videoId={_id} />
           )}
-          {user?._id !== owner?._id && (
-            <ViewCount
-              revalidateQueryKey={apiRoutes.videos.getAllShorts}
-              videoId={_id}
-            />
-          )}
+          {user?._id !== owner?._id && <ViewCount videoId={_id} />}
         </>
       )}
     </div>

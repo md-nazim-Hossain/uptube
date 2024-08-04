@@ -151,3 +151,5 @@ export interface IInfiniteScrollAPIResponse<T> {
   pageParams: number[];
   pages: Array<IAPIResponse<T>>;
 }
+
+export type QueryKeyT = [string, object | undefined];
