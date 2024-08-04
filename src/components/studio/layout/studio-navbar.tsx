@@ -2,7 +2,7 @@ import Logo from "@/components/layout/logo";
 import UserNavProfile from "@/components/layout/user-nav-profile";
 import React from "react";
 import UploadContentDropdown from "./upload-content-dropdown";
-import { getUser } from "@/actions/user/getUser";
+import { getUser } from "@/_actions/user/getUser";
 
 async function StudioNavbar() {
   const user = await getUser();

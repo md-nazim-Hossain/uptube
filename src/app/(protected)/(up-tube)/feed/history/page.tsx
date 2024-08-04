@@ -1,4 +1,4 @@
-import { getUserWatchHistory } from "@/actions/user/getUserWatchHistory";
+import { getUserWatchHistory } from "@/_actions/user/getUserWatchHistory";
 import EmptyState from "@/components/empty-state";
 import WatchHistory from "@/components/feed/watch-history";
 import { generateClientMetadata } from "@/utils/generate-metadata";

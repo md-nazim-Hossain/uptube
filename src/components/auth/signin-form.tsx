@@ -32,11 +32,11 @@ const formSchema = z.object({
   password: z
     .string()
     .min(8, "The password must be at least 8 characters long")
-    .max(32, "The password must be a maximum 32 characters"),
-  // .regex(passwordRegex, {
-  //   message:
-  //     "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
-  // }),
+    .max(32, "The password must be a maximum 32 characters")
+    .regex(passwordRegex, {
+      message:
+        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
+    }),
 });
 
 type Props = {

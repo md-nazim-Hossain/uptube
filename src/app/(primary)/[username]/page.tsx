@@ -1,4 +1,4 @@
-import { getChannelByUserName } from "@/actions/user/getChannelByUsername";
+import { getChannelByUserName } from "@/_actions/user/getChannelByUsername";
 import ChannelDetails from "@/components/channel/channel-details";
 import ChannelProfile from "@/components/channel/channel-profile";
 import { generateClientMetadata } from "@/utils/generate-metadata";

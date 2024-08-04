@@ -1,4 +1,4 @@
-import { getAllShorts } from "@/actions/video/getAllShorts";
+import { getAllShorts } from "@/_actions/video/getAllShorts";
 import EmptyState from "@/components/empty-state";
 import { ShortCardSkeleton } from "@/components/skeletons/short-card-skeleton";
 import { redirect } from "next/navigation";

@@ -1,4 +1,4 @@
-import { getUserLikeVideos } from "@/actions/user/getUserLikeVideo";
+import { getUserLikeVideos } from "@/_actions/user/getUserLikeVideo";
 import EmptyState from "@/components/empty-state";
 import LikeVideos from "@/components/feed/like-videos";
 import { generateClientMetadata } from "@/utils/generate-metadata";

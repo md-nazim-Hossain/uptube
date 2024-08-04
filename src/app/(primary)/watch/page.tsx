@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import { generateClientMetadata } from "@/utils/generate-metadata";
 import FullViewVideo from "@/components/videos/full-view-video";
-import { getVideoById } from "@/actions/video/getVideoById";
+import { getVideoById } from "@/_actions/video/getVideoById";
 type Props = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };

@@ -19,7 +19,7 @@ import RelatedVideos from "./related-videos";
 import UTagify from "../uptube/u-tagify";
 import axios from "@/utils/axios";
 import { useToast } from "../ui/use-toast";
-import { revalidatePath } from "@/actions/revalidate-actions";
+import { revalidatePath } from "@/_actions/revalidate-actions";
 
 type Props = {
   video: IVideo;

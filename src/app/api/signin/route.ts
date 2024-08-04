@@ -6,11 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const accessTokenExpires = new Date(
-      new Date().setDate(new Date().getDay() + 3),
-    );
+    const accessTokenExpires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 3);
     const refreshTokenExpires = new Date(
-      new Date().setDate(new Date().getDay() + 365),
+      Date.now() + 1000 * 60 * 60 * 24 * 365,
     );
     const body = await req.json();
     const response = (await axios
