@@ -1,5 +1,5 @@
 export type ISideProps = {
-  Icon: string;
+  Icon?: string;
   label: string;
   href: string;
 };

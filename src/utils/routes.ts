@@ -12,6 +12,7 @@ export const apiRoutes = {
     getAllSearchContent: "/videos/get-all-search-content",
     updateViewCount: "/videos/update-view-count/",
     trending: "/videos/trending",
+    hashtag: "/videos/hashtag/",
   },
   users: {
     register: "/users/register",

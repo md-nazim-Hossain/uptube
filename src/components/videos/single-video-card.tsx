@@ -10,6 +10,7 @@ type Props = IVideo & {
   playerClassName?: string;
   showAvatar?: boolean;
   isShort?: boolean;
+  onHoverPlay?: boolean;
 };
 function SingleVideoCard({
   thumbnail,
@@ -25,6 +26,7 @@ function SingleVideoCard({
   playerClassName,
   showAvatar = true,
   isShort = false,
+  onHoverPlay = true,
 }: Props) {
   const { avatar, username, fullName, isVerified } = owner || {};
   return (
@@ -36,6 +38,7 @@ function SingleVideoCard({
         url={videoFile}
         videoDuration={duration}
         _id={_id}
+        onHoverPlay={onHoverPlay}
       />
       <VideoCard.Footer>
         <div className="flex flex-1 gap-3">

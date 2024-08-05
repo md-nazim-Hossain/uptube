@@ -37,7 +37,7 @@ function Videos({
   if (isLoading) return <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />;
 
   const videos = data?.pages ?? [];
-  if (!videos.length && isChannelProfile)
+  if ((!videos || !videos?.length) && isChannelProfile)
     return <EmptyState text={"No videos found"} />;
   return (
     <div

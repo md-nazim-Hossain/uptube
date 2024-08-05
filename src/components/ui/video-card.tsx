@@ -54,6 +54,7 @@ interface VideoCardVideoProps {
   type?: "short" | "video";
   durationClassName?: string;
   controls?: boolean;
+  onHoverPlay?: boolean;
 }
 const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
   (
@@ -70,6 +71,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
       type = "video",
       durationClassName,
       controls = false,
+      onHoverPlay = true,
     },
     ref,
   ) => {
@@ -106,8 +108,8 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
           </div>
         ) : (
           <div
-            onMouseEnter={() => handlePlaying(true)}
-            onMouseLeave={() => handlePlaying(false)}
+            onMouseEnter={() => onHoverPlay && handlePlaying(true)}
+            onMouseLeave={() => onHoverPlay && handlePlaying(false)}
             className={cn(
               "w-full aspect-video group/player cursor-pointer rounded-2xl relative overflow-hidden",
               className,
