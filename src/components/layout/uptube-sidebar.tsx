@@ -155,11 +155,11 @@ const SidebarLink: React.FC<{ item: ISideProps }> = ({ item }) => {
         pathname === item.href && " bg-primary/10",
       )}
     >
-      <Image src={item.Icon} alt={item.label} width={24} height={20} />
+      <Image src={item?.Icon!} alt={item?.label} width={24} height={20} />
       <span
         className={cn("text-secondary", openSidebar ? "text-sm" : "text-xs")}
       >
-        {item.label}
+        {item?.label}
       </span>
     </Link>
   );
