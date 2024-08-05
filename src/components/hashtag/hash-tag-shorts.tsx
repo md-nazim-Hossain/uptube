@@ -17,6 +17,7 @@ type Props = {
   hashtagname: string;
 };
 function HashTagShorts({ hashtagname, initialData }: Props) {
+  const [loading, setLoading] = React.useState(true);
   const { ref, inView } = useInView();
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useLoadMore<IVideo[]>(
@@ -31,10 +32,14 @@ function HashTagShorts({ hashtagname, initialData }: Props) {
     }
   }, [fetchNextPage, inView]);
 
-  if (isLoading)
+  useEffect(() => {
+    if (data) setLoading(false);
+  }, [data]);
+
+  if (isLoading || loading)
     return (
-      <div className="grid gap-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-        {[...Array(12)].map((_, index) => (
+      <div className="flex gap-1 flex-wrap">
+        {[...Array(7)].map((_, index) => (
           <Skeleton key={index} className="w-full xs:w-[220px] h-[390px]" />
         ))}
       </div>
@@ -75,8 +80,8 @@ function HashTagShorts({ hashtagname, initialData }: Props) {
         );
       })}
       {isFetchingNextPage && (
-        <div className="grid gap-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-          {[...Array(12)].map((_, index) => (
+        <div className="flex gap-1 flex-wrap">
+          {[...Array(7)].map((_, index) => (
             <Skeleton key={index} className="w-full xs:w-[220px] h-[390px]" />
           ))}
         </div>
