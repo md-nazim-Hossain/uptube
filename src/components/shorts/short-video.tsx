@@ -162,7 +162,7 @@ function ShortVideo({
           <ProgressBar openCommentBox={openCommentBox} />
           <div
             className={cn(
-              "absolute z-10 flex items-center gap-3 top-5 left-5 group-hover/player:opacity-100 opacity-100",
+              "absolute z-10 flex items-center gap-3 top-5 left-5 group-hover/player:opacity-100 opacity-0",
             )}
           >
             <Button
