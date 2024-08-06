@@ -20,6 +20,7 @@ import UTagify from "../uptube/u-tagify";
 import axios from "@/utils/axios";
 import { useToast } from "../ui/use-toast";
 import { revalidatePath } from "@/_actions/revalidate-actions";
+import { getCookie } from "cookies-next";
 
 type Props = {
   video: IVideo;
@@ -39,10 +40,18 @@ function FullViewVideo({ video }: Props) {
         isLikedVideo ? prev - (prev > 0 ? 1 : 0) : prev + 1,
       );
       setIsLikedVideo((prev) => !prev);
-      await axios.post(apiRoutes.likes.likeDislike, {
-        videoId: _id,
-        state: isLikedVideo ? "dislike" : "like",
-      });
+      await axios.post(
+        apiRoutes.likes.likeDislike,
+        {
+          videoId: _id,
+          state: isLikedVideo ? "dislike" : "like",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("accessToken")}`,
+          },
+        },
+      );
       revalidatePath("/watch");
     } catch (error: IAPIResponse<any> | any) {
       setTotalLikes((prev) =>

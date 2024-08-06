@@ -19,7 +19,7 @@ async function Home() {
           <DiscoverFavorites />
 
           {/* load initial videos */}
-          {videos?.data?.length && (
+          {!!videos?.data?.length && (
             <>
               <Typography variant={"h3"}>Videos</Typography>
               <div className="py-5 grid gap-5 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
@@ -40,13 +40,13 @@ async function Home() {
       </div>
 
       <div>
-        {shorts?.data?.length && (
+        {!!shorts?.data?.length && (
           <>
             <Typography variant={"h3"}>Shorts</Typography>
             <ShortsSlider shorts={shorts?.data} />
           </>
         )}
-        {videos?.data?.length && (
+        {!!videos?.data?.length && (
           <>
             <Typography variant={"h3"}>Feed</Typography>
             <Videos initialData={videos} />

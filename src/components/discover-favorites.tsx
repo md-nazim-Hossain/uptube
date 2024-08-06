@@ -26,7 +26,7 @@ function DiscoverFavorites() {
       </div>
     );
   const favoriteVideos = data?.data || [];
-  if (!favoriteVideos.length) return null;
+  if (!favoriteVideos || !favoriteVideos?.length) return null;
   return (
     <>
       <Typography variant={"h3"}>Discover your favorites</Typography>
