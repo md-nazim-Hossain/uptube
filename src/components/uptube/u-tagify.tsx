@@ -22,6 +22,8 @@ function UTagify({ text, className }: Props) {
         if (type === "mention") {
           const username = text.startsWith("@") ? text : "@" + text;
           router.push("/" + username);
+        } else {
+          router.push(`/hashtag/${text}`);
         }
       }}
     >

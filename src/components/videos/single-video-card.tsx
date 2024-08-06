@@ -9,7 +9,7 @@ type Props = IVideo & {
   className?: string;
   playerClassName?: string;
   showAvatar?: boolean;
-  isShort?: boolean;
+  showType?: boolean;
   onHoverPlay?: boolean;
 };
 function SingleVideoCard({
@@ -25,13 +25,14 @@ function SingleVideoCard({
   className,
   playerClassName,
   showAvatar = true,
-  isShort = false,
+  showType = false,
   onHoverPlay = true,
 }: Props) {
   const { avatar, username, fullName, isVerified } = owner || {};
   return (
     <VideoCard className={className}>
       <VideoCard.Player
+        showType={showType}
         type={type as any}
         thumbnail={thumbnail}
         className={playerClassName}
@@ -51,7 +52,7 @@ function SingleVideoCard({
           )}
           <div className="w-full h-full">
             <VideoCard.Link
-              href={isShort ? `/shorts/${_id}` : `/watch?v=${_id}`}
+              href={type === "short" ? `/shorts/${_id}` : `/watch?v=${_id}`}
             >
               {title}
             </VideoCard.Link>

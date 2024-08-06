@@ -25,7 +25,7 @@ function HashTag({ hashtagname, initialData }: Props) {
     }
   }, [fetchNextPage, inView]);
 
-  if (isLoading) return <VideoCardSkeletons size={8} />;
+  if (isLoading) return <VideoCardSkeletons size={10} />;
   const pages = data?.pages || [];
   if (!pages || !pages.length)
     return <EmptyState text="No hashtag videos found" />;
@@ -36,12 +36,11 @@ function HashTag({ hashtagname, initialData }: Props) {
         return (
           <div
             key={index}
-            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
           >
             {page.data.map((video, innerIndex) => {
               return (
                 <SingleVideoCard
-                  playerClassName="bg-primary/5"
                   {...video}
                   key={innerIndex}
                   onHoverPlay={false}
@@ -51,7 +50,7 @@ function HashTag({ hashtagname, initialData }: Props) {
           </div>
         );
       })}
-      {isFetchingNextPage && <VideoCardSkeletons size={8} />}
+      {isFetchingNextPage && <VideoCardSkeletons size={10} />}
       {hasNextPage && <div ref={ref}></div>}
     </>
   );

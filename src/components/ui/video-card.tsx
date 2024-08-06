@@ -111,7 +111,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
             onMouseEnter={() => onHoverPlay && handlePlaying(true)}
             onMouseLeave={() => onHoverPlay && handlePlaying(false)}
             className={cn(
-              "w-full aspect-video group/player cursor-pointer rounded-2xl relative overflow-hidden",
+              "w-full aspect-video group/player bg-primary/5 cursor-pointer rounded-2xl relative overflow-hidden",
               className,
             )}
           >

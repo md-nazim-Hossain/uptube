@@ -22,13 +22,14 @@ function Videos({
   initialData,
 }: Props) {
   const { ref, inView } = useInView();
-  const { data, isLoading, fetchNextPage, hasNextPage } = useLoadMore<IVideo[]>(
-    isChannelProfile
-      ? apiRoutes.videos.getVideoByUserId + `/${userId}`
-      : apiRoutes.videos.getAllContentByType,
-    undefined,
-    [initialData],
-  );
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useLoadMore<IVideo[]>(
+      isChannelProfile
+        ? apiRoutes.videos.getVideoByUserId + `/${userId}`
+        : apiRoutes.videos.getAllContentByType,
+      undefined,
+      [initialData],
+    );
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -40,28 +41,32 @@ function Videos({
   if ((!videos || !videos?.length) && isChannelProfile)
     return <EmptyState text={"No videos found"} />;
   return (
-    <div
-      className={cn(
-        "py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
-        className,
+    <>
+      <div
+        className={cn(
+          "py-5 grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+          className,
+        )}
+      >
+        {videos?.map((page, index) => {
+          return (
+            <Fragment key={index}>
+              {page?.data?.map((video: IVideo, index: number) => (
+                <SingleVideoCard
+                  showAvatar={!isChannelProfile}
+                  key={index}
+                  {...video}
+                />
+              ))}
+            </Fragment>
+          );
+        })}
+        {hasNextPage && <div ref={ref}></div>}
+      </div>
+      {isFetchingNextPage && (
+        <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />
       )}
-    >
-      {videos?.map((page, index) => {
-        return (
-          <Fragment key={index}>
-            {page?.data?.map((video: IVideo, index: number) => (
-              <SingleVideoCard
-                showAvatar={!isChannelProfile}
-                key={index}
-                {...video}
-              />
-            ))}
-          </Fragment>
-        );
-      })}
-
-      {hasNextPage && <div ref={ref}></div>}
-    </div>
+    </>
   );
 }
 
