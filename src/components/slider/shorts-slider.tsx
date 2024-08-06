@@ -53,7 +53,6 @@ function ShortsSlider({ shorts, className }: Props) {
               className="h-full"
               {...short}
               showAvatar={false}
-              isShort
             />
           </CarouselItem>
         ))}
