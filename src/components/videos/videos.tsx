@@ -49,6 +49,7 @@ function Videos({
         )}
       >
         {videos?.map((page, index) => {
+          if (!page || !page?.data || !page?.data?.length) return null;
           return (
             <Fragment key={index}>
               {page?.data?.map((video: IVideo, index: number) => (

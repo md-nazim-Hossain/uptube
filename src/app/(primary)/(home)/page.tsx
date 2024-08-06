@@ -23,7 +23,7 @@ async function Home() {
             <>
               <Typography variant={"h3"}>Videos</Typography>
               <div className="py-5 grid gap-5 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                {videos.data.map((video: IVideo, index: number) => (
+                {videos?.data?.map((video: IVideo, index: number) => (
                   <SingleVideoCard
                     className="w-full sm:max-w-max lg:max-w-md"
                     key={index}

@@ -41,7 +41,6 @@ function TopFans() {
   const pages = data?.pages || [];
   if (!pages || !pages.length) return null;
 
-  console.log(hasPreviousPage);
   return (
     <div className="space-y-5">
       <Typography variant={"h3"}>Top Fans</Typography>

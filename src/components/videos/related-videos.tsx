@@ -11,8 +11,16 @@ type Props = {
   currentVideoId: string;
 };
 function RelatedVideos({ currentVideoId }: Props) {
-  const { data, isLoading } = useFetch<IAPIResponse<{ data: IVideo[] }>>(
+  const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
     apiRoutes.videos.getAllContentByType,
+    undefined,
+    {
+      queryKey: [
+        apiRoutes.videos.getAllContentByType,
+        { isRelatedVideos: true },
+      ],
+      enabled: !!currentVideoId,
+    },
   );
   if (isLoading)
     return (
@@ -21,11 +29,11 @@ function RelatedVideos({ currentVideoId }: Props) {
         className="w-full lg:max-w-sm"
       />
     );
-  const videos = data?.data?.data || [];
-  const sliceVideos = videos?.slice(0, 8);
+  const videos = data?.data || [];
+  if (!videos || !videos.length) return null;
   return (
     <div className="w-full lg:max-w-sm space-y-5">
-      {sliceVideos.map((video: IVideo, index) => {
+      {videos.map((video: IVideo, index) => {
         if (video?._id === currentVideoId) return null;
         return (
           <ColumnViewVideoCard
