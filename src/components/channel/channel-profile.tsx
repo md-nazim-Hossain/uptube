@@ -21,6 +21,9 @@ import { FiChevronRight } from "react-icons/fi";
 import UpTubeImage from "@/components/uptube/uptube-image";
 import { IChannelProfile } from "@/types";
 import { useUserStore } from "@/zustand/useUserStore";
+import FollowUnfollow from "./follow-unfollow";
+import { revalidatePath } from "@/_actions/revalidate-actions";
+import ChannelProfileSkeleton from "../skeletons/channel-profile-skeletons";
 
 interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
@@ -44,21 +47,32 @@ function ChannelProfile({ className, channel, ...props }: CommentProps) {
     totalVideos,
   } = channel;
   const isMyChannel = user?.username === channel?.username;
+
   return (
-    <div {...props} className={cn("flex flex-col gap-5", className)}>
-      <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
-        <UpTubeImage alt={`cover image of ${username}`} src={coverImage} />
+    <div {...props} className={cn("flex flex-col gap-24 md:gap-5", className)}>
+      <div className="w-full h-full relative">
+        <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
+          <UpTubeImage alt={`cover image of ${username}`} src={coverImage} />
+        </div>
+        <div className="size-40 ring-4 ring-background flex justify-center items-center rounded-full absolute -bottom-20 left-5 md:hidden ">
+          <UpTubeAvatarImage
+            alt={`profile of ${username}`}
+            src={avatar}
+            className={"size-40"}
+            name={fullName}
+          />
+        </div>
       </div>
-      <div className="max-w-2xl flex flex-col sm:flex-row items-center gap-10">
+      <div className="max-w-2xl flex flex-col sm:flex-row items-center gap-5 md:gap-10">
         <UpTubeAvatarImage
           alt={`profile of ${username}`}
           src={avatar}
-          className={"w-32 flex-shrink-0 md:w-40 h-32 md:h-40"}
+          className={"hidden md:block flex-shrink-0 size-40"}
           name={fullName}
         />
 
-        <div className="space-y-3 text-center sm:text-left">
-          <div className="w-max mx-auto sm:mx-0">
+        <div className="space-y-3">
+          <div className="w-max">
             <VideoCardVerifiedBadge
               className="text-3xl font-bold"
               channelName={username}
@@ -90,12 +104,12 @@ function ChannelProfile({ className, channel, ...props }: CommentProps) {
           />
           {!isMyChannel && (
             <div className="pt-2 flex items-center gap-8 w-max mx-auto sm:mx-0">
-              <Button
-                className="text-destructive w-[100px]"
-                variant={"outline"}
-              >
-                Follow
-              </Button>
+              <FollowUnfollow
+                channelId={channel?._id}
+                channelName={fullName}
+                isFollow={isSubscribed}
+                onSuccess={() => revalidatePath(`/${username}`)}
+              />
               <div className="flex items-center gap-3">
                 {SocialIcons.map((icon) => {
                   return (

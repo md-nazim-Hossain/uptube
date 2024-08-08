@@ -35,7 +35,7 @@ function Videos({
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView]);
 
-  if (isLoading) return <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />;
+  if (isLoading) return <VideoCardSkeletons size={isChannelProfile ? 5 : 10} />;
 
   const videos = data?.pages ?? [];
   if ((!videos || !videos?.length) && isChannelProfile)
@@ -44,7 +44,7 @@ function Videos({
     <>
       <div
         className={cn(
-          "py-5 grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+          "py-5 grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
           className,
         )}
       >
@@ -65,7 +65,7 @@ function Videos({
         {hasNextPage && <div ref={ref}></div>}
       </div>
       {isFetchingNextPage && (
-        <VideoCardSkeletons size={isChannelProfile ? 4 : 8} />
+        <VideoCardSkeletons size={isChannelProfile ? 5 : 10} />
       )}
     </>
   );

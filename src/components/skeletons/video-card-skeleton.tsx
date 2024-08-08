@@ -56,7 +56,7 @@ export function VideoCardSkeletons({ className, size = 4 }: Props) {
   return (
     <div
       className={cn(
-        "py-5 grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+        "py-5 grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
         className,
       )}
     >
@@ -73,7 +73,7 @@ export function ColumnViewVideoCardSkeletons({
   showDescriptions = true,
 }: Props) {
   return (
-    <div className={cn("space-y-5 w-full", className)}>
+    <div className={cn("space-y-3 md:space-y-5 w-full", className)}>
       {Array.from({ length: size }, (_, i) => (
         <VideoCardSkeleton
           showDescriptions={showDescriptions}

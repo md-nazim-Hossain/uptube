@@ -24,7 +24,7 @@ function SearchResultsPage() {
   const videos = data?.data?.filter((video: IVideo) => video.type === "video");
   return (
     <div className="container">
-      <div className="py-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="py-5 grid gap-3 md:gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {videos?.map((video: IVideo, index) => (
           <SingleVideoCard key={index} {...video} />
         ))}

@@ -45,9 +45,9 @@ function LikeVideos({ initialData }: Props) {
   if (!likeVideosPages || !likeVideosPages.length)
     return <EmptyState text="No like videos" />;
   return (
-    <div className="space-y-10 py-5 max-w-4xl mx-auto">
+    <div className="space-y-5 md:space-y-10 py-5 max-w-4xl mx-auto">
       <Typography variant={"h2"}>Like Videos</Typography>
-      <div className="space-y-5">
+      <div className="space-y-3 md:space-y-5">
         {likeVideosPages?.map((page, index: number) => {
           if (!page?.data || page?.data?.length === 0) return null;
           return (

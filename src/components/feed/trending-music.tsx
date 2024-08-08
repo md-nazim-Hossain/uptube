@@ -14,7 +14,7 @@ function TrendingMusic() {
   const trendingMusic = data?.data || [];
   if (!trendingMusic.length) return <EmptyState text="No trending music" />;
   return (
-    <div className="space-y-5">
+    <div className="space-y-3 md:space-y-5">
       {trendingMusic.map((history: IVideo, index: number) => (
         <ColumnViewVideoCard
           playerClassName="sm:max-w-md lg:max-w-[246px]"

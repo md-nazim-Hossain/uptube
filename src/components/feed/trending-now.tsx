@@ -14,7 +14,7 @@ function TrendingNow() {
   const trendingNow = data?.data || [];
   if (!trendingNow.length) return <EmptyState text="No trending now content" />;
   return (
-    <div className="space-y-5">
+    <div className="space-y-3 md:space-y-5">
       {trendingNow.map((history: IVideo, index: number) => (
         <ColumnViewVideoCard
           playerClassName="xs:max-w-[246px]"

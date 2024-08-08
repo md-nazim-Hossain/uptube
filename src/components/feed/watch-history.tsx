@@ -41,9 +41,9 @@ function WatchHistory({ initialData }: Props) {
   if (!watchHistoryPages || !watchHistoryPages.length)
     return <EmptyState text="No watch history" />;
   return (
-    <div className="space-y-10 py-5 max-w-4xl mx-auto">
+    <div className="space-y-5 md:space-y-10 py-5 max-w-4xl mx-auto">
       <Typography variant={"h2"}>Watch history</Typography>
-      <div className="space-y-5">
+      <div className="space-y-3 md:space-y-5">
         {watchHistoryPages?.map((page, index: number) => {
           if (!page?.data || page?.data?.length === 0) return null;
           return (

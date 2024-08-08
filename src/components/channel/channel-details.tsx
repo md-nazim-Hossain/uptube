@@ -26,7 +26,7 @@ function ChannelDetails({ channel }: Props) {
 
   return (
     <Tabs value={tab} onValueChange={setTab}>
-      <TabsList className="sticky z-20 top-14 bg-background h-max p-0 rounded-none border-b w-full flex justify-start">
+      <TabsList className="sticky z-30 top-14 bg-background h-max p-0 w-full rounded-none border-b flex flex-col xs:flex-row justify-start">
         <TabsTrigger
           className="font-normal space-x-1 text-foreground"
           value="stations"

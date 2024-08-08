@@ -61,17 +61,18 @@ const ColumnViewVideoCard = ({
         showDuration={video.type === "video"}
         showType={video.type === "short"}
         thumbnail={video?.thumbnail}
-        className={cn("rounded-md", playerClassName)}
+        className={cn("rounded-md flex-shrink-0", playerClassName)}
         url={video?.videoFile}
         videoDuration={video?.duration}
         durationClassName="bottom-1 right-1"
         _id={video?._id}
+        onHoverPlay={false}
       />
       <div className="flex-1 space-y-1.5 xs:space-y-3">
         <VideoCard.Footer className="py-0">
           <div className={cn(isWatchedVideo && "xs:pt-1.5")}>
             <VideoCard.Link
-              className={cn(isWatchedVideo && "text-lg")}
+              className={cn("break-words", isWatchedVideo && "text-lg")}
               href={
                 video.type === "short"
                   ? `/shorts/${video?._id}`

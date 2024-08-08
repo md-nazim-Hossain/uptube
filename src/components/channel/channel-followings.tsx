@@ -19,7 +19,7 @@ function ChannelFollowings() {
 
   if (isLoading)
     return (
-      <div className="py-5 grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      <div className="py-5 grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {[...Array(5)].map((key) => (
           <FollowerSkeleton key={key} />
         ))}
@@ -36,7 +36,7 @@ function ChannelFollowings() {
         return (
           <div
             key={index}
-            className="grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            className="grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
           >
             {page.data.map((following: IFollowing) => (
               <Follower
@@ -55,7 +55,7 @@ function ChannelFollowings() {
 
       {hasNextPage && <div ref={ref}></div>}
       {isFetchingNextPage && (
-        <div className="grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div className="grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {[...Array(5)].map((key) => (
             <FollowerSkeleton key={key} />
           ))}

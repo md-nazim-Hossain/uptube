@@ -36,7 +36,7 @@ function HashTag({ hashtagname, initialData }: Props) {
         return (
           <div
             key={index}
-            className="grid gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            className="grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
           >
             {page.data.map((video, innerIndex) => {
               return (

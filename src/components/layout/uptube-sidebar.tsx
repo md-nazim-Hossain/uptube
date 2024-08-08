@@ -37,7 +37,7 @@ function UptubeSidebar() {
       ></div>
       <div
         className={cn(
-          "fixed left-0 duration-300 top-0 overflow-y-auto scroll h-screen shadow-xl bg-background",
+          "fixed left-0 flex-shrink-0 duration-300 top-0 overflow-y-auto scroll h-screen shadow-xl bg-background",
           openSidebar ? "w-[255px]" : "w-max",
           openSidebar
             ? `-translate-x-0 ${!isWatchPage && "sm:translate-x-0"}`
