@@ -30,7 +30,7 @@ function ChannelProfileSkeleton() {
             <Skeleton className="w-24 h-4" />
           </div>
         </div>
-        <VideoCardSkeletons className="container" size={4} />
+        <VideoCardSkeletons className="container" size={5} />
       </div>
     </div>
   );

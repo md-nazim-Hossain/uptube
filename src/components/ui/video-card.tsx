@@ -126,7 +126,7 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
                     setVideoState((prev) => ({ ...prev, muted: !prev.muted }))
                   }
                   variant="icon"
-                  className="bg-black/50 hover:bg-black/45 text-xl text-white"
+                  className="bg-black/50 size-8 hover:bg-black/45 text-base text-white"
                 >
                   {muted ? <GoMute /> : <GoUnmute />}
                 </Button>

@@ -8,7 +8,7 @@ function ProgressBarProviders() {
     <Suspense>
       <ProgressBar
         height="3px"
-        color="#7f1d1d"
+        color="#ef4444"
         options={{ showSpinner: false, speed: 500 }}
       />
     </Suspense>

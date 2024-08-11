@@ -112,7 +112,7 @@ function SignInForm({ handleChangeAuthModalState }: Props) {
                   {!handleChangeAuthModalState ? (
                     <Link
                       href="/forgot-password"
-                      className="text-xs hover:underline font-normal text-secondary"
+                      className="text-sm hover:underline font-normal text-secondary"
                     >
                       Lost your password?
                     </Link>
@@ -121,7 +121,7 @@ function SignInForm({ handleChangeAuthModalState }: Props) {
                       onClick={() =>
                         handleChangeAuthModalState("forgot-password")
                       }
-                      className="text-xs hover:underline font-normal text-secondary cursor-pointer"
+                      className="text-sm hover:underline font-normal text-secondary cursor-pointer"
                     >
                       Lost your password?
                     </span>

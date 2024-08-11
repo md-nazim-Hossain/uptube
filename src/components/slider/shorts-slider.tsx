@@ -12,12 +12,16 @@ import {
 import { IVideo } from "@/types";
 import { cn } from "@/lib/utils";
 import SingleVideoCard from "../videos/single-video-card";
+import { VideoCardPlayer } from "../ui/video-card";
+import { addHTTPPrefix } from "@/utils/common";
+import { useLayoutStore } from "@/zustand/useLayoutStore";
 
 type Props = {
   shorts: IVideo[];
   className?: string;
 };
 function ShortsSlider({ shorts, className }: Props) {
+  const openUPTubeSidebar = useLayoutStore((state) => state.openUPTubeSidebar);
   const [api, setApi] = React.useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -48,11 +52,14 @@ function ShortsSlider({ shorts, className }: Props) {
             className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
             key={index}
           >
-            <SingleVideoCard
-              playerClassName="h-[500px] w-full aspect-auto"
-              className="h-full"
-              {...short}
-              showAvatar={false}
+            <VideoCardPlayer
+              type={"short"}
+              className={cn(
+                "w-full aspect-auto",
+                openUPTubeSidebar ? "h-[445px]" : "h-[500px]",
+              )}
+              url={addHTTPPrefix(short.videoFile)}
+              _id={short._id}
             />
           </CarouselItem>
         ))}
