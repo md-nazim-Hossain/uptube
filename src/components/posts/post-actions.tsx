@@ -11,12 +11,16 @@ import { usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import { useToast } from "../ui/use-toast";
 import Link from "next/link";
+import { useUserStore } from "@/zustand/useUserStore";
+import { useAuthStore } from "@/zustand/useAuthStore";
 
 type Props = {
   post: IPOST;
   showComments?: boolean;
 };
 function PostActions({ post, showComments = true }: Props) {
+  const user = useUserStore((state) => state.user);
+  const setOpen = useAuthStore((state) => state.setOpen);
   const { toast } = useToast();
   const { mutateAsync, isPending } = usePost<
     IAPIResponse<IPOST[]> | any,
@@ -46,26 +50,26 @@ function PostActions({ post, showComments = true }: Props) {
     },
   );
 
+  const handleLike = async () => {
+    try {
+      await mutateAsync({
+        tweetId: post._id,
+        state: post.isLiked ? "dislike" : "like",
+      });
+    } catch (error: IAPIResponse<any> | any) {
+      toast({
+        variant: "destructive",
+        title: `Failed to ${post.isLiked ? "remove like from" : "like"} post`,
+        description: error?.data?.message || error?.message,
+      });
+    }
+  };
+
   return (
     <div className="flex items-center gap-2 justify-between">
       <div className="flex items-center space-x-0.5">
         <Button
-          onClick={async () => {
-            try {
-              await mutateAsync({
-                tweetId: post._id,
-                state: post.isLiked ? "dislike" : "like",
-              });
-            } catch (error: IAPIResponse<any> | any) {
-              toast({
-                variant: "destructive",
-                title: `Failed to ${
-                  post.isLiked ? "remove like from" : "like"
-                } post`,
-                description: error?.data?.message || error?.message,
-              });
-            }
-          }}
+          onClick={() => (!user ? setOpen(true) : handleLike())}
           disabled={isPending}
           variant={"icon"}
           className="p-0 text-lg size-8 disabled:opacity-100"
