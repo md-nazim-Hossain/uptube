@@ -66,14 +66,17 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
   {
     accessorKey: "isPublished",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Visibility" />
+      <DataTableColumnHeader isShown column={column} title="Visibility" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          {row.getValue("isPublished") ? "Public" : "Private"}
+          {row.getValue("isPublished") ? "Published" : "Draft"}
         </div>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -95,7 +98,7 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
   {
     accessorKey: "videos",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Videos Count" />
+      <DataTableColumnHeader isShown column={column} title="Videos Count" />
     ),
     cell: ({ row }) => {
       const videos = row.getValue("videos") as any[];
@@ -104,6 +107,9 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
           {viewsFormat(videos?.length || 0)}
         </div>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
 

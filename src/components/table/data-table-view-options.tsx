@@ -26,7 +26,7 @@ export function DataTableViewOptions<TData>({
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto hidden h-8 lg:flex border-primary/10 hover:bg-transparent hover:text-primary"
+          className="h-8 flex border-primary/10 hover:bg-transparent hover:text-primary"
         >
           <RxMixerHorizontal className="mr-2 h-4 w-4" />
           View

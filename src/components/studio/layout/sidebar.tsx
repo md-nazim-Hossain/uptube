@@ -21,7 +21,7 @@ function Sidebar() {
   return (
     <div
       className={cn(
-        "border-r fixed sm:static left-0 duration-300 sm:duration-0 top-[56px] h-full z-50 shadow-xl sm:shadow-none bg-background",
+        "border-r flex-shrink-0 fixed sm:static left-0 duration-300 sm:duration-0 top-[56px] h-full z-50 shadow-xl sm:shadow-none bg-background",
         openStudioSidebar ? "w-[255px] " : "w-max",
         openStudioSidebar
           ? "-translate-x-0 sm:translate-x-0"

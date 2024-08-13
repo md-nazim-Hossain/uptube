@@ -25,13 +25,29 @@ export const PostTableColumns: ColumnDef<any>[] = [
             thumbnail: row?.original?.thumbnail,
             isPublished: row?.original?.isPublished,
           }}
-          triggerClassName="max-w-[500px] text-left line-clamp-2"
+          triggerClassName="w-[500px] text-left line-clamp-2"
           trigger={
             <Typography variant={"small"} className="text-sm">
               {row?.getValue("content")}
             </Typography>
           }
         />
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "isPublished",
+    header: ({ column }) => (
+      <DataTableColumnHeader isShown column={column} title="Visibility" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          {row.getValue("isPublished") ? "Published" : "Draft"}
+        </div>
       );
     },
     filterFn: (row, id, value) => {

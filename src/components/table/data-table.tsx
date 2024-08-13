@@ -28,6 +28,7 @@ import {
 import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
 import { cn } from "@/lib/utils";
+import { useLayoutStore } from "@/zustand/useLayoutStore";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,6 +43,8 @@ export function DataTable<TData, TValue>({
   searchPlaceholder,
   className,
 }: DataTableProps<TData, TValue>) {
+  const openStudioSidebar = useLayoutStore((state) => state.openStudioSidebar);
+
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -74,7 +77,14 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="space-y-4">
+    <div
+      className={cn(
+        "space-y-4 max-w-[100vw] overflow-x-auto scroll",
+        openStudioSidebar
+          ? "max-w-[calc(100vw-255px)]"
+          : "sm:max-w-[calc(100vw-64px)]",
+      )}
+    >
       <DataTableToolbar placeHolder={searchPlaceholder} table={table} />
       <div className={cn("border", className)}>
         <Table>

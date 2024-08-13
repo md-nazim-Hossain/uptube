@@ -19,12 +19,12 @@ export function DataTableToolbar<TData>({
   placeHolder,
 }: DataTableToolbarProps<TData>) {
   return (
-    <div className="flex items-center justify-between studio-container">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="w-full flex items-center justify-between studio-container">
+      <div className="flex flex-1 items-center gap-2">
         <Input
           placeholder={placeHolder ?? "Filter videos..."}
           onChange={(event) => table.setGlobalFilter(event.target.value)}
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 max-w-[250px]"
         />
         {/* {table.getColumn("status") && (
           <DataTableFacetedFilter

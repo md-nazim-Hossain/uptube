@@ -52,7 +52,7 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
       const thumbnail = row?.original?.thumbnail;
       return (
         <div className="flex items-center gap-3">
-          <div className="w-[120px] h-[68px] relative overflow-hidden">
+          <div className="w-[120px] bg-primary/5 h-[68px] relative overflow-hidden">
             {thumbnail ? (
               <UpTubeImage
                 src={addHTTPPrefix(thumbnail)}
@@ -69,7 +69,7 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
             )}
             <span
               className={cn(
-                "absolute z-20 text-white text-xs bottom-0.5 right-0.5 rounded-sm bg-black/80 px-1 py-[1px]",
+                "absolute z-20 text-white text-xs bottom-1 right-1 rounded-sm bg-black/80 px-1 py-[1px]",
               )}
             >
               {convertMillisecondsToTime(row?.original?.duration ?? 0)}
@@ -100,7 +100,7 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          {row.getValue("isPublished") ? "Public" : "Private"}
+          {row.getValue("isPublished") ? "Published" : "Draft"}
         </div>
       );
     },
