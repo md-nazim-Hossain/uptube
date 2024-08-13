@@ -1,5 +1,6 @@
 import { getContentByType } from "@/_actions/video/getContentByType";
 import DiscoverFavorites from "@/components/discover-favorites";
+import Posts from "@/components/posts/posts";
 import ShortsSlider from "@/components/slider/shorts-slider";
 import TopFans from "@/components/top-fans";
 import { Typography } from "@/components/ui/typography";
@@ -46,6 +47,7 @@ async function Home() {
             <ShortsSlider shorts={shorts?.data} />
           </>
         )}
+        <Posts />
         {!!videos?.data?.length && (
           <>
             <Typography variant={"h3"}>Feed</Typography>

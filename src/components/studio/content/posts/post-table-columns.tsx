@@ -22,6 +22,8 @@ export const PostTableColumns: ColumnDef<any>[] = [
           defaultValue={{
             content: row?.getValue("content"),
             _id: row?.original?._id,
+            thumbnail: row?.original?.thumbnail,
+            isPublished: row?.original?.isPublished,
           }}
           triggerClassName="max-w-[500px] text-left line-clamp-2"
           trigger={
@@ -55,7 +57,7 @@ export const PostTableColumns: ColumnDef<any>[] = [
   {
     accessorKey: "comments",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Comments" />
+      <DataTableColumnHeader isShown column={column} title="Comments" />
     ),
     cell: ({ row }) => {
       return (
@@ -71,7 +73,7 @@ export const PostTableColumns: ColumnDef<any>[] = [
   {
     accessorKey: "likes",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Likes" />
+      <DataTableColumnHeader isShown column={column} title="Likes" />
     ),
     cell: ({ row }) => {
       return (

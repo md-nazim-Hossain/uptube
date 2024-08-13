@@ -106,6 +106,19 @@ export interface IVideo {
   subscribersCount: number;
 }
 
+export interface IPOST {
+  _id: string;
+  content: string;
+  thumbnail: string;
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt: string;
+  author: IUser;
+  likes: number;
+  isLiked: boolean;
+  comments: number;
+}
+
 export interface IUserFavoriteVideo {
   _id: string;
   video: IVideo;

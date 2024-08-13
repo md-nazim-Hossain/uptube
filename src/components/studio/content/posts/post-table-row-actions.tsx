@@ -23,7 +23,7 @@ interface DataTableRowActionsProps<TData> {
 export function PostTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const { _id, content } = row.original as any;
+  const { _id, content, thumbnail, isPublished } = row.original as any;
   const { mutateAsync } = useDelete<any>(
     apiRoutes.posts.deletePost,
     apiRoutes.posts.getAllUserPosts,
@@ -51,6 +51,8 @@ export function PostTableRowActions<TData>({
           defaultValue={{
             _id,
             content,
+            thumbnail,
+            isPublished,
           }}
           trigger={
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

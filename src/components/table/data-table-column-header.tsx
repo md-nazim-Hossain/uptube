@@ -1,6 +1,5 @@
 import { Column } from "@tanstack/react-table";
-import { PiCaretDownLight } from "react-icons/pi";
-import { VscArrowDown, VscArrowUp } from "react-icons/vsc";
+import { PiCaretDownLight, PiCaretUpLight } from "react-icons/pi";
 
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -32,9 +31,7 @@ export function DataTableColumnHeader<TData, TValue>({
       >
         <span>{title}</span>
         {column.getIsSorted() === "desc" ? (
-          <VscArrowDown className="ml-2 h-4 w-4" />
-        ) : column.getIsSorted() === "asc" ? (
-          <VscArrowUp className="ml-2 h-4 w-4" />
+          <PiCaretUpLight className="ml-2 h-4 w-4" />
         ) : (
           <PiCaretDownLight className="ml-2 h-4 w-4" />
         )}
