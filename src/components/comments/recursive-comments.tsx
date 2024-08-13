@@ -10,7 +10,8 @@ const RecursiveComments: React.FC<{
   contentId: string;
   className?: string;
   inputClassName?: string;
-}> = ({ comments, contentId, className, inputClassName }) => {
+  isTweet?: boolean;
+}> = ({ comments, contentId, className, inputClassName, isTweet }) => {
   const [showNested, setShowNested] = useState<{ [key: string]: boolean }>({});
   const toggleNested = (parentId: string) => {
     setShowNested((prev) => ({ ...prev, [parentId]: !prev[parentId] }));
@@ -23,6 +24,7 @@ const RecursiveComments: React.FC<{
           className={cn(comment?.parentComment ? "pl-12" : "pl-0")}
         >
           <Comment
+            isTweet={isTweet}
             key={comment._id}
             comment={comment}
             className={className}
@@ -50,6 +52,7 @@ const RecursiveComments: React.FC<{
             <>
               {comment?.replies.length > 0 && (
                 <RecursiveComments
+                  isTweet={isTweet}
                   inputClassName={inputClassName}
                   comments={comment?.replies}
                   contentId={contentId}

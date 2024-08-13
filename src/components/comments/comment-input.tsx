@@ -35,6 +35,7 @@ interface CommentInputProps {
     _id: string;
   };
   inputClassName?: string;
+  isTweet?: boolean;
 }
 
 const CommentFormSchema = z.object({
@@ -50,6 +51,7 @@ function CommentInput({
   defaultValue,
   isEdit,
   inputClassName,
+  isTweet = false,
 }: CommentInputProps) {
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
@@ -74,7 +76,7 @@ function CommentInput({
         );
       } else {
         const newComment: any = {
-          videoId: contentId,
+          [isTweet ? "tweetId" : "videoId"]: contentId,
           content: values.comment,
         };
         if (isReplay) {

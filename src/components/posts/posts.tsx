@@ -14,11 +14,14 @@ type Props = {
 };
 function Posts({ className }: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<IPOST[]>>(
-    apiRoutes.posts.getAllTweets + "?limit=12",
+    apiRoutes.posts.getAllPosts + "?limit=12",
+    undefined,
+    {
+      queryKey: [apiRoutes.posts.getAllPosts, undefined],
+    },
   );
   if (isLoading) return <PostsSkeleton />;
   const posts = data?.data || [];
-  console.log(posts);
   if (!posts.length) return null;
   return (
     <>

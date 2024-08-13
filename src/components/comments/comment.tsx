@@ -22,6 +22,7 @@ type CommentProps = {
   contentId: string;
   isReplayComment?: boolean;
   inputClassName?: string;
+  isTweet?: boolean;
 };
 function Comment({
   className,
@@ -29,6 +30,7 @@ function Comment({
   contentId,
   isReplayComment = false,
   inputClassName,
+  isTweet = false,
 }: CommentProps) {
   const queryClient = useQueryClient();
   const user = useUserStore((state) => state.user);
@@ -93,6 +95,7 @@ function Comment({
   if (isEdit)
     return (
       <CommentInput
+        isTweet={isTweet}
         contentId={contentId}
         defaultValue={{ comment: content, _id }}
         isEdit
@@ -199,6 +202,7 @@ function Comment({
         </div>
         {isReplay && (
           <CommentInput
+            isTweet={isTweet}
             isReplay={isReplay}
             contentId={_id}
             avatarClassName="size-6"

@@ -15,8 +15,14 @@ type Props = {
   className?: string;
   contentId: string;
   showCommentInput?: boolean;
+  isTweet?: boolean;
 };
-function Comments({ className, contentId, showCommentInput = true }: Props) {
+function Comments({
+  className,
+  contentId,
+  showCommentInput = true,
+  isTweet = false,
+}: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<IComment[]>>(
     apiRoutes.comments.getAllCommentByContentId + contentId,
   );
@@ -28,9 +34,12 @@ function Comments({ className, contentId, showCommentInput = true }: Props) {
         <Typography variant={"h4"} className="font-medium">
           {viewsFormat(comments?.length ?? 0)} Comment
         </Typography>
-        {showCommentInput && <CommentInput contentId={contentId} />}
+        {showCommentInput && (
+          <CommentInput isTweet={isTweet} contentId={contentId} />
+        )}
       </div>
       <RecursiveComments
+        isTweet={isTweet}
         comments={comments}
         contentId={contentId}
         className={className}

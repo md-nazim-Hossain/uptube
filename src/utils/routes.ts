@@ -34,8 +34,9 @@ export const apiRoutes = {
     deleteWatchHistory: "/users/delete-watch-history",
   },
   posts: {
-    getAllTweets: "/tweets/get-all-tweets",
+    getAllPosts: "/tweets/get-all-tweets",
     getAllUserPosts: "/tweets/get-all-user-tweets",
+    getPostById: "/tweets/get-tweet/",
     createPost: "/tweets/create-tweet",
     updatePost: "/tweets/update-tweet/",
     deletePost: "/tweets/delete-tweet",

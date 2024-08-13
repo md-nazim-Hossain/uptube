@@ -1,33 +1,87 @@
 import React from "react";
 import { Button } from "../ui/button";
-import { IPOST } from "@/types";
+import { IAPIResponse, IPOST } from "@/types";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import { Typography } from "../ui/typography";
 import { viewsFormat } from "@/utils/video";
 import { PiShareFatThin } from "react-icons/pi";
 import ShareModal from "../modals/share-modal";
+import { TfiCommentAlt } from "react-icons/tfi";
+import { usePost } from "@/utils/reactQuery";
+import { apiRoutes } from "@/utils/routes";
+import { useToast } from "../ui/use-toast";
+import Link from "next/link";
 
 type Props = {
   post: IPOST;
+  showComments?: boolean;
 };
-function PostActions({ post }: Props) {
+function PostActions({ post, showComments = true }: Props) {
+  const { toast } = useToast();
+  const { mutateAsync, isPending } = usePost<
+    IAPIResponse<IPOST[]> | any,
+    { tweetId: string; state: "like" | "dislike" }
+  >(
+    apiRoutes.likes.likeDislike,
+    apiRoutes.posts.getAllPosts,
+    undefined,
+    (oldData, data) => {
+      if (!oldData) return;
+      return {
+        ...oldData,
+        data: oldData?.data.map((p: IPOST) => {
+          if (p._id === data.tweetId) {
+            return {
+              ...p,
+              isLiked: data?.state === "like",
+              likes:
+                data?.state === "like"
+                  ? p.likes + 1
+                  : p.likes - (p.likes > 0 ? 1 : 0),
+            };
+          }
+          return p;
+        }),
+      };
+    },
+  );
+
   return (
     <div className="flex items-center gap-2 justify-between">
       <div className="flex items-center space-x-0.5">
-        <Button variant={"icon"} className="p-0 text-lg size-8">
-          {post?.isLiked ? (
-            <IoMdHeart className="text-destructive" />
-          ) : (
-            <IoIosHeartEmpty />
-          )}
+        <Button
+          onClick={async () => {
+            try {
+              await mutateAsync({
+                tweetId: post._id,
+                state: post.isLiked ? "dislike" : "like",
+              });
+            } catch (error: IAPIResponse<any> | any) {
+              toast({
+                variant: "destructive",
+                title: `Failed to ${
+                  post.isLiked ? "remove like from" : "like"
+                } post`,
+                description: error?.data?.message || error?.message,
+              });
+            }
+          }}
+          disabled={isPending}
+          variant={"icon"}
+          className="p-0 text-lg size-8 disabled:opacity-100"
+        >
+          {post?.isLiked ? <IoMdHeart /> : <IoIosHeartEmpty />}
         </Button>
         <Typography variant={"small"} className="font-normal">
           {viewsFormat(post?.likes ?? 0)}
         </Typography>
       </div>
-      <div>
+      <div className="flex items-center gap-1">
         <ShareModal
-          user={{ ...post.author, subscriber: post.author.subscribersCount }}
+          user={{
+            ...post.author,
+            subscriber: post.author?.subscribersCount ?? 0,
+          }}
           shareLink={`/post/${post._id}`}
           trigger={
             <Button variant={"icon"} className="p-0 text-lg size-8">
@@ -35,6 +89,19 @@ function PostActions({ post }: Props) {
             </Button>
           }
         />
+        {showComments && (
+          <Link
+            href={`/post/${post._id}`}
+            className={
+              "py-1.5 px-3 bg-transparent hover:bg-primary/10 flex justify-center items-center rounded-[100vw] gap-2"
+            }
+          >
+            <TfiCommentAlt />
+            <Typography variant={"small"} className="font-normal">
+              {viewsFormat(post?.comments ?? 0)}
+            </Typography>
+          </Link>
+        )}
       </div>
     </div>
   );

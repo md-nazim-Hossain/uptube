@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Skeleton } from "../ui/skeleton";
+import CommentsSkeleton from "./comments-skeleton";
 
 export const PostSkeleton = ({ className }: { className?: string }) => {
   return (
@@ -52,6 +53,31 @@ export const PostsSkeleton = ({
       {Array.from({ length: size }, (_, i) => (
         <PostSkeleton key={i} />
       ))}
+    </div>
+  );
+};
+
+export const PostPageSkeletons = ({ className }: { className?: string }) => {
+  return (
+    <div className="max-w-4xl mx-auto py-5 sm:py-10 space-y-5">
+      <div className="w-full px-6 py-3 flex gap-3 rounded-2xl bg-primary/5 border border-primary/10 dark:border-primary/20">
+        <Skeleton className="size-10 rounded-full" />
+        <div className="flex-1">
+          <div className="mb-5 md:mb-10 flex items-center gap-3">
+            <Skeleton className="w-40 h-3" />
+            <Skeleton className="w-32 h-2" />
+          </div>
+          <Skeleton className="w-full h-[300px] xs:h-[400px] md:h-[500px] lg:h-[638px] rounded-2xl" />
+          <div className="mt-3 flex items-center gap-10">
+            <div className="flex items-center gap-1">
+              <Skeleton className="size-8 rounded-full" />
+              <Skeleton className="w-20 h-2" />
+            </div>
+            <Skeleton className="size-8 rounded-full" />
+          </div>
+        </div>
+      </div>
+      <CommentsSkeleton size={5} />
     </div>
   );
 };

@@ -23,7 +23,6 @@ function WatchVideoPage({ videoId }: IWatchVideoPageProps) {
   const video = data?.data as IVideo;
   if (!video)
     return <EmptyState text={"This video isn't available any more"} />;
-  console.log(video);
   return <FullViewVideo video={video} />;
 }
 
