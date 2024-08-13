@@ -79,9 +79,9 @@ export function DataTable<TData, TValue>({
   return (
     <div
       className={cn(
-        "space-y-4 max-w-[100vw] overflow-x-auto scroll",
+        "space-y-4 pb-2 max-w-[100vw] overflow-x-auto scroll",
         openStudioSidebar
-          ? "max-w-[calc(100vw-255px)]"
+          ? "sm:max-w-[calc(100vw-255px)]"
           : "sm:max-w-[calc(100vw-64px)]",
       )}
     >

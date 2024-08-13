@@ -48,11 +48,12 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Video" />
     ),
+
     cell: ({ row }) => {
       const thumbnail = row?.original?.thumbnail;
       return (
-        <div className="flex items-center gap-3">
-          <div className="w-[120px] bg-primary/5 h-[68px] relative overflow-hidden">
+        <div className="min-w-[300px] max-w-xl flex items-center gap-3">
+          <div className="flex-shrink-0 w-[120px] bg-primary/5 h-[68px] relative overflow-hidden">
             {thumbnail ? (
               <UpTubeImage
                 src={addHTTPPrefix(thumbnail)}
@@ -75,7 +76,7 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
               {convertMillisecondsToTime(row?.original?.duration ?? 0)}
             </span>
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 flex-1">
             <Typography variant={"small"} className="text-sm">
               {row?.original?.title}
             </Typography>

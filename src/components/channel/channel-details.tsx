@@ -11,6 +11,10 @@ import ChannelUserFavoriteVideos from "./channel-user-favorite-videos";
 import ChannelFollowers from "./channel-followers";
 import ChannelFollowings from "./channel-followings";
 import Videos from "../videos/videos";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { Typography } from "../ui/typography";
+import { viewsFormat } from "@/utils/video";
 
 type Props = {
   channel: IChannelProfile;
@@ -19,76 +23,72 @@ function ChannelDetails({ channel }: Props) {
   const currentTab = useSearchParams().get("tab") || "stations";
   const user = useUserStore((state) => state.user);
   const isMyChannel = user?._id === channel?._id;
-  const [tab, setTab] = React.useState(currentTab);
+  const [activeTab, setActiveTab] = React.useState(currentTab);
   useEffect(() => {
-    setTab(currentTab);
+    setActiveTab(currentTab);
   }, [currentTab]);
 
+  const tabs = [
+    { label: "Stations", value: "stations" },
+    { label: "Shorts", value: "shorts" },
+    { label: "Playlists", value: "playlists" },
+    { label: "Likes", value: "likes" },
+    { label: "Followers", value: "followers", text: channel.subscribersCount },
+    {
+      label: "Following",
+      value: "following",
+      text: channel.channelSubscribedToCount,
+    },
+  ];
+
   return (
-    <Tabs value={tab} onValueChange={setTab}>
-      <TabsList className="sticky z-30 top-14 bg-background h-max p-0 w-full rounded-none border-b flex flex-col xs:flex-row justify-start">
-        <TabsTrigger
-          className="font-normal space-x-1 text-foreground"
-          value="stations"
-        >
-          <span>Stations</span>{" "}
-          <span className="text-destructive">{channel?.totalVideos}</span>
-        </TabsTrigger>
-        <TabsTrigger className="font-normal text-foreground" value="shorts">
-          Shorts
-        </TabsTrigger>
-        <TabsTrigger className="font-normal text-foreground" value="playlists">
-          Playlists
-        </TabsTrigger>
-        {isMyChannel && (
-          <>
-            <TabsTrigger className="font-normal text-foreground" value="likes">
-              Likes
-            </TabsTrigger>
-            <TabsTrigger
-              className="font-normal text-foreground space-x-1"
-              value="followers"
-            >
-              <span>Followers</span>{" "}
-              <span className="text-destructive">
-                {channel?.subscribersCount}
-              </span>
-            </TabsTrigger>
-            <TabsTrigger
-              className="font-normal text-foreground space-x-1"
-              value="following"
-            >
-              <span>Followings</span>{" "}
-              <span className="text-destructive">
-                {channel?.channelSubscribedToCount}
-              </span>
-            </TabsTrigger>
-          </>
-        )}
-      </TabsList>
-      <TabsContent value="stations">
+    <div className="studio-container">
+      <div className="border-b w-full sticky z-30 top-14 bg-background">
+        <div className={"max-w-[100%] flex items-center overflow-x-auto"}>
+          {tabs.map((tab, index) => {
+            const isActive = activeTab === tab.value;
+            return (
+              <div
+                role="button"
+                onClick={() => setActiveTab(tab.value)}
+                className={cn(
+                  "capitalize pb-3 relative px-3",
+                  isActive ? "text-primary" : "text-secondary",
+                )}
+                key={index}
+              >
+                <p className="font-normal text-foreground flex items-center gap-1">
+                  <span>{tab.label}</span>
+                  {tab?.text && (
+                    <span className="text-destructive">
+                      {viewsFormat(tab.text ?? 0)}
+                    </span>
+                  )}
+                </p>
+                {isActive ? (
+                  <motion.div
+                    className="absolute left-0 bg-primary bottom-0 w-full h-[3px]"
+                    layoutId="contentTab"
+                  />
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {activeTab === "stations" && (
         <Videos isChannelProfile userId={channel?._id} />
-      </TabsContent>
-      <TabsContent value="shorts">
-        <ChannelShorts userId={channel?._id} />
-      </TabsContent>
-      <TabsContent value="playlists">
-        <ChannelPlaylists userId={channel?._id} />
-      </TabsContent>
+      )}
+      {activeTab === "shorts" && <ChannelShorts userId={channel?._id} />}
+      {activeTab === "playlists" && <ChannelPlaylists userId={channel?._id} />}
       {isMyChannel && (
         <>
-          <TabsContent value="likes">
-            <ChannelUserFavoriteVideos />
-          </TabsContent>
-          <TabsContent value="followers">
-            <ChannelFollowers />
-          </TabsContent>
-          <TabsContent value="following">
-            <ChannelFollowings />
-          </TabsContent>
+          {activeTab === "likes" && <ChannelUserFavoriteVideos />}
+          {activeTab === "followers" && <ChannelFollowers />}
+          {activeTab === "following" && <ChannelFollowings />}
         </>
       )}
-    </Tabs>
+    </div>
   );
 }
 
