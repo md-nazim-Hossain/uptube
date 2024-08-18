@@ -90,12 +90,14 @@ function PostDetails({ post }: Porps) {
             </Link>
           </div>
         </div>
-        <div className="w-full h-[300px] xs:h-[400px] md:h-[500px] lg:h-[638px] relative overflow-hidden rounded-2xl">
-          <UpTubeImage
-            src={addHTTPPrefix(post?.thumbnail)}
-            alt={`Thumbnail of ${post?.author?.fullName} this user post`}
-          />
-        </div>
+        {post?.thumbnail && (
+          <div className="w-full h-[300px] xs:h-[400px] md:h-[500px] lg:h-[638px] relative overflow-hidden rounded-2xl">
+            <UpTubeImage
+              src={addHTTPPrefix(post?.thumbnail)}
+              alt={`Thumbnail of ${post?.author?.fullName} this user post`}
+            />
+          </div>
+        )}
         <Typography className="mt-3 mb-1 max-h-[500px] overflow-y-auto scroll">
           {post?.content}
         </Typography>
