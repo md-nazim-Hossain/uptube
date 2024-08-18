@@ -53,7 +53,7 @@ function ChannelFollowings() {
         );
       })}
 
-      {hasNextPage && <div ref={ref}></div>}
+      {hasNextPage && !isFetchingNextPage && <div ref={ref}></div>}
       {isFetchingNextPage && (
         <div className="grid gap-3 md:gap-5 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {[...Array(5)].map((key) => (

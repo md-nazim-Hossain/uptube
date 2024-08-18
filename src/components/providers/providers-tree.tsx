@@ -3,6 +3,7 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ReactNode } from "react";
 import ReactQueryProvider from "./react-query-provider";
+import GlobalLoaderProviders from "./global-loader-providers";
 
 const buildProviders = (componentWithProps: any[]) => {
   const initialComponents = ({ children }: { children: ReactNode }) => (
@@ -22,5 +23,6 @@ const buildProviders = (componentWithProps: any[]) => {
 
 export const ProvidersTree = buildProviders([
   [NextThemesProvider, { attribute: "class", defaultTheme: "system" }],
+  [GlobalLoaderProviders],
   [ReactQueryProvider],
 ]);

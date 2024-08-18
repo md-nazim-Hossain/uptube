@@ -57,6 +57,7 @@ function Videos({
                   showAvatar={!isChannelProfile}
                   key={index}
                   {...video}
+                  onHoverPlay={!isChannelProfile}
                 />
               ))}
             </Fragment>

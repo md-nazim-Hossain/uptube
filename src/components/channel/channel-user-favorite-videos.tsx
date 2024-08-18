@@ -37,6 +37,7 @@ function ChannelUserFavoriteVideos() {
                 key={video._id}
                 {...video?.video}
                 showAvatar={false}
+                onHoverPlay={false}
               />
             ))}
           </div>

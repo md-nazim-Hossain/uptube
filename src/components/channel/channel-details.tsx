@@ -1,6 +1,5 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IChannelProfile } from "@/types";
 import { useUserStore } from "@/zustand/useUserStore";
 import { useSearchParams } from "next/navigation";
@@ -13,7 +12,6 @@ import ChannelFollowings from "./channel-followings";
 import Videos from "../videos/videos";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Typography } from "../ui/typography";
 import { viewsFormat } from "@/utils/video";
 
 type Props = {
