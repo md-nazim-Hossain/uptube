@@ -147,7 +147,10 @@ function FullViewVideo({ video }: Props) {
             </div>
           </div>
           <div className="mb-4 p-3 rounded-md bg-primary/10 text-primary text-sm">
-            <UTagify text={video?.description ?? ""} />
+            <UTagify
+              isShort={video.type === "short"}
+              text={video?.description ?? ""}
+            />
           </div>
           <Comments contentId={_id} />
         </VideoCard.Footer>

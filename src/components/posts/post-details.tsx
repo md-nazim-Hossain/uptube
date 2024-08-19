@@ -6,7 +6,11 @@ import React from "react";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { addHTTPPrefix } from "@/utils/common";
 import { cn } from "@/lib/utils";
-import { Typography, typographyVariants } from "../ui/typography";
+import {
+  HighlightLink,
+  Typography,
+  typographyVariants,
+} from "../ui/typography";
 import { getCreationDateDifference, viewsFormat } from "@/utils/video";
 import UpTubeImage from "../uptube/uptube-image";
 import ShareModal from "../modals/share-modal";
@@ -98,9 +102,12 @@ function PostDetails({ post }: Porps) {
             />
           </div>
         )}
-        <Typography className="mt-3 mb-1 max-h-[500px] overflow-y-auto scroll">
+        <HighlightLink
+          showFull
+          className="mt-3 mb-1 max-h-[500px] overflow-y-auto scroll"
+        >
           {post?.content}
-        </Typography>
+        </HighlightLink>
         <div className="flex items-center gap-10">
           <div className="flex items-center space-x-0.5">
             <Button

@@ -27,10 +27,12 @@ export const PostSkeleton = ({ className }: { className?: string }) => {
         </div>
         <Skeleton className="size-[116px] rounded-2xl" />
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 justify-between items-center">
         <Skeleton className="w-1/4 h-3" />
-        <Skeleton className="w-1/4 h-3" />
-        <Skeleton className="w-1/4 h-3" />
+        <div className="w-1/3 flex gap-4 items-center">
+          <Skeleton className="w-1/2 h-3" />
+          <Skeleton className="w-1/2 h-3" />
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,11 @@ import { IPOST } from "@/types";
 import React from "react";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { addHTTPPrefix } from "@/utils/common";
-import { Typography, typographyVariants } from "../ui/typography";
+import {
+  HighlightLink,
+  Typography,
+  typographyVariants,
+} from "../ui/typography";
 import { getCreationDateDifference } from "@/utils/video";
 import UpTubeImage from "../uptube/uptube-image";
 import { MyTooltip } from "../ui/tooltip";
@@ -62,20 +66,26 @@ function Post({ className, post }: Props) {
             </Link>
           </div>
         </div>
-        <Link href={`/post/${post?._id}`} className="flex gap-4 mb-1">
-          <Typography variant={"muted"} className="flex-1">
-            {post?.content?.slice(0, 120)}{" "}
-            {post?.content?.length > 120 && "..."}
-          </Typography>
+        <div className="flex gap-4 mb-1">
+          <HighlightLink
+            href={`/post/${post?._id}`}
+            variant={"muted"}
+            className="flex-1"
+          >
+            {post?.content}
+          </HighlightLink>
           {post.thumbnail && (
-            <div className="flex-shrink-0 size-[116px] rounded-2xl relative overflow-hidden">
+            <Link
+              href={`/post/${post?._id}`}
+              className="flex-shrink-0 size-[116px] rounded-2xl relative overflow-hidden"
+            >
               <UpTubeImage
                 src={addHTTPPrefix(post?.thumbnail)}
                 alt={`Thumbnail of ${author?.fullName} post`}
               />
-            </div>
+            </Link>
           )}
-        </Link>
+        </div>
       </div>
       <PostActions post={post} />
     </div>

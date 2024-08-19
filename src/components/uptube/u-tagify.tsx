@@ -1,36 +1,58 @@
 "use cline";
 
-import { useRouter } from "next/navigation";
-import React from "react";
-import { Tagify } from "react-tagify";
+import React, { Fragment } from "react";
 import { Typography } from "../ui/typography";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Props = {
   text: string;
   className?: string;
+  isShort?: boolean;
 };
-function UTagify({ text, className }: Props) {
-  const router = useRouter();
+function UTagify({ text, className, isShort = false }: Props) {
   const [showMore, setShowMore] = React.useState(false);
-
+  const sliceText = showMore ? text : text?.slice(0, 200);
   return (
-    <Tagify
-      mentionStyle={{ cursor: "pointer", color: "#154eea" }}
-      tagStyle={{ cursor: "pointer", color: "#154eea" }}
-      onClick={(text: string, type: "mention" | "tag") => {
-        if (type === "mention") {
-          const username = text.startsWith("@") ? text : "@" + text;
-          router.push("/" + username);
-        } else {
-          router.push(`/hashtag/${text}`);
-        }
-      }}
-    >
+    <>
       <Typography
         className={cn("[&:not(:first-child)]:mt-0 leading-none", className)}
       >
-        {showMore ? text : text?.slice(0, 200)}
+        {sliceText?.split(" ").map((word, index) => {
+          if (word.startsWith("https://") || word.startsWith("http://")) {
+            return (
+              <Link
+                key={index}
+                href={word}
+                target="_blank"
+                className="text-blue-500 break-all underline-offset-4 hover:underline"
+              >
+                {word}{" "}
+              </Link>
+            );
+          }
+
+          if (word.startsWith("#")) {
+            const href = `/hashtag/${word.slice(1)}${isShort ? "/shorts" : ""}`;
+            return (
+              <Link key={index} href={href} className="text-blue-500 break-all">
+                {word}{" "}
+              </Link>
+            );
+          }
+          if (word.startsWith("@")) {
+            return (
+              <Link
+                key={index}
+                href={`/${word}`}
+                className="text-blue-500 break-all"
+              >
+                {word}{" "}
+              </Link>
+            );
+          }
+          return <Fragment key={index}>{word} </Fragment>;
+        })}
       </Typography>
       {text?.length > 200 && (
         <Typography
@@ -40,7 +62,7 @@ function UTagify({ text, className }: Props) {
           {showMore ? " Show Less" : "...more"}
         </Typography>
       )}
-    </Tagify>
+    </>
   );
 }
 

@@ -49,6 +49,7 @@ function ShortVideo({
   playerState,
   handleVolume,
   inViewRef,
+  type,
 }: Props) {
   const { toast } = useToast();
   const videoRef = useRef<ReactPlayer | null>(null);
@@ -253,6 +254,7 @@ function ShortVideo({
             )}
             {description && (
               <UTagify
+                isShort={type === "short"}
                 text={description}
                 className={cn(
                   "text-sm text-white line-clamp-3",

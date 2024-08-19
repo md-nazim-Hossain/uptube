@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const typographyVariants = cva("text-foreground", {
   variants: {
@@ -15,7 +16,7 @@ const typographyVariants = cva("text-foreground", {
       h6: "scroll-m-20 text-xs font-semibold tracking-tight",
       p: "leading-7 [&:not(:first-child)]:mt-6",
       blockquote: "mt-6 border-l-2 pl-6 italic",
-      link: "text-primary underline-offset-4 hover:underline",
+      link: "text-blue-500 underline-offset-4 hover:underline",
       list: "my-6 ml-6 list-disc [&>li]:mt-2",
       inlineCode:
         "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
@@ -79,4 +80,64 @@ const Typography = React.forwardRef<HTMLElement, TypographyProps>(
 
 Typography.displayName = "Typography";
 
-export { Typography, typographyVariants };
+const HighlightLink = React.forwardRef<
+  HTMLElement,
+  TypographyProps & { href?: string; showFull?: boolean }
+>(
+  (
+    {
+      className,
+      variant,
+      as,
+      asChild,
+      children,
+      href,
+      showFull = false,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild
+      ? Slot
+      : as ?? (variant ? variantElementMap[variant] : variantElementMap["p"]);
+    const length = children?.toString().length ?? 0;
+    const text =
+      children
+        ?.toString()
+        ?.slice(0, showFull ? length : 120)
+        ?.split(" ") ?? [];
+    return (
+      <Comp
+        className={cn(typographyVariants({ variant, className }))}
+        ref={ref}
+        {...props}
+      >
+        {text.map((word, index) => {
+          if (!word || !word.trim()) return null;
+          if (word.startsWith("https://") || word.startsWith("http://")) {
+            return (
+              <Link
+                target="_blank"
+                key={index}
+                href={word}
+                className="text-blue-500 break-all underline-offset-4 hover:underline"
+              >
+                {word}{" "}
+              </Link>
+            );
+          }
+          return (
+            <React.Fragment key={index}>
+              {href ? <Link href={href}>{word} </Link> : <>{word} </>}
+            </React.Fragment>
+          );
+        })}
+        {length > 120 && !showFull && " ..."}
+      </Comp>
+    );
+  },
+);
+
+HighlightLink.displayName = "HighlightLink";
+
+export { Typography, typographyVariants, HighlightLink };

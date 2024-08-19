@@ -1,7 +1,11 @@
 import { IComment } from "@/types";
 import React, { useState } from "react";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
-import { Typography, typographyVariants } from "../ui/typography";
+import {
+  HighlightLink,
+  Typography,
+  typographyVariants,
+} from "../ui/typography";
 import { getCreationDateDifference, viewsFormat } from "@/utils/video";
 import { cn } from "@/lib/utils";
 import { VideoCard } from "../ui/video-card";
@@ -138,12 +142,13 @@ function Comment({
                 {isEdited ? " (edited)" : ""}
               </span>
             </Typography>
-            <Typography
+            <HighlightLink
+              showFull
               variant={"muted"}
               className={cn(isReplayComment ? "text-sm" : "text-base")}
             >
               {content}
-            </Typography>
+            </HighlightLink>
           </div>
           <VideoCard.VideoActions show={!!user}>
             {isMyComment ? (
