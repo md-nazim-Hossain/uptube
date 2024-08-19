@@ -38,7 +38,11 @@ function WatchHistory({ initialData }: Props) {
       </div>
     );
   const watchHistoryPages = data?.pages || [];
-  if (!watchHistoryPages || !watchHistoryPages.length)
+  if (
+    !watchHistoryPages ||
+    !watchHistoryPages.length ||
+    !watchHistoryPages[0]?.data?.length
+  )
     return <EmptyState text="No watch history" />;
   return (
     <div className="space-y-5 md:space-y-10 py-5 max-w-4xl mx-auto">

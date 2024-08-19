@@ -45,7 +45,7 @@ function HashTagShorts({ hashtagname, initialData }: Props) {
       </div>
     );
   const pages = data?.pages || [];
-  if (!pages || !pages.length)
+  if (!pages || !pages.length || !pages[0]?.data?.length)
     return <EmptyState text="No hashtag videos found" />;
   return (
     <>

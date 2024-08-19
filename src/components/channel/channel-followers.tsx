@@ -26,7 +26,7 @@ function ChannelFollowers() {
       </div>
     );
   const pages = data?.pages || [];
-  if (!pages || !pages?.length)
+  if (!pages || !pages?.length || !pages[0]?.data?.length)
     return <EmptyState text={"No followers found"} />;
   return (
     <div className="py-5">

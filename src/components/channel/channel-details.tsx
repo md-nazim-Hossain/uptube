@@ -26,10 +26,7 @@ function ChannelDetails({ channel }: Props) {
     setActiveTab(currentTab);
   }, [currentTab]);
 
-  const tabs = [
-    { label: "Stations", value: "stations" },
-    { label: "Shorts", value: "shorts" },
-    { label: "Playlists", value: "playlists" },
+  const privateTabs = [
     { label: "Likes", value: "likes" },
     { label: "Followers", value: "followers", text: channel.subscribersCount },
     {
@@ -38,6 +35,11 @@ function ChannelDetails({ channel }: Props) {
       text: channel.channelSubscribedToCount,
     },
   ];
+  const tabs: Array<any> = [
+    { label: "Stations", value: "stations" },
+    { label: "Shorts", value: "shorts" },
+    { label: "Playlists", value: "playlists" },
+  ].concat(!isMyChannel ? [] : privateTabs);
 
   return (
     <div className="studio-container">

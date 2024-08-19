@@ -27,7 +27,7 @@ function HashTag({ hashtagname, initialData }: Props) {
 
   if (isLoading) return <VideoCardSkeletons size={10} />;
   const pages = data?.pages || [];
-  if (!pages || !pages.length)
+  if (!pages || !pages.length || !pages[0]?.data?.length)
     return <EmptyState text="No hashtag videos found" />;
   return (
     <>

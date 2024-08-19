@@ -42,7 +42,11 @@ function LikeVideos({ initialData }: Props) {
       </div>
     );
   const likeVideosPages = data?.pages || [];
-  if (!likeVideosPages || !likeVideosPages.length)
+  if (
+    !likeVideosPages ||
+    !likeVideosPages.length ||
+    !likeVideosPages[0]?.data?.length
+  )
     return <EmptyState text="No like videos" />;
   return (
     <div className="space-y-5 md:space-y-10 py-5 max-w-4xl mx-auto">

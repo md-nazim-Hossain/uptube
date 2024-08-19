@@ -20,7 +20,7 @@ function ChannelUserFavoriteVideos() {
 
   if (isLoading) return <VideoCardSkeletons size={10} />;
   const pages = data?.pages || [];
-  if (!pages || !pages.length)
+  if (!pages || !pages.length || !pages[0]?.data?.length)
     return <EmptyState text={"No favorite videos found"} />;
   return (
     <div>

@@ -26,7 +26,8 @@ function ChannelShorts({ className, userId }: Props) {
 
   if (isLoading) return <VideoCardSkeletons size={10} />;
   const pages = data?.pages || [];
-  if (!pages || !pages.length) return <EmptyState text={"No shorts found"} />;
+  if (!pages || !pages.length || !pages[0]?.data?.length)
+    return <EmptyState text={"No shorts found"} />;
   return (
     <>
       <div className="py-5 gap-3 md:gap-5 grid xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
