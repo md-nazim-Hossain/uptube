@@ -65,7 +65,7 @@ function CommentInput({
       comment: isEdit ? (defaultValue?.comment as string) : "",
     },
   });
-  async function onSubmit(values: z.infer<typeof CommentFormSchema>) {
+  async function handleSubmit(values: z.infer<typeof CommentFormSchema>) {
     try {
       if (isEdit) {
         await axios.put(
@@ -98,7 +98,7 @@ function CommentInput({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSubmit)}
         className={cn("flex flex-col gap-4", className)}
       >
         <div className="flex items-center gap-3">
@@ -137,34 +137,39 @@ function CommentInput({
             )}
           />
         </div>
-        {showSubmitButton && (
-          <div className="flex justify-between items-center">
-            <div></div>
-            <div className="flex gap-2 items-center">
-              <Button
-                onClick={() => {
-                  setShowSubmitButton(false);
-                  onClose && onClose();
-                }}
-                variant={"flat"}
-                className="rounded-[100vw] h-8"
-              >
-                Cancel
-              </Button>
-              <FormSubmitButton
-                loading={form.formState.isSubmitting}
-                loadingText={isEdit ? "Saving..." : "Posting..."}
-                className="h-8"
-                variant={"destructive"}
-                disabled={
-                  form.formState.isSubmitting || !form.formState.isDirty
-                }
-              >
-                {isEdit ? "Save" : "Comment"}
-              </FormSubmitButton>
-            </div>
+
+        <div
+          className={cn(
+            "flex justify-between items-center",
+            showSubmitButton
+              ? "opacity-100 visible h-8"
+              : "opacity-0 invisible h-0",
+          )}
+        >
+          <div></div>
+          <div className="flex gap-2 items-center">
+            <Button
+              type="button"
+              onClick={() => {
+                setShowSubmitButton(false);
+                onClose && onClose();
+              }}
+              variant={"flat"}
+              className="rounded-[100vw] h-8"
+            >
+              Cancel
+            </Button>
+            <FormSubmitButton
+              loading={form.formState.isSubmitting}
+              loadingText={isEdit ? "Saving..." : "Posting..."}
+              className="h-8"
+              variant={"destructive"}
+              disabled={form.formState.isSubmitting || !form.formState.isDirty}
+            >
+              {isEdit ? "Save" : "Comment"}
+            </FormSubmitButton>
           </div>
-        )}
+        </div>
       </form>
     </Form>
   );

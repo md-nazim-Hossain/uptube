@@ -12,11 +12,11 @@ type Props = {
 };
 function UTagify({ text, className, isShort = false }: Props) {
   const [showMore, setShowMore] = React.useState(false);
-  const sliceText = showMore ? text : text?.slice(0, 200);
+  const sliceText = showMore ? text : text?.slice(0, 400);
   return (
     <>
       <Typography
-        className={cn("[&:not(:first-child)]:mt-0 leading-none", className)}
+        className={cn("[&:not(:first-child)]:mt-0 leading-normal", className)}
       >
         {sliceText?.split(" ").map((word, index) => {
           if (word.startsWith("https://") || word.startsWith("http://")) {
@@ -54,9 +54,10 @@ function UTagify({ text, className, isShort = false }: Props) {
           return <Fragment key={index}>{word} </Fragment>;
         })}
       </Typography>
-      {text?.length > 200 && (
+      {text?.length > 400 && (
         <Typography
-          className={className}
+          as="span"
+          className={cn("cursor-pointer", className)}
           onClick={() => setShowMore(!showMore)}
         >
           {showMore ? " Show Less" : "...more"}

@@ -32,8 +32,8 @@ const RecursiveComments: React.FC<{
             inputClassName={inputClassName}
           />
 
-          <div className="ml-12 pb-2 pt-1">
-            {comment?.replies.length > 0 && (
+          {comment?.replies.length > 0 && (
+            <div className="ml-12 pb-2 pt-1">
               <Button
                 onClick={() => toggleNested(comment._id)}
                 className="rounded-[100vw] space-x-2 hover:bg-destructive/20 text-destructive w-max h-8"
@@ -46,8 +46,8 @@ const RecursiveComments: React.FC<{
                 )}
                 <span>{comment?.replies.length} replies</span>
               </Button>
-            )}
-          </div>
+            </div>
+          )}
           {showNested[comment?._id] && (
             <>
               {comment?.replies.length > 0 && (
