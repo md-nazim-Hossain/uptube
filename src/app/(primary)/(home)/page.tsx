@@ -12,7 +12,7 @@ export const revalidate = 60 * 5;
 async function Home() {
   const videos = await getContentByType();
   const shorts = await getContentByType("?type=short&limit=10");
-
+  const notFeedVideos = videos?.data?.slice(0, 8) || [];
   return (
     <main className="container pt-2">
       <div className="flex flex-col lg:flex-row gap-10">
@@ -20,11 +20,11 @@ async function Home() {
           <DiscoverFavorites />
 
           {/* load initial videos */}
-          {!!videos?.data?.length && (
+          {!!notFeedVideos?.length && (
             <>
               <Typography variant={"h3"}>Videos</Typography>
               <div className="py-5 grid gap-3 md:gap-5 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                {videos?.data?.map((video: IVideo, index: number) => (
+                {notFeedVideos?.map((video: IVideo, index: number) => (
                   <SingleVideoCard
                     className="w-full sm:max-w-max lg:max-w-md"
                     key={index}

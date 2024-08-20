@@ -58,10 +58,7 @@ type Props = {
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "This field has to be filled." }),
-  description: z
-    .string()
-    .min(1, { message: "This field has to be filled." })
-    .max(500),
+  description: z.string().min(1, { message: "This field has to be filled." }),
   videoFiles: z
     .any()
     .refine((file) => file, { message: "This field is required." }),
