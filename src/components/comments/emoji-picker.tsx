@@ -5,14 +5,17 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 type Props = {
   onEmojiSelect: (emoji: any) => void;
 };
 function EmojiPicker({ onEmojiSelect }: Props) {
   const [openEmojiPicker, setOpenEmojiPicker] = React.useState(false);
   const { theme } = useTheme();
+  const pathname = usePathname();
+
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 relative">
       <Button
         type="button"
         onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
@@ -20,7 +23,13 @@ function EmojiPicker({ onEmojiSelect }: Props) {
       >
         <BsEmojiSmile size={18} />
       </Button>
-      <div className={cn("fixed z-50", openEmojiPicker ? "block" : "hidden")}>
+      <div
+        className={cn(
+          "absolute z-50 ",
+          openEmojiPicker ? "block" : "hidden",
+          pathname.startsWith("/shorts") ? "-top-[445px]" : "",
+        )}
+      >
         <Picker
           onClickOutside={(e: any) => {
             if (openEmojiPicker && !e?.nativeEvent) {
