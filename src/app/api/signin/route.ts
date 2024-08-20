@@ -40,9 +40,16 @@ export const POST = async (req: NextRequest) => {
       { status: 200 },
     );
   } catch (error: IAPIResponse<any> | any) {
-    return NextResponse.json(error, {
-      status: error.status,
-      statusText: error?.statusText,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: error?.data?.message || error?.message,
+        data: null,
+      },
+      {
+        status: error.status,
+        statusText: error?.statusText,
+      },
+    );
   }
 };

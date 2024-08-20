@@ -78,10 +78,9 @@ function SignInForm({ handleChangeAuthModalState }: Props) {
         ? setOpen(false)
         : router.push(res?.data?.avatar ? "/" : "/studio/editing");
     } catch (error: IAPIResponse<any> | any) {
-      console.log(error);
       toast({
         title: "Login Failed",
-        description: error?.data.message,
+        description: error?.data?.message || error?.response?.data?.message,
         variant: "destructive",
       });
     }

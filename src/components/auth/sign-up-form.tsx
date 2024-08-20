@@ -127,7 +127,8 @@ function SignUpForm({ handleChangeAuthModalState }: Props) {
         .then((res) => res.data)) as IAPIResponse<IUser>;
       toast({
         title: "Sign Up Successful",
-        description: "You have successfully signed up. Please login.",
+        description:
+          "You have successfully signed up. Please verify your email. We have sent a verification link to your email. Check your email spam folder if you can't find it.",
       });
       handleChangeAuthModalState
         ? handleChangeAuthModalState("verify")
