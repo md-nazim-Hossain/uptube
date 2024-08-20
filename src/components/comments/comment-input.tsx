@@ -21,6 +21,7 @@ import { addHTTPPrefix } from "@/utils/common";
 import { FaUserCircle } from "react-icons/fa";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useQueryClient } from "@tanstack/react-query";
+import EmojiPicker from "./emoji-picker";
 
 interface CommentInputProps {
   className?: string;
@@ -59,6 +60,7 @@ function CommentInput({
   const [showSubmitButton, setShowSubmitButton] = React.useState(
     isReplay || isEdit,
   );
+
   const form = useForm({
     resolver: zodResolver(CommentFormSchema),
     defaultValues: {
@@ -95,23 +97,31 @@ function CommentInput({
       console.log(error);
     }
   }
+
+  const handleEmojiSet = (emoji: any) => {
+    form.setValue("comment", form.getValues("comment") + emoji.native, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className={cn("flex flex-col gap-4", className)}
+        className={cn("flex gap-3", className)}
       >
-        <div className="flex items-center gap-3">
-          {user ? (
-            <UpTubeAvatarImage
-              className={cn("size-9", avatarClassName)}
-              alt={user?.fullName + ""}
-              src={addHTTPPrefix(user?.avatar!)}
-              name={user?.fullName}
-            />
-          ) : (
-            <FaUserCircle className={cn("size-9", avatarClassName)} />
-          )}
+        {user ? (
+          <UpTubeAvatarImage
+            className={cn("size-9", avatarClassName)}
+            alt={user?.fullName + ""}
+            src={addHTTPPrefix(user?.avatar!)}
+            name={user?.fullName}
+          />
+        ) : (
+          <FaUserCircle className={cn("size-9", avatarClassName)} />
+        )}
+        <div className="w-full">
           <FormField
             control={form.control}
             name="comment"
@@ -136,38 +146,39 @@ function CommentInput({
               </FormItem>
             )}
           />
-        </div>
-
-        <div
-          className={cn(
-            "flex justify-between items-center",
-            showSubmitButton
-              ? "opacity-100 visible h-8"
-              : "opacity-0 invisible h-0",
-          )}
-        >
-          <div></div>
-          <div className="flex gap-2 items-center">
-            <Button
-              type="button"
-              onClick={() => {
-                setShowSubmitButton(false);
-                onClose && onClose();
-              }}
-              variant={"flat"}
-              className="rounded-[100vw] h-8"
-            >
-              Cancel
-            </Button>
-            <FormSubmitButton
-              loading={form.formState.isSubmitting}
-              loadingText={isEdit ? "Saving..." : "Posting..."}
-              className="h-8"
-              variant={"destructive"}
-              disabled={form.formState.isSubmitting || !form.formState.isDirty}
-            >
-              {isEdit ? "Save" : "Comment"}
-            </FormSubmitButton>
+          <div
+            className={cn(
+              "flex justify-between items-center mt-2",
+              showSubmitButton
+                ? "opacity-100 visible h-8"
+                : "opacity-0 invisible h-0",
+            )}
+          >
+            <EmojiPicker onEmojiSelect={handleEmojiSet} />
+            <div className="flex gap-2 items-center">
+              <Button
+                type="button"
+                onClick={() => {
+                  setShowSubmitButton(false);
+                  onClose && onClose();
+                }}
+                variant={"flat"}
+                className="rounded-[100vw] h-8"
+              >
+                Cancel
+              </Button>
+              <FormSubmitButton
+                loading={form.formState.isSubmitting}
+                loadingText={isEdit ? "Saving..." : "Posting..."}
+                className="h-8"
+                variant={"destructive"}
+                disabled={
+                  form.formState.isSubmitting || !form.formState.isDirty
+                }
+              >
+                {isEdit ? "Save" : "Comment"}
+              </FormSubmitButton>
+            </div>
           </div>
         </div>
       </form>
