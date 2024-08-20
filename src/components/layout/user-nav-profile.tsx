@@ -10,7 +10,7 @@ import {
 } from "../ui/dropdown-menu";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { useUserStore } from "@/zustand/useUserStore";
-import { IUser } from "@/types";
+import { IAPIResponse, IUser } from "@/types";
 import { usePathname, useRouter } from "next/navigation";
 import { Typography } from "../ui/typography";
 import UpTubeImage from "../uptube/uptube-image";
@@ -18,22 +18,33 @@ import { useSignOut } from "@/hooks/useSignOut";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
+import { useFetch } from "@/utils/reactQuery";
+import { apiRoutes } from "@/utils/routes";
+import { getCookie } from "cookies-next";
 type Props = {
   className?: string;
-  userData: IUser | null;
 };
-function UserNavProfile({ className, userData }: Props) {
+function UserNavProfile({ className }: Props) {
   const router = useRouter();
-  const { setUser, user, setLoading, loading } = useUserStore((state) => state);
-  useEffect(() => {
-    setUser(userData);
-    setLoading(false);
-  }, [setLoading, setUser, userData]);
+  const { setUser, user, setLoading } = useUserStore((state) => state);
+  const { data, isLoading } = useFetch<IAPIResponse<IUser>>(
+    apiRoutes.users.getUser,
+    undefined,
+    {
+      queryKey: [apiRoutes.users.getUser, undefined],
+      enabled: !!getCookie("accessToken"),
+    },
+  );
 
-  const { signOut, isLoading } = useSignOut();
+  useEffect(() => {
+    setUser(data?.data || null);
+    setLoading(isLoading);
+  }, [data?.data, isLoading, setLoading, setUser]);
+
+  const { signOut, isLoading: signOutLoading } = useSignOut();
   const pathname = usePathname();
   const isStudioPage = pathname.startsWith("/studio");
-  if (loading) return <Skeleton className="size-10 rounded-full" />;
+  if (isLoading) return <Skeleton className="size-10 rounded-full" />;
   if (!user)
     return (
       <>
@@ -109,7 +120,7 @@ function UserNavProfile({ className, userData }: Props) {
           <span className="text-secondary">Your channel</span>
         </DropdownMenuItem>
 
-        <DropdownMenuItem disabled={isLoading} onClick={() => signOut()}>
+        <DropdownMenuItem disabled={signOutLoading} onClick={() => signOut()}>
           <div className="relative w-6 h-5 mr-2">
             <UpTubeImage
               alt="Your channel"

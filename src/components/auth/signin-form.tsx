@@ -67,6 +67,9 @@ function SignInForm({ handleChangeAuthModalState }: Props) {
         title: "Login Successful",
         description: "You have successfully logged in.",
       });
+      queryClient.invalidateQueries({
+        queryKey: [apiRoutes.users.getUser, undefined],
+      });
       if (videoId)
         queryClient.invalidateQueries({
           queryKey: [apiRoutes.videos.getVideoById + videoId, undefined],
