@@ -175,11 +175,13 @@ const VideoCardPlayer = React.forwardRef<HTMLDivElement, VideoCardVideoProps>(
                   onPlay={() => handlePlaying(true)}
                   onPause={() => handlePlaying(false)}
                   fallback={
-                    <UpTubeImage
-                      className={"z-10"}
-                      alt=""
-                      src={addHTTPPrefix(thumbnail!)}
-                    />
+                    thumbnail ? (
+                      <UpTubeImage
+                        className={"z-10"}
+                        alt=""
+                        src={addHTTPPrefix(thumbnail!)}
+                      />
+                    ) : undefined
                   }
                   style={{
                     objectFit: "cover",
