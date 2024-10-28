@@ -62,7 +62,9 @@ function Branding() {
       ))}
       <div className="flex gap-3 pt-5">
         <Button
-          disabled={(!coverImage && !avatar) || publishing}
+          disabled={
+            (!coverImage && !avatar) || publishing || (!!coverImage && !!avatar)
+          }
           variant={"ghost"}
           className="h-8"
           onClick={async () => {
@@ -121,6 +123,9 @@ function Branding() {
           Cancel
         </Button>
       </div>
+      <Typography variant={"muted"} className="text-xs">
+        Note: You can only upload one image with each request
+      </Typography>
     </div>
   );
 }
@@ -197,7 +202,16 @@ const EditImageComponent = ({
             >
               Change
             </Button>
-            <Button disabled={!user} variant={"ghost"} className="h-8">
+            <Button
+              onClick={() => handleChange(null)}
+              disabled={
+                !user ||
+                (name === "avatar" && !avatar) ||
+                (name === "coverImage" && !coverImage)
+              }
+              variant={"ghost"}
+              className="h-8"
+            >
               Remove
             </Button>
           </div>

@@ -147,7 +147,7 @@ export interface IEditBrandingField {
   label: string;
   description: string;
   recommendedText: string;
-  handleChange: (File: File) => any;
+  handleChange: (File: File | null) => any;
   avatar: File | null;
   coverImage: File | null;
 }

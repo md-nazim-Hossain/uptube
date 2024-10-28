@@ -30,7 +30,7 @@ const securitySchema = z
         message:
           "Current Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
       }),
-    password: z
+    newPassword: z
       .string()
       .min(8, "Password must be at least 8 characters.")
       .max(32, "The password must be a maximum 32 characters")
@@ -43,7 +43,7 @@ const securitySchema = z
       .string()
       .min(1, { message: "This field has to be filled." }),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match.",
     path: ["confirmPassword"],
   });
@@ -53,7 +53,7 @@ function Security() {
     resolver: zodResolver(securitySchema),
     defaultValues: {
       currentPassword: "",
-      password: "",
+      newPassword: "",
       confirmPassword: "",
     },
     mode: "all",
@@ -64,7 +64,7 @@ function Security() {
       await axios
         .patch(apiRoutes.users.changeCurrentPassword, {
           currentPassword: values.currentPassword,
-          password: values.password,
+          newPassword: values.newPassword,
         })
         .then((res) => res.data);
       toast({
@@ -104,7 +104,7 @@ function Security() {
         />
         <FormField
           control={form.control}
-          name="password"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary text-base">
