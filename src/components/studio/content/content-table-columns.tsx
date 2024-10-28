@@ -80,7 +80,7 @@ export const ContentTableColumn: ColumnDef<IVideo>[] = [
             <Typography variant={"small"} className="text-sm">
               {row?.original?.title}
             </Typography>
-            <Typography variant={"muted"} className="text-xs">
+            <Typography variant={"muted"} className="text-xs line-clamp-3">
               {row?.original?.description}
             </Typography>
           </div>

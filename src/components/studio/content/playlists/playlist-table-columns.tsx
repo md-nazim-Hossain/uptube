@@ -50,7 +50,7 @@ export const PlaylistTableColumns: ColumnDef<IPlayList>[] = [
             <Typography variant={"small"} className="text-sm">
               {row?.original?.name}
             </Typography>
-            <Typography variant={"muted"} className="text-xs">
+            <Typography variant={"muted"} className="text-xs line-clamp-3">
               {row?.original?.description}
             </Typography>
           </div>
