@@ -39,7 +39,7 @@ function TopFans() {
   if (isLoading || loading) return <TopFansSkeletons size={6} />;
 
   const pages = data?.pages || [];
-  if (!pages || !pages.length) return null;
+  if (!pages || !pages.length || !pages[0]?.data?.length) return null;
 
   return (
     <div className="space-y-5">

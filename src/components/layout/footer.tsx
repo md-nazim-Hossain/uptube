@@ -8,6 +8,7 @@ import { Typography } from "../ui/typography";
 function Footer() {
   const pathname = usePathname();
   if (pathname === "/shorts") return null;
+  const supprotEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
   return (
     <div className="w-full container">
       <div className="py-5 sm:py-10 border-t gap-5 flex flex-col sm:flex-row justify-between">
@@ -42,6 +43,7 @@ function Footer() {
               <Link className="text-sm" href={""}>
                 Articles
               </Link>
+              <Link href={`mailto:${supprotEmail}`}>Contact us</Link>
             </div>
           </div>
           <div className="space-y-8">
