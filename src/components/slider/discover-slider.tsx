@@ -58,7 +58,12 @@ function DiscoverSlider({ favorites, className }: Props) {
               className="basis-full relative h-[450px] lg:h-[650px] rounded-2xl overflow-hidden"
               key={index}
             >
-              <Link className="w-full h-full" href={`/shorts/${video?._id}`}>
+              <Link
+                className="w-full h-full"
+                href={`/${video?.type === "video" ? "watch?v=" : "shorts/"}${
+                  video?._id
+                }`}
+              >
                 {video?.thumbnail && (
                   <UpTubeImage
                     alt={`favorites of ${favorite?.video?.owner?.fullName}`}
