@@ -45,6 +45,7 @@ function FullViewVideo({ video }: Props) {
         {
           videoId: _id,
           state: isLikedVideo ? "dislike" : "like",
+          contentOwnerId: owner?._id,
         },
         {
           headers: {

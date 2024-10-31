@@ -51,7 +51,7 @@ function UptubeSidebar() {
           className={cn("px-2", isWatchPage ? "" : "flex sm:hidden")}
           href="/"
         />
-        <div className={cn("pt-3", openSidebar ? "space-y-4" : "space-y-2")}>
+        <div className={cn("py-3", openSidebar ? "space-y-4" : "space-y-2")}>
           {/* ============= Discover Sidebar Link =============*/}
           <div className={cn("space-y-0.5 pl-2", !isWatchPage && "sm:px-0")}>
             {sidebarTopData.map((item: ISideProps, index: number) => (

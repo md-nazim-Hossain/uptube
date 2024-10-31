@@ -5,6 +5,7 @@ import Logo from "./logo";
 import { Button } from "../ui/button";
 import { FiSearch } from "react-icons/fi";
 import UserNavProfile from "./user-nav-profile";
+import Notifications from "./notifications";
 
 function Navbar() {
   const [openMobileSearch, setOpenMobileSearch] = React.useState(false);
@@ -25,7 +26,10 @@ function Navbar() {
             >
               <FiSearch onClick={() => setOpenMobileSearch(true)} size={16} />
             </Button>
-            <UserNavProfile />
+            <div className="flex gap-x-5 items-center">
+              <Notifications />
+              <UserNavProfile />
+            </div>
           </div>
         </div>
       )}

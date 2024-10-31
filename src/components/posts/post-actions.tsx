@@ -55,6 +55,7 @@ function PostActions({ post, showComments = true }: Props) {
       await mutateAsync({
         tweetId: post._id,
         state: post.isLiked ? "dislike" : "like",
+        contentOwnerId: post.author._id,
       });
     } catch (error: IAPIResponse<any> | any) {
       toast({

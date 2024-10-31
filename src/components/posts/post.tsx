@@ -5,11 +5,7 @@ import { IPOST } from "@/types";
 import React from "react";
 import UpTubeAvatarImage from "../uptube/uptube-avatar-image";
 import { addHTTPPrefix } from "@/utils/common";
-import {
-  HighlightLink,
-  Typography,
-  typographyVariants,
-} from "../ui/typography";
+import { HighlightLink, typographyVariants } from "../ui/typography";
 import { getCreationDateDifference } from "@/utils/video";
 import UpTubeImage from "../uptube/uptube-image";
 import { MyTooltip } from "../ui/tooltip";

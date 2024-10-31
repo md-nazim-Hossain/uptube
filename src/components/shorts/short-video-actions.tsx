@@ -47,7 +47,7 @@ function ShortVideoActions({
   const user = useUserStore((state) => state.user);
   const { mutateAsync: mutateLikeDislike } = usePost<
     IInfiniteScrollAPIResponse<IVideo[]> | undefined,
-    { videoId: string; state: string }
+    { videoId: string; state: string; contentOwnerId: string }
   >(
     apiRoutes.likes.likeDislike,
     [apiRoutes.videos.getAllShorts, { id }],
@@ -84,6 +84,7 @@ function ShortVideoActions({
       await mutateLikeDislike({
         videoId: _id,
         state: isLiked ? "dislike" : "like",
+        contentOwnerId: owner?._id,
       });
     } catch (error: IAPIResponse<any> | any) {
       toast({
