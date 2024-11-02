@@ -24,7 +24,7 @@ function PostActions({ post, showComments = true }: Props) {
   const { toast } = useToast();
   const { mutateAsync, isPending } = usePost<
     IAPIResponse<IPOST[]> | any,
-    { tweetId: string; state: "like" | "dislike" }
+    { tweetId: string; state: "like" | "dislike"; contentOwnerId: string }
   >(
     apiRoutes.likes.likeDislike,
     apiRoutes.posts.getAllPosts,

@@ -12,7 +12,7 @@ async function PostPage({ params: { id } }: { params: { id: string } }) {
   return (
     <div className="max-w-4xl mx-auto py-5 sm:py-10 space-y-5">
       <PostDetails post={post} />
-      <Comments isTweet contentId={id} />
+      <Comments contentOwnerId={post.author._id} isTweet contentId={id} />
     </div>
   );
 }

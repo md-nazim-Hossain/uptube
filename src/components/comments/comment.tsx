@@ -66,7 +66,10 @@ function Comment({
     apiRoutes.comments.commentLikeDislike,
     apiRoutes.comments.getAllCommentByContentId + contentId,
     undefined,
-    (oldData, data: { id: string; state: "like" | "dislike" }) => {
+    (
+      oldData,
+      data: { id: string; state: "like" | "dislike"; contentOwnerId: string },
+    ) => {
       if (!oldData) return;
       return {
         ...oldData,
@@ -92,6 +95,7 @@ function Comment({
       await mutateLikeDislike({
         id,
         state: likes.includes(user?._id ?? "") ? "dislike" : "like",
+        contentOwnerId: owner?._id,
       });
     } catch (error) {}
   };
@@ -99,6 +103,7 @@ function Comment({
   if (isEdit)
     return (
       <CommentInput
+        contentOwnerId={owner?._id}
         isTweet={isTweet}
         contentId={contentId}
         defaultValue={{ comment: content, _id }}
@@ -207,6 +212,7 @@ function Comment({
         </div>
         {isReplay && (
           <CommentInput
+            contentOwnerId={owner?._id as string}
             isTweet={isTweet}
             isReplay={isReplay}
             contentId={_id}

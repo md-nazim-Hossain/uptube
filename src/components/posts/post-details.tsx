@@ -44,6 +44,7 @@ function PostDetails({ post }: Porps) {
       await axios.post(apiRoutes.likes.likeDislike, {
         tweetId: post?._id,
         state: isLiked ? "dislike" : "like",
+        contentOwnerId: post.author._id,
       });
       revalidatePath(`/post/${post?._id}`);
     } catch (error: IAPIResponse<any> | any) {
