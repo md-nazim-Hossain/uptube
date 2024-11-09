@@ -15,8 +15,14 @@ type Props = {
   contentId: string;
   onClose: () => void;
   openCommentBox: boolean;
+  contentOwnerId: string;
 };
-function ShortComments({ contentId, onClose, openCommentBox }: Props) {
+function ShortComments({
+  contentId,
+  onClose,
+  openCommentBox,
+  contentOwnerId,
+}: Props) {
   const { data, isLoading } = useFetch<IAPIResponse<IComment[]>>(
     apiRoutes.comments.getAllCommentByContentId + contentId,
     undefined,
@@ -68,7 +74,11 @@ function ShortComments({ contentId, onClose, openCommentBox }: Props) {
 
       {openCommentBox && !isLoading && (
         <div className="px-5 py-3">
-          <CommentInput contentId={contentId} inputClassName="bg-transparent" />
+          <CommentInput
+            contentOwnerId={contentOwnerId}
+            contentId={contentId}
+            inputClassName="bg-transparent"
+          />
         </div>
       )}
     </div>

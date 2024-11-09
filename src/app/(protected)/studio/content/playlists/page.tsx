@@ -6,10 +6,17 @@ import { IAPIResponse, IPlayList } from "@/types";
 import { apiRoutes } from "@/utils/routes";
 import { useFetch } from "@/utils/reactQuery";
 import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
+import { useUserStore } from "@/zustand/useUserStore";
 
 function PlaylistPage() {
+  const { user } = useUserStore();
   const { data, isLoading } = useFetch<IAPIResponse<IPlayList[]>>(
-    apiRoutes.playlists.getAllPlaylists,
+    apiRoutes.playlists.getPlaylistByUserId + "/" + user?._id,
+    undefined,
+    {
+      queryKey: [apiRoutes.playlists.getPlaylistByUserId, { id: user?._id }],
+      enabled: !!user,
+    },
   );
   if (isLoading) return <DataTableSkeleton />;
   return (

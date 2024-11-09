@@ -1,6 +1,11 @@
 "use client";
 
-import { exploreData, getChannelHistory, sidebarTopData } from "@/data";
+import {
+  exploreData,
+  footerSocialIcons,
+  getChannelHistory,
+  sidebarTopData,
+} from "@/data";
 import { cn } from "@/lib/utils";
 import { ISideProps } from "@/types";
 import { useLayoutStore } from "@/zustand/useLayoutStore";
@@ -12,6 +17,7 @@ import { Separator } from "../ui/separator";
 import Theme from "./theme";
 import { usePathname } from "next/navigation";
 import Logo from "./logo";
+import { Typography } from "../ui/typography";
 
 function UptubeSidebar() {
   const pathname = usePathname();
@@ -37,10 +43,10 @@ function UptubeSidebar() {
       ></div>
       <div
         className={cn(
-          "fixed left-0 flex-shrink-0 duration-300 top-0 overflow-y-auto scroll h-screen shadow-xl bg-background",
+          "fixed left-0 flex-shrink-0 duration-300 top-0 overflow-y-auto pr-1 scroll max-h-[calc(100vh-56px)] shadow-xl bg-background",
           openSidebar ? "w-[255px]" : "w-max",
           openSidebar
-            ? `-translate-x-0 ${!isWatchPage && "sm:translate-x-0"}`
+            ? `-translate-x-0 pb-5 ${!isWatchPage && "sm:translate-x-0"}`
             : `-translate-x-full ${!isWatchPage && "sm:translate-x-0"}`,
           isWatchPage
             ? "sm:fixed z-50"
@@ -111,27 +117,75 @@ function UptubeSidebar() {
             </div>
           </div>
 
-          {/* ===============privacy policy ==============*/}
+          {/* ============= Follow Us =============*/}
+          <div className={cn("space-y-0.5 px-2", !isWatchPage && "sm:px-0")}>
+            {openSidebar && (
+              <span className="text-xs font-light mb-4">Follow Us</span>
+            )}
+            {footerSocialIcons.map((icon, index: number) => (
+              <Link
+                className={cn(
+                  "flex items-center text-secondary p-2 hover:bg-primary/10",
+                  !openSidebar
+                    ? "rounded-md flex-col gap-1.5"
+                    : "rounded-[100vw] flex-row gap-3",
+                )}
+                target="_blank"
+                key={icon.url}
+                href={icon.url}
+              >
+                <icon.Icon size={18} />
+                <span className={cn("", openSidebar ? "text-sm" : "text-xs")}>
+                  {icon?.label}
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          {/* ============= Help =============*/}
           {openSidebar && (
             <>
               <Separator />
-              <div className="space-x-2 mx-2">
-                <Link
-                  className="text-sm text-secondary"
-                  href={"/privacy-policy"}
-                >
-                  Privacy Policy
-                </Link>
-                <Link
-                  className="text-sm text-secondary"
-                  href={"/terms-and-services"}
-                >
-                  Terms & Services
-                </Link>
+              <div>
+                <div className="space-x-2 mx-2">
+                  <Link className="text-sm text-secondary" href={"/"}>
+                    Premium
+                  </Link>
+                  <Link className="text-sm text-secondary" href={"/shorts"}>
+                    Article
+                  </Link>
+                  <Link
+                    className="text-sm text-secondary"
+                    href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                  >
+                    Contact us
+                  </Link>
+                </div>
+                <div className="space-x-2 mx-2">
+                  <Link
+                    className="text-sm text-secondary"
+                    href={"/privacy-policy"}
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    className="text-sm text-secondary"
+                    href={"/terms-and-services"}
+                  >
+                    Terms & Services
+                  </Link>
+                </div>
               </div>
             </>
           )}
+
+          {/* ===============privacy policy ==============*/}
         </div>
+        {openSidebar && (
+          <Typography variant={"lead"} className="text-xs mt-10 text-center">
+            &copy; Copyright 2024 Video Entertainment Inc.
+          </Typography>
+        )}
       </div>
     </>
   );

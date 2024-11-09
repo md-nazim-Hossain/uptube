@@ -130,7 +130,7 @@ const useGenericMutation = <T, S>(
 
 export const useDelete = <T>(
   url: string,
-  updaterQueryKey?: string,
+  updaterQueryKey?: string | QueryKeyT,
   params?: object,
   updater?: (oldData: T, id: string | number) => T,
 ) => {

@@ -127,12 +127,12 @@ function ShortVideo({
     <div
       ref={inViewRef}
       style={{ scrollSnapAlign: "start", scrollMarginTop: "70px" }}
-      className="w-full h-[calc(100dvh-56px)] xs:h-[840px] lg:w-max flex justify-center relative"
+      className="w-full h-[calc(100dvh-100px)] lg:w-max flex justify-center relative"
     >
       <div className="flex items-end gap-3">
         <div
           className={cn(
-            "w-full group/player h-full lg:w-[460px] shadow relative xs:rounded-2xl",
+            "w-full group/player h-full lg:aspect-[17:1] shadow relative xs:rounded-2xl",
           )}
         >
           <div
@@ -289,6 +289,7 @@ function ShortVideo({
         />
       </div>
       <ShortComments
+        contentOwnerId={owner._id ?? ""}
         contentId={_id}
         onClose={() => setOpenCommentBox(false)}
         openCommentBox={openCommentBox}

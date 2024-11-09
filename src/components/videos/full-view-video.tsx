@@ -153,7 +153,7 @@ function FullViewVideo({ video }: Props) {
               text={video?.description ?? ""}
             />
           </div>
-          <Comments contentId={_id} />
+          <Comments contentOwnerId={owner?._id} contentId={_id} />
         </VideoCard.Footer>
         <RelatedVideos currentVideoId={video._id} />
       </div>

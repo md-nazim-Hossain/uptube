@@ -170,9 +170,11 @@ export const footerSocialIcons = [
   {
     Icon: FaFacebook,
     url: "https://www.facebook.com",
+    label: "Facebook",
   },
   {
     Icon: FaTwitter,
     url: "https://twitter.com",
+    label: "Twitter",
   },
 ];

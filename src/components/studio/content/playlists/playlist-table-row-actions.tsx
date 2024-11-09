@@ -24,10 +24,10 @@ interface DataTableRowActionsProps<TData> {
 export function PlaylistTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const { _id } = row.original as IPlayList;
+  const { _id, owner } = row.original as IPlayList;
   const { mutateAsync } = useDelete<any>(
     apiRoutes.playlists.deletePlaylist,
-    apiRoutes.playlists.getAllPlaylists,
+    [apiRoutes.playlists.getPlaylistByUserId, { id: owner?._id }],
     undefined,
     (oldData, id) => {
       return {
