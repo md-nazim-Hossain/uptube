@@ -78,8 +78,8 @@ export interface IComment {
   createdAt: string;
   updatedAt: string;
   owner: IUser;
-  video?: string;
-  tweet?: string;
+  video?: string | IVideo;
+  tweet?: string | IPOST;
   isEdited: boolean;
   lastEditedAt: string;
   likes: string[];
@@ -158,6 +158,31 @@ export interface IChannelAnalytics {
   topVideo: IVideo & { comments: number };
   totalLikes: number;
   totalComments: number;
+}
+
+export enum EnumNotificationType {
+  LIKE = "like",
+  UNLIKE = "unlike",
+  COMMENT = "comment",
+  SUBSCRIBE = "subscribe",
+  TWEET = "tweet",
+  UPLOAD = "upload",
+  UNSUBSCRIBE = "unsubscribe",
+  REPLY = "reply",
+}
+export interface INotification {
+  _id: string;
+  receipnt: string;
+  sender: Pick<IUser, "fullName" | "avatar" | "_id" | "username">;
+  videoId: Pick<IVideo, "_id" | "title" | "thumbnail" | "type"> | null;
+  tweetId: Pick<IPOST, "_id" | "content" | "thumbnail"> | null;
+  commentId: Pick<IComment, "_id" | "content" | "tweet" | "video"> | null;
+  type: EnumNotificationType;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+  isHide: boolean;
+  isRead: boolean;
 }
 
 export interface IInfiniteScrollAPIResponse<T> {

@@ -64,6 +64,11 @@ export const apiRoutes = {
     createFollowAndUnfollow: "/subscriptions/create-subscribe-and-unsubscribe",
     getAllFollowingChannel: "/subscriptions/get-all-subscribed-channel",
   },
+  notifications: {
+    getAllNotifications: "/notifications/get-all-notification",
+    hideNotification: "/notifications/hide-notification",
+    deleteNotification: "/notifications/delete-notification",
+  },
 };
 
 export type IRoutesKeys = (typeof apiRoutes)[keyof typeof apiRoutes];

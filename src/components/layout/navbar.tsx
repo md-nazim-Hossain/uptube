@@ -5,7 +5,7 @@ import Logo from "./logo";
 import { Button } from "../ui/button";
 import { FiSearch } from "react-icons/fi";
 import UserNavProfile from "./user-nav-profile";
-import Notifications from "./notifications";
+import Notifications from "../notifications/notifications";
 
 function Navbar() {
   const [openMobileSearch, setOpenMobileSearch] = React.useState(false);
