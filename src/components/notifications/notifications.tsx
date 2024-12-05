@@ -20,7 +20,7 @@ import { Typography } from "../ui/typography";
 import Notification from "./notification";
 
 function Notifications() {
-  const { setUser, user, setLoading } = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
   const { data, isLoading } = useFetch<IAPIResponse<INotification[]>>(
     apiRoutes.notifications.getAllNotifications,
     undefined,
@@ -35,7 +35,6 @@ function Notifications() {
   if (isLoading) return <Skeleton className="size-6 rounded-full" />;
   const notifications = data?.data;
   const length = notifications?.length || 0;
-  console.log(notifications);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">

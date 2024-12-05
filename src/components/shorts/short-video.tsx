@@ -129,7 +129,7 @@ function ShortVideo({
       style={{ scrollSnapAlign: "start", scrollMarginTop: "70px" }}
       className="w-full h-[calc(100dvh-100px)] lg:w-max flex justify-center relative"
     >
-      <div className="flex items-end gap-3">
+      <div className="w-full xs:w-max flex items-end gap-3">
         <div
           className={cn(
             "w-full group/player h-full lg:aspect-[17:1] shadow relative xs:rounded-2xl",
