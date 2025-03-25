@@ -43,13 +43,13 @@ function UptubeSidebar() {
       ></div>
       <div
         className={cn(
-          "fixed left-0 flex-shrink-0 duration-300 top-0 overflow-y-auto pr-1 scroll max-h-[calc(100vh-56px)] shadow-xl bg-background",
+          "fixed left-0 flex-shrink-0 duration-300 top-0 overflow-y-auto pr-1 scroll h-full max-h-[calc(100vh-56px)] shadow-xl bg-background",
           openSidebar ? "w-[255px]" : "w-max",
           openSidebar
             ? `-translate-x-0 pb-5 ${!isWatchPage && "sm:translate-x-0"}`
             : `-translate-x-full ${!isWatchPage && "sm:translate-x-0"}`,
           isWatchPage
-            ? "sm:fixed z-50"
+            ? "sm:fixed z-50 max-h-full"
             : "sm:sticky sm:shadow-none z-50 sm:z-40 sm:top-14",
         )}
       >
