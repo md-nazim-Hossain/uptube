@@ -3,7 +3,11 @@ import { Typography } from "@/components/ui/typography";
 import Link from "next/link";
 import React from "react";
 
-function VerifyPage() {
+export async function generateStaticParams() {
+  return [];
+}
+
+function VerifyPage({ params }: { params: { email: string } }) {
   return (
     <div>
       <Typography variant={"h2"}> Verify Account</Typography>
@@ -13,7 +17,7 @@ function VerifyPage() {
           Sign In
         </Link>
       </Typography>
-      <VerifyAccount />
+      <VerifyAccount email={params.email || ""} />
     </div>
   );
 }

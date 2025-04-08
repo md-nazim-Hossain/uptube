@@ -29,11 +29,11 @@ const verifyAccountSchema = z.object({
 
 type Props = {
   handleChangeAuthModalState?: (state: string) => void;
+  email: string;
 };
-function VerifyAccount({ handleChangeAuthModalState }: Props) {
+function VerifyAccount({ handleChangeAuthModalState, email }: Props) {
   const router = useRouter();
   const { toast } = useToast();
-  const email = useParams()?.email as string;
   const form = useForm<z.infer<typeof verifyAccountSchema>>({
     resolver: zodResolver(verifyAccountSchema),
     defaultValues: {
