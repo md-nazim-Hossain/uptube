@@ -8,6 +8,7 @@ import SignInForm from "../auth/signin-form";
 import SignUpForm from "../auth/sign-up-form";
 import VerifyAccount from "../auth/verify-account";
 import { Typography } from "../ui/typography";
+import { useParams } from "next/navigation";
 
 function AuthModal() {
   const { open, setOpen } = useAuthStore((state) => state);
@@ -15,6 +16,7 @@ function AuthModal() {
   const handleChangeAuthModalState = (val: string) => {
     setCurrentAuthState(val);
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent showClose={false}>
@@ -75,6 +77,7 @@ function AuthModal() {
         )}
         {currentAuthState === "verify" && (
           <VerifyAccount
+            email={""}
             handleChangeAuthModalState={handleChangeAuthModalState}
           />
         )}

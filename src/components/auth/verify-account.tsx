@@ -34,11 +34,12 @@ type Props = {
 function VerifyAccount({ handleChangeAuthModalState, email }: Props) {
   const router = useRouter();
   const { toast } = useToast();
+  const emailParam: string = (useParams()?.email || "") as string;
   const form = useForm<z.infer<typeof verifyAccountSchema>>({
     resolver: zodResolver(verifyAccountSchema),
     defaultValues: {
       verifyCode: "",
-      email: decodeURIComponent(email),
+      email: decodeURIComponent(email || emailParam),
     },
     mode: "all",
   });
