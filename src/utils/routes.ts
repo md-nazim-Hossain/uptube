@@ -67,6 +67,7 @@ export const apiRoutes = {
   notifications: {
     getAllNotifications: "/notifications/get-all-notification",
     hideNotification: "/notifications/hide-notification",
+    readNotification: "/notifications/read-notification",
     deleteNotification: "/notifications/delete-notification",
   },
 };

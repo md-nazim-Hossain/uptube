@@ -20,32 +20,28 @@ import Notification from "./notification";
 
 function Notifications() {
   const { user } = useUserStore((state) => state);
-  const { data, isLoading } = useFetch<IAPIResponse<INotification[]>>(
-    apiRoutes.notifications.getAllNotifications,
-    undefined,
-    {
-      queryKey: [
-        apiRoutes.notifications.getAllNotifications,
-        { id: user?._id },
-      ],
-      enabled: !!getCookie("accessToken"),
-    },
-  );
+  const { data, isLoading } = useFetch<
+    IAPIResponse<{ notifications: INotification[]; totalUnread: number }>
+  >(apiRoutes.notifications.getAllNotifications, undefined, {
+    queryKey: [apiRoutes.notifications.getAllNotifications, { id: user?._id }],
+    enabled: !!getCookie("accessToken"),
+  });
   if (isLoading) return <Skeleton className="size-6 rounded-full" />;
-  const notifications = data?.data;
+  const notifications = data?.data?.notifications;
   const length = notifications?.length || 0;
+  const totalUnread = data?.data?.totalUnread || 0;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
         <Button variant={"icon"} className="p-0 text-secondary relative">
-          {length > 0 && (
+          {totalUnread > 0 && (
             <Badge
               variant={"destructive"}
               className={cn(
                 "absolute text-white text-[10px] p-0 right-0 flex justify-center items-center size-5 top-0 z-50",
               )}
             >
-              {length >= 100 ? "99+" : length}
+              {totalUnread >= 100 ? "99+" : totalUnread}
             </Badge>
           )}
           <FiBell size={20} />

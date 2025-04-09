@@ -21,6 +21,12 @@ export const api = {
         Authorization: `Bearer ${getCookie("accessToken")}`,
       },
     }),
+  put: <T>(url: string, data: any) =>
+    axios.put<T>(url, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("accessToken")}`,
+      },
+    }),
   delete: <T>(url: string) =>
     axios.delete<T>(url, {
       headers: {

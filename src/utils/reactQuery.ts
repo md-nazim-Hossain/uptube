@@ -175,6 +175,21 @@ export const useUpdate = <T, S>(
   );
 };
 
+export const useUpdateWithPut = <T, S>(
+  url: string,
+  updaterQueryKey?: string | QueryKeyT,
+  params?: object,
+  updater?: (oldData: T, newData: S) => T,
+) => {
+  return useGenericMutation<T, S>(
+    (data) => api.put<S>(url, data),
+    url,
+    updaterQueryKey,
+    params,
+    updater,
+  );
+};
+
 const makeQueryKey = (params: object) => {
   let queryKey = "";
   Object.keys(params).forEach((key) => {
