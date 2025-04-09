@@ -128,8 +128,8 @@ const ColumnViewVideoCard = ({
             <VideoCardActions
               shareLink={
                 video?.type === "short"
-                  ? `/shorts/${video?._id}565656`
-                  : `/watch?v=${video?._id}5656565656`
+                  ? `/shorts/${video?._id}`
+                  : `/watch?v=${video?._id}`
               }
               user={video?.owner}
               show

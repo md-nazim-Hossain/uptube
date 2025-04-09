@@ -8,17 +8,21 @@ export type IYoutubeVideo = {
   songName: string;
 };
 
+export type IPaginationMeta = {
+  previousId: number | null;
+  nextId: number | null;
+  currentId: number;
+  total: number;
+  totalPage: number;
+  limit: number;
+};
+
 export type IAPIResponse<T = unknown> = {
   success: boolean;
   data: T | null;
   message: string;
   error: string | null;
-  meta?: {
-    nextId: number | null;
-    previousId: number | null;
-    currentId: number | null;
-    total: number;
-  };
+  meta?: IPaginationMeta;
 };
 
 // users type

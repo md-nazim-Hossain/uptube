@@ -30,19 +30,16 @@ export function convertMillisecondsToTime(seconds: number): string {
   }
 }
 export function getCreationDateDifference(date: Date): string {
-  // Calculate difference in milliseconds
   const nowTimestamp = Date.now();
   const dateTimestamp = date.getTime();
   const differenceInMs = nowTimestamp - dateTimestamp;
 
-  // Calculate individual units
   const minutes = Math.floor(differenceInMs / (1000 * 60));
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30); // Approximate
+  const months = Math.floor(days / 30);
   const years = Math.floor(months / 12);
 
-  // Conditional formatting based on unit
   let formattedDiff: string;
   if (minutes < 60) {
     formattedDiff = `${minutes} min ago`;
@@ -51,7 +48,7 @@ export function getCreationDateDifference(date: Date): string {
   } else if (days < 30) {
     formattedDiff = days < 2 ? `${days} day ago` : `${days} days ago`;
   } else if (months < 12) {
-    formattedDiff = months < 2 ? `${months} month ago` : `${months} months`;
+    formattedDiff = months < 2 ? `${months} month ago` : `${months} months ago`;
   } else {
     formattedDiff = years < 2 ? `${years} year ago` : `${years} years ago`;
   }

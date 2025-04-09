@@ -29,12 +29,14 @@ import { DataTableToolbar } from "./data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
 import { cn } from "@/lib/utils";
 import { useLayoutStore } from "@/zustand/useLayoutStore";
+import { IPaginationMeta } from "@/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchPlaceholder?: string;
   className?: string;
+  meta?: IPaginationMeta;
 }
 
 export function DataTable<TData, TValue>({
@@ -42,6 +44,7 @@ export function DataTable<TData, TValue>({
   data,
   searchPlaceholder,
   className,
+  meta,
 }: DataTableProps<TData, TValue>) {
   const openStudioSidebar = useLayoutStore((state) => state.openStudioSidebar);
 
@@ -136,7 +139,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination meta={meta} table={table} />
     </div>
   );
 }

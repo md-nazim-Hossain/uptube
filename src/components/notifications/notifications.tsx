@@ -4,7 +4,6 @@ import { FiBell } from "react-icons/fi";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
@@ -58,11 +57,17 @@ function Notifications() {
       >
         <Typography className="p-2">Notifications</Typography>
         <DropdownMenuSeparator />
-        <div className="space-y-2">
-          {notifications?.map((notification, index) => (
-            <Notification key={index} {...notification} />
-          ))}
-        </div>
+        {length ? (
+          <div className="space-y-2">
+            {notifications?.map((notification, index) => (
+              <Notification key={index} {...notification} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center h-32">
+            <Typography variant={"muted"}>No notifications</Typography>
+          </div>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

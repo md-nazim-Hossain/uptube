@@ -5,11 +5,14 @@ import { DataTable } from "@/components/table/data-table";
 import { IAPIResponse, IVideo } from "@/types";
 import { useFetch } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
+import { usePaginateStore } from "@/zustand/usePaginateStore";
 import React from "react";
 
 function ShortContentPage() {
+  const paginate = usePaginateStore((state) => state.paginate);
   const { data, isLoading } = useFetch<IAPIResponse<IVideo[]>>(
     apiRoutes.videos.getAllUserContentByType + "?type=short",
+    paginate,
   );
   if (isLoading) return <DataTableSkeleton />;
   return (
@@ -18,6 +21,7 @@ function ShortContentPage() {
         searchPlaceholder="Search Shorts..."
         columns={ContentTableColumn}
         data={data?.data || []}
+        meta={data?.meta}
       />
     </div>
   );

@@ -182,8 +182,8 @@ function UptubeSidebar() {
           {/* ===============privacy policy ==============*/}
         </div>
         {openSidebar && (
-          <Typography variant={"lead"} className="text-xs mt-10 text-center">
-            &copy; Copyright 2024 Video Entertainment Inc.
+          <Typography variant={"lead"} className="text-xs mt-10">
+            &copy; Copyright {new Date().getFullYear()} Coderbangla LTD.
           </Typography>
         )}
       </div>

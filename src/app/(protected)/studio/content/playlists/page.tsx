@@ -7,14 +7,20 @@ import { apiRoutes } from "@/utils/routes";
 import { useFetch } from "@/utils/reactQuery";
 import DataTableSkeleton from "@/components/skeletons/data-table-skeleton";
 import { useUserStore } from "@/zustand/useUserStore";
+import { usePaginateStore } from "@/zustand/usePaginateStore";
 
 function PlaylistPage() {
   const { user } = useUserStore();
+  const paginate = usePaginateStore((state) => state.paginate);
+
   const { data, isLoading } = useFetch<IAPIResponse<IPlayList[]>>(
-    apiRoutes.playlists.getPlaylistByUserId + "/" + user?._id,
-    undefined,
+    `${apiRoutes.playlists.getPlaylistByUserId}/${user?._id}`,
+    paginate,
     {
-      queryKey: [apiRoutes.playlists.getPlaylistByUserId, { id: user?._id }],
+      queryKey: [
+        `${apiRoutes.playlists.getPlaylistByUserId}/${user?._id}`,
+        paginate,
+      ],
       enabled: !!user,
     },
   );
@@ -25,6 +31,7 @@ function PlaylistPage() {
         searchPlaceholder="Search Playlists..."
         columns={PlaylistTableColumns}
         data={data?.data || []}
+        meta={data?.meta}
       />
     </div>
   );
