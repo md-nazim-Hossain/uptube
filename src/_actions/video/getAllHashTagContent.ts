@@ -22,10 +22,12 @@ export async function getAllHashTagContent(
       message: "Failed to fetch hashtag content",
       success: false,
       meta: {
-        currentId: null,
+        currentId: 0,
         nextId: null,
         previousId: null,
         total: 0,
+        limit: 20,
+        totalPage: 1,
       },
     } as IAPIResponse<IVideo[]>;
   }

@@ -1,6 +1,6 @@
 "use server";
 
-import { IAPIResponse, IUserFavoriteVideo, IVideo } from "@/types";
+import { IAPIResponse, IUserFavoriteVideo } from "@/types";
 import axios from "@/utils/axios";
 import { apiRoutes } from "@/utils/routes";
 import { cookies } from "next/headers";
@@ -26,10 +26,12 @@ export async function getUserLikeVideos() {
       message: "Failed to fetch shorts",
       success: false,
       meta: {
-        currentId: null,
+        currentId: 0,
         nextId: null,
         previousId: null,
         total: 0,
+        limit: 20,
+        totalPage: 1,
       },
     } as IAPIResponse<IUserFavoriteVideo[]>;
   }
