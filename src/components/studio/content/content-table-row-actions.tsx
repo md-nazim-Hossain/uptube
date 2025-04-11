@@ -17,6 +17,8 @@ import { useDelete, usePost } from "@/utils/reactQuery";
 import { apiRoutes } from "@/utils/routes";
 import DeleteAlertModal from "@/components/modals/delete-alert-modal";
 import { usePathname } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
+import { usePaginateStore } from "@/zustand/usePaginateStore";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -25,6 +27,7 @@ interface DataTableRowActionsProps<TData> {
 export function ContentTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const paginate = usePaginateStore((state) => state.paginate);
   const pathname = usePathname();
   const type =
     pathname === `/studio/content/shorts` ? "?type=short" : "?type=video";
@@ -33,7 +36,7 @@ export function ContentTableRowActions<TData>({
 
   const { mutateAsync } = useDelete<any>(
     apiRoutes.videos.deleteVideo,
-    apiRoutes.videos.getAllUserContentByType + type,
+    [apiRoutes.videos.getAllUserContentByType + type, paginate],
     undefined,
     (oldData, id) => {
       return {
@@ -43,7 +46,7 @@ export function ContentTableRowActions<TData>({
   );
   const { mutateAsync: makeACopy } = usePost<IAPIResponse<IVideo[]>, IVideo>(
     apiRoutes.videos.makeACopy + "/" + _id,
-    apiRoutes.videos.getAllUserContentByType + type,
+    [apiRoutes.videos.getAllUserContentByType + type, paginate],
     undefined,
     (oldData, data) => {
       return {
@@ -86,18 +89,36 @@ export function ContentTableRowActions<TData>({
         <DropdownMenuItem
           onSelect={async () => {
             try {
-              makeACopy(row.original as IVideo);
-            } catch (error) {}
+              await makeACopy(row.original as IVideo);
+              toast({
+                title: "Video copied successfully",
+                description: "Video copied successfully",
+              });
+            } catch (error: any) {
+              toast({
+                title: "Error copying video",
+                description: error?.message || "Error copying video",
+                variant: "destructive",
+              });
+            }
           }}
         >
           Make a copy
         </DropdownMenuItem>
         <DeleteAlertModal
-          onDelete={() => {
+          onDelete={async () => {
             try {
-              mutateAsync(_id);
-            } catch (error) {
-              console.log(error);
+              await mutateAsync(_id);
+              toast({
+                title: "Video deleted successfully",
+                description: "Video deleted successfully",
+              });
+            } catch (error: any) {
+              toast({
+                title: "Error Occured",
+                description: error?.message || "Error deleting video",
+                variant: "destructive",
+              });
             }
           }}
           text={`${title} video`}
