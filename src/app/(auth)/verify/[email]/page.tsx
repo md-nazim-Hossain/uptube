@@ -2,7 +2,7 @@ import VerifyAccount from "@/components/auth/verify-account";
 import { Typography } from "@/components/ui/typography";
 import Link from "next/link";
 import React from "react";
-
+export const dynamic = "force-dynamic";
 export async function generateStaticParams() {
   return [];
 }
