@@ -8,7 +8,7 @@ import { VideoCard, VideoCardAvatar } from "@/components/ui/video-card";
 import VideoCardActions from "@/components/videos/video-card-actions";
 import { IAPIResponse, IVideo } from "@/types";
 import { apiRoutes } from "@/utils/routes";
-import { viewsFormat } from "@/utils/video";
+import { getCreationDateDifference, viewsFormat } from "@/utils/video";
 import { useAuthStore } from "@/zustand/useAuthStore";
 import { useUserStore } from "@/zustand/useUserStore";
 import React, { useState } from "react";
@@ -29,7 +29,8 @@ function FullViewVideo({ video }: Props) {
   const { toast } = useToast();
   const user = useUserStore((state) => state.user);
   const setOpen = useAuthStore((state) => state.setOpen);
-  const { _id, likes, views, title, owner, videoFile, isLiked } = video;
+  const { _id, likes, views, title, owner, videoFile, isLiked, createdAt } =
+    video;
   const [isLikedVideo, setIsLikedVideo] = useState(isLiked);
   const [totalLikes, setTotalLikes] = useState(likes);
 
@@ -148,6 +149,9 @@ function FullViewVideo({ video }: Props) {
             </div>
           </div>
           <div className="mb-4 p-3 rounded-md bg-primary/10 text-primary text-sm">
+            <Typography>
+              {getCreationDateDifference(new Date(video.createdAt))}
+            </Typography>
             <UTagify
               isShort={video.type === "short"}
               text={video?.description ?? ""}
