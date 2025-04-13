@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { blurImage } from "@/utils/common";
+import { addHTTPPrefix, blurImage } from "@/utils/common";
 
 type Props = {
   src: string;
@@ -48,7 +48,7 @@ function UpTubeAvatarImage({
           sizes="(min-width: 20em) 14vw,
                     (min-width: 14em) 25vw,
                     100vw"
-          src={src}
+          src={addHTTPPrefix(src)}
           alt={alt}
           quality={60}
           className={cn(
