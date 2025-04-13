@@ -47,23 +47,22 @@ function Notifications() {
           <FiBell size={20} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className="w-full sm:w-[500px] max-h-[70vh] scroll"
-        align="end"
-      >
+      <DropdownMenuContent className="w-full sm:w-[500px]" align="end">
         <Typography className="p-2">Notifications</Typography>
         <DropdownMenuSeparator />
-        {length ? (
-          <div className="space-y-2">
-            {notifications?.map((notification, index) => (
-              <Notification key={index} {...notification} />
-            ))}
-          </div>
-        ) : (
-          <div className="flex justify-center items-center h-32">
-            <Typography variant={"muted"}>No notifications</Typography>
-          </div>
-        )}
+        <div className="w-full max-h-[650px] overflow-y-auto scroll">
+          {length ? (
+            <div className="space-y-2">
+              {notifications?.map((notification, index) => (
+                <Notification key={index} {...notification} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-32">
+              <Typography variant={"muted"}>No notifications</Typography>
+            </div>
+          )}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -24,6 +24,7 @@ import { useUserStore } from "@/zustand/useUserStore";
 import FollowUnfollow from "./follow-unfollow";
 import { revalidatePath } from "@/_actions/revalidate-actions";
 import ChannelProfileSkeleton from "../skeletons/channel-profile-skeletons";
+import { addHTTPPrefix } from "@/utils/common";
 
 interface CommentProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;
@@ -52,7 +53,10 @@ function ChannelProfile({ className, channel, ...props }: CommentProps) {
     <div {...props} className={cn("flex flex-col gap-24 md:gap-5", className)}>
       <div className="w-full h-full relative">
         <div className="relative h-[200px] sm:h-[300px] rounded-2xl overflow-hidden">
-          <UpTubeImage alt={`cover image of ${username}`} src={coverImage} />
+          <UpTubeImage
+            alt={`cover image of ${username}`}
+            src={addHTTPPrefix(coverImage)}
+          />
         </div>
         <div className="size-40 ring-4 ring-background flex justify-center items-center rounded-full absolute -bottom-20 left-5 md:hidden ">
           <UpTubeAvatarImage
