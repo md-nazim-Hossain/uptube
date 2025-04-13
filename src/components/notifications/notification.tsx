@@ -16,6 +16,7 @@ import Link from "next/link";
 import { INotification } from "@/types";
 import { useNotification } from "@/hooks/useNotification";
 import { getCreationDateDifference } from "@/utils/video";
+import { addHTTPPrefix } from "@/utils/common";
 
 type Props = INotification;
 function Notification({
@@ -67,7 +68,7 @@ function Notification({
           <div className="w-[86px] h-14 relative rounded-md overflow-hidden">
             {(videoId?.thumbnail || tweetId?.thumbnail) && (
               <UpTubeImage
-                src={(videoId?.thumbnail || tweetId?.thumbnail)!}
+                src={addHTTPPrefix((videoId?.thumbnail || tweetId?.thumbnail)!)}
                 alt={(videoId?.title || tweetId?.content)!}
                 className="w-[86px] h-14"
               />
