@@ -3,7 +3,8 @@ import { getCookie } from "cookies-next";
 
 const axios = Axios.create({
   baseURL:
-    process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1",
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    "https://uptubebackend.coderbangla.com/api/v1",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
